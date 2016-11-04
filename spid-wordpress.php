@@ -197,6 +197,33 @@ function spid_options_page_html() {
 	<?php
 }
 
+function spid_extra_profile_fields($user) {
+	$meta_value = get_user_meta($user->ID, 'spid_disabled', true); // $user contains WP_User object
+	?>
+
+	<h3>SPID</h3>
+	<table class="form-table">
+	<tr>
+		<th><label for="spid_disabled"><?php echo __("Disable", 'spid') ?></label></th>
+		<td>
+			<input type="checkbox" id="spid_disabled" name="spid_disabled" value="1" <?php checked($meta_value) ?> />
+			<span class="description"><?php echo __("You can disable SPID integration with this check.", 'spid') ?></span>
+		</td>
+	</tr>
+	</table>
+
+	<?php
+}
+add_action('profile_personal_options', 'spid_extra_profile_fields');
+
+function spid_update_extra_profile_fields($user_id) {
+	if( current_user_can('edit_user', $user_id) ) {
+		update_user_meta($user_id, 'spid_disabled', $_POST['spid_disabled']);
+	}
+}
+add_action('personal_options_update',  'spid_update_extra_profile_fields');
+//add_action('edit_user_profile_update', 'spid_update_extra_profile_fields');
+
 function spid_get_option($killer, $default) {
 	$serial = get_option('spid_options');
 	return isset( $serial[ $killer] ) ? $serial[ $killer ] : $default;
