@@ -82,9 +82,41 @@ function wp_spid_init() {
 		// The 'label_for' key/value pair can be used to format the field title like so: <label for="value">$title</label>.
 		[
 			'label_for'    => 'spid_field_registration',
-			'option'       => 'spid_enable_user_registration',
+			'option'       => 'registration',
 			'class'        => 'spid_row',
-			'description'  => __("Enable the registration of new users from SPID authorities.", 'spid'),
+			'description'  => __("New users can be registered by SPID authorities.", 'spid'),
+		]
+	);
+
+	add_settings_field(
+		// String for use in the 'id' attribute of tags
+		'spid_field_user_security_choice',
+
+		// Title of the field
+		__("Force SPID integration", 'spid'),
+
+		// Function that fills the field with the desired inputs as part of the larger form.
+		// assed a single argument, the $args array.
+		// Name and id of the input should match the $id given to this function.
+		// The function should echo its output.
+		'spid_field_checkbox_callback',
+
+		// The menu page on which to display this field.
+		// Should match $menu_slug from add_theme_page() or from do_settings_sections().
+		'spid',
+
+		// The section of the settings page in which to show the box
+		// (default or a section you added with add_settings_section(),
+		// look at the page in the source to see what the existing ones are.)
+		'spid_section_general',
+
+		// Additional arguments that are passed to the $callback function.
+		// The 'label_for' key/value pair can be used to format the field title like so: <label for="value">$title</label>.
+		[
+			'label_for'    => 'spid_field_user_security_choice',
+			'option'       => 'user_security_choice',
+			'class'        => 'spid_row',
+			'description'  => __("Leave this option unchecked if you care about user choice. Not all users may appreciate SPID centralization.", 'spid'),
 		]
 	);
 }
