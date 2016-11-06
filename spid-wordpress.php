@@ -198,16 +198,23 @@ function spid_options_page_html() {
 }
 
 function spid_extra_profile_fields($user) {
-	$meta_value = get_user_meta($user->ID, 'spid_disabled', true); // $user contains WP_User object
+	$meta_value = get_user_meta($user->ID, 'spid_disabled', true);
 	?>
 
 	<h3>SPID</h3>
 	<table class="form-table">
 	<tr>
-		<th><label for="spid_disabled"><?php echo __("Disable", 'spid') ?></label></th>
+		<th scope="row"><label for="spid_disabled"><?php echo __("Untrust SPID", 'spid') ?></label></th>
 		<td>
-			<input type="checkbox" id="spid_disabled" name="spid_disabled" value="1" <?php checked($meta_value) ?> />
-			<span class="description"><?php echo __("You can disable SPID integration with this check.", 'spid') ?></span>
+			<label for="spid_disabled">
+				<?php if( spid_get_option('user_security_choice') ): ?>
+					<input type="checkbox" id="spid_disabled" checked="checked" disabled="disabled" />
+					<?php echo __("You can't disable SPID integration.", 'spid') ?>
+				<?php else: ?>
+					<input type="checkbox" id="spid_disabled" name="spid_disabled" value="1" <?php checked($meta_value) ?> />
+					<?php echo __("Disable SPID integration. Check this if you don't trust SPID authorities.", 'spid') ?>
+				<?php endif ?>
+			</label>
 		</td>
 	</tr>
 	</table>
@@ -217,10 +224,11 @@ function spid_extra_profile_fields($user) {
 add_action('profile_personal_options', 'spid_extra_profile_fields');
 
 function spid_update_extra_profile_fields($user_id) {
-	if( current_user_can('edit_user', $user_id) ) {
+	if( ! spid_get_option('user_security_choice') && current_user_can('edit_user', $user_id) ) {
 		update_user_meta($user_id, 'spid_disabled', $_POST['spid_disabled']);
 	}
 }
+
 add_action('personal_options_update',  'spid_update_extra_profile_fields');
 //add_action('edit_user_profile_update', 'spid_update_extra_profile_fields');
 
