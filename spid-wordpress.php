@@ -21,7 +21,7 @@ Plugin Name: SPID-Wordpress
 Plugin URI: http://
 Description: Fa cose con SPID
 Version: 0.1
-Author:
+Author: Ludovico Pavesi, Valerio Bozzolan, spid-wordpress contributors
 Author URI: http://
 License: GPLv3+
 */
