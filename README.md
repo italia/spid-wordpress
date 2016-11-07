@@ -8,6 +8,7 @@ Connette Wordpress e SPID, in qualche modo. Per ora non connette nulla, a dire i
 - [ ] Capire come funziona SPID
 - [ ] Capire come si scrive un plugin Wordpress
 - [X] Utilizzare la libreria [SimpleSpidphp](https://github.com/dev4pa/simplespidphp)
+    - [ ] Utilizzare `require_once plugin_dir_path( dirname( __FILE__ ) ) . 'simplespidphp/...';` dove sarà necessario
 - [ ] Trarre ispirazione da [SPID-Drupal](https://github.com/dev4pa/spid-drupal)
 - [ ] Scrivere il codice.
 
@@ -33,7 +34,11 @@ Da https://wordpress.org/plugins/openid/:
 ````
 
 ## Sicurezza
-Dato che qualunque sistemista che lavora per TIM, Poste, Info Cert, Sielte, ecc., ha la potenziale possibilità di loggarsi nel mio account universitario o in qualsiasi altro servio con supporto a SPID, questo plugin per WordPress comprenderà una pagina di impostazioni per permettere al singolo utente di disabilitare l'accesso SPID in todo, o da certi provider.
+Dato che qualunque sistemista che lavora per TIM, Poste, Info Cert, Sielte, ecc.,
+ha la potenziale possibilità di loggarsi nel mio account universitario o in
+qualsiasi altro servio con supporto a SPID, questo plugin per WordPress comprenderà
+una pagina di impostazioni per permettere al singolo utente di disabilitare l'accesso
+SPID in todo, o da certi provider.
 
 ## Licenza
 GPLv3 o successive.
