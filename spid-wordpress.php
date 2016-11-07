@@ -20,7 +20,7 @@
 Plugin Name: SPID-Wordpress
 Plugin URI: http://
 Description: Fa cose con SPID
-Version: 0.1
+Version: 1.0.0
 Author: Ludovico Pavesi, Valerio Bozzolan, spid-wordpress contributors
 Author URI: http://
 License: GPLv3+
@@ -30,119 +30,10 @@ License: GPLv3+
  * Custom options and settings
  */
 function wp_spid_init() {
-	register_setting(
-		// Settings group name.
-		// Must exist prior to the register_setting call.
-		// This must match the group name in settings_fields()
-		'spid',
 
-		// The name of an option to sanitize and save.
-		'spid_options',
-
-		'spid_options_sanitize'
-	);
-
-	add_settings_section(
-		// String for use in the 'id' attribute of tags
-		'spid_section_general',
-
-		// Title of the section
-		null, // __("Website", 'spid'),
-
-		// Callback
-		'spid_section_title_callback',
-
-		// The menu page on which to display this section. Should match $menu_slug from Function Reference/add theme page
-		'spid'
-	);
-
-	add_settings_field(
-		// String for use in the 'id' attribute of tags
-		'spid_field_registration',
-
-		// Title of the field
-		__("Registration", 'spid'),
-
-		// Function that fills the field with the desired inputs as part of the larger form.
-		// assed a single argument, the $args array.
-		// Name and id of the input should match the $id given to this function.
-		// The function should echo its output.
-		'spid_field_checkbox_callback',
-
-		// The menu page on which to display this field.
-		// Should match $menu_slug from add_theme_page() or from do_settings_sections().
-		'spid',
-
-		// The section of the settings page in which to show the box
-		// (default or a section you added with add_settings_section(),
-		// look at the page in the source to see what the existing ones are.)
-		'spid_section_general',
-
-		// Additional arguments that are passed to the $callback function.
-		// The 'label_for' key/value pair can be used to format the field title like so: <label for="value">$title</label>.
-		[
-			'label_for'    => 'spid_field_registration',
-			'option'       => 'registration',
-			'class'        => 'spid_row',
-			'description'  => __("New users can be registered by SPID authorities.", 'spid'),
-		]
-	);
-
-	add_settings_field(
-		// String for use in the 'id' attribute of tags
-		'spid_field_user_security_choice',
-
-		// Title of the field
-		__("Force SPID integration", 'spid'),
-
-		// Function that fills the field with the desired inputs as part of the larger form.
-		// assed a single argument, the $args array.
-		// Name and id of the input should match the $id given to this function.
-		// The function should echo its output.
-		'spid_field_checkbox_callback',
-
-		// The menu page on which to display this field.
-		// Should match $menu_slug from add_theme_page() or from do_settings_sections().
-		'spid',
-
-		// The section of the settings page in which to show the box
-		// (default or a section you added with add_settings_section(),
-		// look at the page in the source to see what the existing ones are.)
-		'spid_section_general',
-
-		// Additional arguments that are passed to the $callback function.
-		// The 'label_for' key/value pair can be used to format the field title like so: <label for="value">$title</label>.
-		[
-			'label_for'    => 'spid_field_user_security_choice',
-			'option'       => 'user_security_choice',
-			'class'        => 'spid_row',
-			'description'  => __("Leave this option unchecked if you care about user choice. Not all users may appreciate SPID centralization.", 'spid'),
-		]
-	);
 }
 
-function spid_section_title_callback($args) {
-	printf(
-		'<p id="%s">%s</p>',
-		$args['id'],
-		$args['name']
-	);
-}
 
-function spid_field_checkbox_callback($args) {
-	if( ! isset( $args['default'] ) ) {
-		$args['default'] = false;
-	}
-
-	$checked = spid_get_option( $args['option'], $args['default'] );
-	?>
-
-	<input type="checkbox" id="<?php echo $args['label_for'] ?>" value="1" name="spid_options[<?php echo $args['option'] ?>]" <?php checked($checked) ?> />
-
-	<p class="description"><?php echo esc_html( $args['description'] ) ?></p>
-
-	<?php
-}
 
 /**
  * Top level menu
