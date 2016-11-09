@@ -62,6 +62,8 @@ class Spid_Wordpress_Admin {
 	 */
 	private $settings_prefix;
 
+	private $settings_defaults;
+
 	/**
 	 * Initialize the class and set its properties.
 	 *
@@ -73,6 +75,10 @@ class Spid_Wordpress_Admin {
 
 		$this->plugin_name = $plugin_name;
 		$this->settings_prefix = $plugin_name.'_settings';
+		$this->settings_defaults = array(
+			$this->settings_prefix . '_user_security_choice' => 0,
+			$this->settings_prefix . '_registration' => 1
+		);
 		$this->version = $version;
 
 	}
@@ -145,8 +151,7 @@ class Spid_Wordpress_Admin {
 			__("General", 'spid-wordpress'), // TODO: conviene far saltare fuori il domain dalla classe i18n o hardcodarlo ovunque?
 
 			// Callback
-			//'spid_general_callback',
-			null, // TODO: spid_general_callback serviva per qualche ragione?
+			'spid_general_callback',
 
 			// The menu page on which to display this section. Should match $menu_slug from Function Reference/add theme page
 			$this->plugin_name
@@ -221,21 +226,31 @@ class Spid_Wordpress_Admin {
 		echo '<p>' . __( 'General settings for SPID integration.', 'spid-wordpress' ) . '</p>';
 	}
 
-	public function settings_general_sanitize($a) {
-		// TODO: capire come si fa 'sta roba, poiché tutti hanno il loro metodo personale, cabalistico, olistico e che non si degnano di
-		if( isset( $a[$this->settings_prefix.'_registration'] ) ) {
-			$a[$this->settings_prefix.'_registration'] = (int) $a[$this->settings_prefix.'_registration'];
+	public function settings_general_sanitize($input) {
+		$values = array();
+
+		if( isset( $input[$this->settings_prefix.'_registration'] ) ) {
+			$values[$this->settings_prefix.'_registration'] = (int) $input[$this->settings_prefix.'_registration'];
+		} else {
+			$values[$this->settings_prefix.'_registration'] = $this->settings_defaults[$this->settings_prefix.'_registration'];
 		}
-		return $a;
+
+		if( isset( $input[$this->settings_prefix.'_user_security_choice'] ) ) {
+			$values[$this->settings_prefix.'_user_security_choice'] = (int) $input[$this->settings_prefix.'_user_security_choice'];
+		} else {
+			$values[$this->settings_prefix.'_user_security_choice'] = $this->settings_defaults[$this->settings_prefix.'_user_security_choice'];
+		}
+
+		return $values;
 	}
 
-//	function spid_general_callback($args) {
-//		printf(
-//			'<p id="%s">%s</p>',
-//			$args['id'],
-//			$args['name']
-//		);
-//	}
+	function spid_general_callback($args) {
+		printf(
+			'<p id="%s">%s</p>',
+			$args['id'],
+			$args['name']
+		);
+	}
 
 	function settings_field_checkbox_callback($args) {
 		if( ! isset( $args['default'] ) ) {
