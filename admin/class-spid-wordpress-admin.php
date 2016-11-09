@@ -221,8 +221,12 @@ class Spid_Wordpress_Admin {
 		echo '<p>' . __( 'General settings for SPID integration.', 'spid-wordpress' ) . '</p>';
 	}
 
-	public function settings_general_sanitize() {
-		// TODO: capire come si fa 'sta roba, poiché tutti hanno il loro metodo personale, cabalistico, olistico e che non si degnano di spiegare.
+	public function settings_general_sanitize($a) {
+		// TODO: capire come si fa 'sta roba, poiché tutti hanno il loro metodo personale, cabalistico, olistico e che non si degnano di
+		if( isset( $a[$this->settings_prefix.'_registration'] ) ) {
+			$a[$this->settings_prefix.'_registration'] = (int) $a[$this->settings_prefix.'_registration'];
+		}
+		return $a;
 	}
 
 //	function spid_general_callback($args) {
