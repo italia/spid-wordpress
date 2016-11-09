@@ -56,7 +56,7 @@ settings_errors('spid_messages');
 		do_settings_sections( $this->plugin_name );
 
 		// Save button
-		submit_button( __("Save Settings", 'spid') ); //TODO: parametri addizionali a random?
+		submit_button( __("Save Settings", 'spid-wordpress') ); //TODO: parametri addizionali a random?
 		?>
 	</form>
 </div>
