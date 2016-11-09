@@ -26,13 +26,6 @@ Author URI: http://
 License: GPLv3+
 */
 
-/**
- * Custom options and settings
- */
-function wp_spid_init() {
-
-}
-
 
 
 /**
@@ -49,44 +42,6 @@ function spid_menu_page() {
 }
 add_action('admin_menu', 'spid_menu_page');
 
-/**
- * Site option page
- */
-function spid_options_page_html() {
-	if( ! current_user_can('manage_options') ) {
-		return;
-	}
-
-	// Check if the user have submitted the settings
-	// Wordpress will add the "settings-updated" $_GET parameter to the url
-	if( isset( $_GET['settings-updated'] ) ) {
-		// Saved message
-		add_settings_error('spid_messages', 'spid_message', __("SPID settings saved!", 'spid'), 'updated');
-	}
-
-	// Show error/update messages
-	settings_errors('spid_messages');
-
-	?>
-
-	<div class="wrap">
-		<h2><?php echo esc_html( get_admin_page_title() ) ?></h2>
-		<form action="options.php" method="post">
-			<?php
-			// Output security fields for the registered option group
-			settings_fields('spid');
-
-			// Call sections of registered option group
-			do_settings_sections('spid');
-
-			// Save button
-			submit_button( __("Save Settings", 'spid') );
-			?>
-		</form>
-	</div>
-
-	<?php
-}
 
 function spid_extra_profile_fields($user) {
 	$meta_value = get_user_meta($user->ID, 'spid_disabled', true);

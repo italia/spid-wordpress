@@ -54,6 +54,15 @@ class Spid_Wordpress_Admin {
 	private $options_page_hook_suffix = false;
 
 	/**
+	 * Settings prefix
+	 *
+	 * @since  	1.0.0
+	 * @access 	private
+	 * @var  	string 		$option_name 	Settings prefix
+	 */
+	private $settings_prefix;
+
+	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
@@ -63,6 +72,7 @@ class Spid_Wordpress_Admin {
 	public function __construct( $plugin_name, $version ) {
 
 		$this->plugin_name = $plugin_name;
+		$this->settings_prefix = $plugin_name.'_settings';
 		$this->version = $version;
 
 	}
@@ -129,7 +139,7 @@ class Spid_Wordpress_Admin {
 	public function register_settings() {
 		add_settings_section(
 		// String for use in the 'id' attribute of tags
-			'spid_general',
+			$this->settings_prefix.'_general',
 
 			// Title of the section
 			__("General", 'spid-wordpress'), // TODO: conviene far saltare fuori il domain dalla classe i18n o hardcodarlo ovunque?
@@ -142,22 +152,9 @@ class Spid_Wordpress_Admin {
 			$this->plugin_name
 		);
 
-		// TODO: metterlo da qualche parte
-//		register_setting(
-//		// Settings group name.
-//		// Must exist prior to the register_setting call.
-//		// This must match the group name in settings_fields()
-//			'spid',
-//
-//			// The name of an option to sanitize and save.
-//			'spid_options',
-//
-//			'spid_options_sanitize'
-//		);
-
 		add_settings_field(
 		// String for use in the 'id' attribute of tags
-			'spid_field_registration',
+			$this->settings_prefix.'_registration',
 
 			// Title of the field
 			__("Registration", 'spid-wordpress'),
@@ -166,7 +163,7 @@ class Spid_Wordpress_Admin {
 			// assed a single argument, the $args array.
 			// Name and id of the input should match the $id given to this function.
 			// The function should echo its output.
-			'spid_field_checkbox_callback',
+			'settings_checkbox_callback',
 
 			// The menu page on which to display this field.
 			// Should match $menu_slug from add_theme_page() or from do_settings_sections().
@@ -175,21 +172,20 @@ class Spid_Wordpress_Admin {
 			// The section of the settings page in which to show the box
 			// (default or a section you added with add_settings_section(),
 			// look at the page in the source to see what the existing ones are.)
-			'spid_general',
+			$this->settings_prefix.'_general',
 
 			// Additional arguments that are passed to the $callback function.
 			// The 'label_for' key/value pair can be used to format the field title like so: <label for="value">$title</label>.
 			[
-				'label_for'    => 'spid_field_registration',
-				'option'       => 'spid_registration',
-				'class'        => 'spid_row',
+				'label_for'    => $this->settings_prefix.'_registration',
+				'option'       => $this->settings_prefix.'_registration',
 				'description'  => __("New users can be registered by SPID authorities.", 'spid-wordpress'),
 			]
 		);
 
 		add_settings_field(
-		// String for use in the 'id' attribute of tags
-			'spid_field_user_security_choice',
+			// String for use in the 'id' attribute of tags
+			$this->settings_prefix.'_user_security_choice',
 
 			// Title of the field
 			__("Force SPID integration", 'spid-wordpress'),
@@ -198,7 +194,7 @@ class Spid_Wordpress_Admin {
 			// assed a single argument, the $args array.
 			// Name and id of the input should match the $id given to this function.
 			// The function should echo its output.
-			'spid_field_checkbox_callback',
+			'settings_checkbox_callback',
 
 			// The menu page on which to display this field.
 			// Should match $menu_slug from add_theme_page() or from do_settings_sections().
@@ -207,21 +203,26 @@ class Spid_Wordpress_Admin {
 			// The section of the settings page in which to show the box
 			// (default or a section you added with add_settings_section(),
 			// look at the page in the source to see what the existing ones are.)
-			'spid_general',
+			$this->settings_prefix.'_general',
 
 			// Additional arguments that are passed to the $callback function.
 			// The 'label_for' key/value pair can be used to format the field title like so: <label for="value">$title</label>.
 			[
-				'label_for'    => 'spid_field_user_security_choice',
-				'option'       => 'spid_user_security_choice',
-				'class'        => 'spid_row',
+				'label_for'    => $this->settings_prefix . '_user_security_choice',
+				'option'       => $this->settings_prefix . '_user_security_choice',
 				'description'  => __("Leave this option unchecked if you care about user choice. Not all users may appreciate SPID centralization.", 'spid-wordpress'),
 			]
 		);
+
+		register_setting( $this->plugin_name, $this->settings_prefix . '_general', array( $this, 'settings_general_sanitize' ) );
 	}
 
-	public function spid_general_callback() {
+	public function settings_general_callback() {
 		echo '<p>' . __( 'General settings for SPID integration.', 'spid-wordpress' ) . '</p>';
+	}
+
+	public function settings_general_sanitize() {
+		// TODO: capire come si fa 'sta roba, poiché tutti hanno il loro metodo personale, cabalistico, olistico e che non si degnano di spiegare.
 	}
 
 //	function spid_general_callback($args) {
@@ -232,17 +233,15 @@ class Spid_Wordpress_Admin {
 //		);
 //	}
 
-	function spid_field_checkbox_callback($args) {
+	function settings_field_checkbox_callback($args) {
 		if( ! isset( $args['default'] ) ) {
 			$args['default'] = false;
 		}
 
 		$checked = spid_get_option( $args['option'], $args['default'] );
-		// TODO: rivedere questa cosa, usare $option_name che poi sarebbe meglio $settings_prefix da https://www.sitepoint.com/wordpress-plugin-boilerplate-part-2-developing-a-plugin/
 		?>
 
-		<input type="checkbox" id="<?php echo $args['label_for'] ?>" value="1" name="spid_options[<?php echo $args['option'] ?>]" <?php checked($checked) ?> />
-
+		<input type="checkbox" id="<?php echo $args['option'] ?>" value="1" name="<?php echo $args['label_for'] ?>" <?php checked($checked) ?> />
 		<p class="description"><?php echo esc_html( $args['description'] ) ?></p>
 
 		<?php
