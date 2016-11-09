@@ -62,6 +62,13 @@ class Spid_Wordpress_Admin {
 	 */
 	private $settings_prefix;
 
+	/**
+	 * Settings default values
+	 *
+	 * @since   1.0.0
+	 * @access  private
+	 * @var     array       $settings_defaults Default values for every setting
+	 */
 	private $settings_defaults;
 
 	/**
