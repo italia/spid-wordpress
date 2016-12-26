@@ -16,75 +16,70 @@
  * along with this program.If not, see <http://www.gnu.org/licenses/>.
 */
 
-/*
-Plugin Name: SPID-Wordpress
-Plugin URI: http://
-Description: Fa cose con SPID
-Version: 1.0.0
-Author: Ludovico Pavesi, Valerio Bozzolan, spid-wordpress contributors
-Author URI: http://
-License: GPLv3+
-*/
+/**
+ * @link
+ * @since             1.0.0
+ * @package           Spid_Wordpress
+ *
+ * @wordpress-plugin
+ * Plugin Name:       SPID Wordpress
+ * Plugin URI:
+ * Description:       Permette l'autenticazione degli utenti tramite SPID.
+ * Version:           1.0.0
+ * Author:            Ludovico Pavesi, Valerio Bozzolan, spid-wordpress contributors
+ * Author URI:
+ * License:           GPLv3+
+ * License URI:       https://www.gnu.org/licenses/gpl-3.0.txt
+ * Text Domain:       spid-wordpress
+ * Domain Path:       /languages
+ *
+ */
 
-
+// If this file is called directly, abort.
+if ( ! defined( 'WPINC' ) ) {
+	die;
+}
 
 /**
- * Top level menu
+ * The code that runs during plugin activation.
+ * This action is documented in includes/class-spid-wordpress-activator.php
  */
-function spid_menu_page() {
-	add_menu_page(
-		__("General Settings", 'spid'),
-		"SPID",
-		'manage_options',
-		'spid',
-		'spid_options_page_html'
-	);
-}
-add_action('admin_menu', 'spid_menu_page');
-
-
-function spid_extra_profile_fields($user) {
-	$meta_value = get_user_meta($user->ID, 'spid_disabled', true);
-	?>
-
-	<h3>SPID</h3>
-	<table class="form-table">
-	<tr>
-		<th scope="row"><label for="spid_disabled"><?php echo __("Untrust SPID", 'spid') ?></label></th>
-		<td>
-			<label for="spid_disabled">
-				<?php if( spid_get_option('user_security_choice') ): ?>
-					<input type="checkbox" id="spid_disabled" checked="checked" disabled="disabled" />
-					<?php echo __("You can't disable SPID integration.", 'spid') ?>
-				<?php else: ?>
-					<input type="checkbox" id="spid_disabled" name="spid_disabled" value="1" <?php checked($meta_value) ?> />
-					<?php echo __("Disable SPID integration. Check this if you don't trust SPID authorities.", 'spid') ?>
-				<?php endif ?>
-			</label>
-		</td>
-	</tr>
-	</table>
-
-	<?php
-}
-add_action('profile_personal_options', 'spid_extra_profile_fields');
-
-function spid_update_extra_profile_fields($user_id) {
-	if( ! spid_get_option('user_security_choice') && current_user_can('edit_user', $user_id) ) {
-		update_user_meta($user_id, 'spid_disabled', $_POST['spid_disabled']);
-	}
+function activate_spid_wordpress() {
+	require_once plugin_dir_path( __FILE__ ) . 'includes/class-spid-wordpress-activator.php';
+	Spid_Wordpress_Activator::activate();
 }
 
-add_action('personal_options_update',  'spid_update_extra_profile_fields');
-//add_action('edit_user_profile_update', 'spid_update_extra_profile_fields');
-
-function spid_get_option($killer, $default) {
-	$serial = get_option('spid_options');
-	return isset( $serial[ $killer] ) ? $serial[ $killer ] : $default;
+/**
+ * The code that runs during plugin deactivation.
+ * This action is documented in includes/class-spid-wordpress-deactivator.php
+ */
+function deactivate_spid_wordpress() {
+	require_once plugin_dir_path( __FILE__ ) . 'includes/class-spid-wordpress-deactivator.php';
+	Spid_Wordpress_Deactivator::deactivate();
 }
 
-function spid_options_sanitize($asd) {
-	return $asd;
-}
+register_activation_hook( __FILE__, 'activate_spid_wordpress' );
+register_deactivation_hook( __FILE__, 'deactivate_spid_wordpress' );
 
-add_action('admin_init', 'wp_spid_init');
+/**
+ * The core plugin class that is used to define internationalization,
+ * admin-specific hooks, and public-facing site hooks.
+ */
+require plugin_dir_path( __FILE__ ) . 'includes/class-spid-wordpress.php';
+
+/**
+ * Begins execution of the plugin.
+ *
+ * Since everything within the plugin is registered via hooks,
+ * then kicking off the plugin from this point in the file does
+ * not affect the page life cycle.
+ *
+ * @since    1.0.0
+ */
+function run_spid_wordpress() {
+
+	$plugin = new Spid_Wordpress();
+	$plugin->run();
+
+}
+run_spid_wordpress();
