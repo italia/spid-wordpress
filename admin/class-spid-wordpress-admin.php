@@ -158,7 +158,7 @@ class Spid_Wordpress_Admin {
 			__("General", 'spid-wordpress'), // TODO: conviene far saltare fuori il domain dalla classe i18n o hardcodarlo ovunque?
 
 			// Callback
-			'settings_general_callback',
+			array($this, 'settings_general_callback'),
 
 			// The menu page on which to display this section. Should match $menu_slug from Function Reference/add theme page
 			$this->plugin_name
@@ -175,7 +175,7 @@ class Spid_Wordpress_Admin {
 			// assed a single argument, the $args array.
 			// Name and id of the input should match the $id given to this function.
 			// The function should echo its output.
-			'settings_checkbox_callback',
+			array($this, 'settings_checkbox_callback'),
 
 			// The menu page on which to display this field.
 			// Should match $menu_slug from add_theme_page() or from do_settings_sections().
@@ -206,7 +206,7 @@ class Spid_Wordpress_Admin {
 			// assed a single argument, the $args array.
 			// Name and id of the input should match the $id given to this function.
 			// The function should echo its output.
-			'settings_checkbox_callback',
+			array($this, 'settings_checkbox_callback'),
 
 			// The menu page on which to display this field.
 			// Should match $menu_slug from add_theme_page() or from do_settings_sections().
