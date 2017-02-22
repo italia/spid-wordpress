@@ -158,7 +158,7 @@ class Spid_Wordpress_Admin {
 			__("General", 'spid-wordpress'), // TODO: conviene far saltare fuori il domain dalla classe i18n o hardcodarlo ovunque?
 
 			// Callback
-			'spid_general_callback',
+			'settings_general_callback',
 
 			// The menu page on which to display this section. Should match $menu_slug from Function Reference/add theme page
 			$this->plugin_name
