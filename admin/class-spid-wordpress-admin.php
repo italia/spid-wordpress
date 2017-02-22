@@ -266,7 +266,7 @@ class Spid_Wordpress_Admin {
 
 		$general_options = get_option( $this->settings_prefix . '_general', [] );
 		if(isset($general_options[$args['option']])) {
-			$checked = checked($general_options[$args['option']], $args['default']);
+			$checked = $general_options[ $args['option'] ];
 		} else {
 			$checked = $args['default'];
 		}
