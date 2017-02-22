@@ -264,7 +264,7 @@ class Spid_Wordpress_Admin {
 			$args['default'] = false;
 		}
 
-		$checked = spid_get_option( $args['option'], $args['default'] );
+		$checked = get_option( $args['option'], $args['default'] );
 		?>
 
 		<input type="checkbox" id="<?php echo $args['option'] ?>" value="1" name="<?php echo $args['label_for'] ?>" <?php checked($checked) ?> />
