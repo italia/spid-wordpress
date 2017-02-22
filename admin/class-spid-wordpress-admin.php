@@ -175,7 +175,7 @@ class Spid_Wordpress_Admin {
 			// assed a single argument, the $args array.
 			// Name and id of the input should match the $id given to this function.
 			// The function should echo its output.
-			array($this, 'settings_checkbox_callback'),
+			array($this, 'settings_field_checkbox_callback'),
 
 			// The menu page on which to display this field.
 			// Should match $menu_slug from add_theme_page() or from do_settings_sections().
@@ -206,7 +206,7 @@ class Spid_Wordpress_Admin {
 			// assed a single argument, the $args array.
 			// Name and id of the input should match the $id given to this function.
 			// The function should echo its output.
-			array($this, 'settings_checkbox_callback'),
+			array($this, 'settings_field_checkbox_callback'),
 
 			// The menu page on which to display this field.
 			// Should match $menu_slug from add_theme_page() or from do_settings_sections().
