@@ -264,23 +264,18 @@ class Spid_Wordpress_Admin {
 			$args['default'] = false;
 		}
 
-		$checked = self::get_option_json( $args['option'], $args['default'] );
+		$general_options = get_option( $args['option'], $args['default'] );
+		if(isset($general_options[$args['option']])) {
+			$checked = checked($general_options[$args['option']], $args['default']);
+		} else {
+			$checked = $args['default'];
+		}
 		?>
 
 		<input type="checkbox" id="<?php echo $args['option'] ?>" value="1" name="<?php echo $args['label_for'] ?>" <?php checked($checked) ?> />
 		<p class="description"><?php echo esc_html( $args['description'] ) ?></p>
 
 		<?php
-	}
-
-	public static function get_option_json($option_name_aka_associative_parameter, $default) {
-		$una_variabile = get_option( 'Spid_Wordpress', '[]' );
-		$cose = json_decode($una_variabile);
-		if(isset($cose[$option_name_aka_associative_parameter])) {
-			return $cose[$option_name_aka_associative_parameter];
-		} else {
-			return $default;
-		}
 	}
 
 }
