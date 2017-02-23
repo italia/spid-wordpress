@@ -275,7 +275,7 @@ class Spid_Wordpress_Admin {
 		}
 
 		$group           = $this->settings_prefix . '_general';
-		$general_options = get_option($group, []);
+		$general_options = get_option($group, array()); // TODO: $this->settings_defaults invece di array()?
 		$value           = $general_options[$opt];
 		$checked         = isset($value) ? $value : $args['default'];
 		?>
