@@ -28,21 +28,8 @@
  * @subpackage Spid_Wordpress/admin/partials
  */
 
-// TODO: inutile?
-if( ! current_user_can('manage_options') ) {
-	return;
-}
-
-// TODO: se non è standard\best practice, levare...
-// Check if the user have submitted the settings
-// Wordpress will add the "settings-updated" $_GET parameter to the url
-if( isset( $_GET['settings-updated'] ) ) {
-	// Saved message
-	add_settings_error('spid_messages', 'spid_message', __("SPID settings saved!", 'spid'), 'updated');
-}
-
-// Show error/update messages
-settings_errors('spid_messages');
+// If this file is called directly, abort.
+defined('WPINC') or die;
 
 ?>
 <div class="wrap">

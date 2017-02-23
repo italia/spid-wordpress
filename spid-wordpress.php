@@ -36,9 +36,7 @@
  */
 
 // If this file is called directly, abort.
-if ( ! defined( 'WPINC' ) ) {
-	die;
-}
+defined('WPINC') or die;
 
 /**
  * The code that runs during plugin activation.
