@@ -26,6 +26,9 @@
  */
 class Spid_Wordpress_Admin {
 
+	const USER_REGISTRATION    = 'registration';
+	const USER_SECURITY_CHOICE = 'user_security_choice';
+
 	/**
 	 * The ID of this plugin.
 	 *
@@ -83,8 +86,8 @@ class Spid_Wordpress_Admin {
 		$this->plugin_name = $plugin_name;
 		$this->settings_prefix = $plugin_name.'_settings';
 		$this->settings_defaults = array(
-			$this->settings_prefix . '_user_security_choice' => 0,
-			$this->settings_prefix . '_registration' => 1
+			self::USER_SECURITY_CHOICE => 0,
+			self::USER_REGISTRATION    => 1
 		);
 		$this->version = $version;
 
@@ -166,7 +169,7 @@ class Spid_Wordpress_Admin {
 
 		add_settings_field(
 		// String for use in the 'id' attribute of tags
-			$this->settings_prefix.'_registration',
+			$this->label_id(self::USER_REGISTRATION),
 
 			// Title of the field
 			__("Registration", 'spid-wordpress'),
@@ -189,15 +192,15 @@ class Spid_Wordpress_Admin {
 			// Additional arguments that are passed to the $callback function.
 			// The 'label_for' key/value pair can be used to format the field title like so: <label for="value">$title</label>.
 			[
-				'label_for'    => $this->settings_prefix.'_registration',
-				'option'       => $this->settings_prefix.'_registration',
+				'label_for'    => $this->label_id(self::USER_REGISTRATION),
+				'option'       => self::USER_REGISTRATION,
 				'description'  => __("New users can be registered by SPID authorities.", 'spid-wordpress'),
 			]
 		);
 
 		add_settings_field(
 			// String for use in the 'id' attribute of tags
-			$this->settings_prefix.'_user_security_choice',
+			$this->label_id(self::USER_SECURITY_CHOICE),
 
 			// Title of the field
 			__("Force SPID integration", 'spid-wordpress'),
@@ -220,8 +223,8 @@ class Spid_Wordpress_Admin {
 			// Additional arguments that are passed to the $callback function.
 			// The 'label_for' key/value pair can be used to format the field title like so: <label for="value">$title</label>.
 			[
-				'label_for'    => $this->settings_prefix . '_user_security_choice',
-				'option'       => $this->settings_prefix . '_user_security_choice',
+				'label_for'    => $this->label_id(self::USER_SECURITY_CHOICE),
+				'option'       => self::USER_SECURITY_CHOICE,
 				'description'  => __("Leave this option unchecked if you care about user choice. Not all users may appreciate SPID centralization.", 'spid-wordpress'),
 			]
 		);
@@ -233,46 +236,51 @@ class Spid_Wordpress_Admin {
 		echo '<p>' . __( 'General settings for SPID integration.', 'spid-wordpress' ) . '</p>';
 	}
 
+	/**
+	 * @TODO settare a zero checkbox che saranno magari salvate da qualche parte asd
+	 */
 	public function settings_general_sanitize($input) {
+		$checkboxes = array(
+			self::USER_SECURITY_CHOICE,
+			self::USER_REGISTRATION
+		);
+
 		$values = array();
-
-		if( isset( $input[$this->settings_prefix.'_registration'] ) ) {
-			$values[$this->settings_prefix.'_registration'] = (int) $input[$this->settings_prefix.'_registration'];
-		} else {
-			$values[$this->settings_prefix.'_registration'] = $this->settings_defaults[$this->settings_prefix.'_registration'];
-		}
-
-		if( isset( $input[$this->settings_prefix.'_user_security_choice'] ) ) {
-			$values[$this->settings_prefix.'_user_security_choice'] = (int) $input[$this->settings_prefix.'_user_security_choice'];
-		} else {
-			$values[$this->settings_prefix.'_user_security_choice'] = $this->settings_defaults[$this->settings_prefix.'_user_security_choice'];
+		foreach($checkboxes as $i) {
+			$values[$i] = isset( $input[$i] ) ? (int) $input[$i] : 0;
 		}
 
 		return $values;
 	}
 
+	function label_id($option) {
+		return $this->settings_prefix . '_' . $option;
+	}
+
 	function spid_general_callback($args) {
 		printf(
-			'<p id="%s">%s</p>',
+			'<p id="%s-%s">%s</p>',
 			$args['id'],
 			$args['name']
 		);
 	}
 
+	/**
+	 * @param array $args ['option' => string, 'label_for' => string]
+	 */
 	function settings_field_checkbox_callback($args) {
+		$opt = $args['option'];
 		if( ! isset( $args['default'] ) ) {
 			$args['default'] = false;
 		}
 
-		$general_options = get_option( $this->settings_prefix . '_general', [] );
-		if(isset($general_options[$args['option']])) {
-			$checked = $general_options[ $args['option'] ];
-		} else {
-			$checked = $args['default'];
-		}
+		$group           = $this->settings_prefix . '_general';
+		$general_options = get_option($group, []);
+		$value           = $general_options[$opt];
+		$checked         = isset($value) ? $value : $args['default'];
 		?>
 
-		<input type="checkbox" id="<?php echo $args['option'] ?>" value="1" name="<?php echo $args['label_for'] ?>" <?php checked($checked) ?> />
+		<input type="checkbox" id="<?php echo $this->label_id($opt) ?>" value="1" name="<?php printf('%s[%s]', $group, $opt) ?>" <?php checked($checked) ?> />
 		<p class="description"><?php echo esc_html( $args['description'] ) ?></p>
 
 		<?php
