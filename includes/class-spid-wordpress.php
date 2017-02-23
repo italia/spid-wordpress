@@ -95,6 +95,10 @@ class Spid_Wordpress {
 
 	}
 
+	public static function factory() {
+		return new self();
+	}
+
 	/**
 	 * Load the required dependencies for this plugin.
 	 *

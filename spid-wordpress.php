@@ -76,10 +76,4 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-spid-wordpress.php';
  *
  * @since    1.0.0
  */
-function run_spid_wordpress() {
-
-	$plugin = new Spid_Wordpress();
-	$plugin->run();
-
-}
-run_spid_wordpress();
+Spid_Wordpress::factory()->run();
