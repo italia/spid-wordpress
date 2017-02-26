@@ -39,6 +39,15 @@ class Spid_Wordpress_Settings {
 		return $this->settings_general;
 	}
 
+	/**
+	 * Restituisce il nome della label da usare nella pagina opzioni.
+	 * Non ha senso che stia qui, ma usa il prefix invece del group_id e fare una funzione pubblica che restituisce
+	 * il prefix aggiungeva solo caos e confusione. Almeno la distinzione tra group_id e label_id è autoevidente
+	 * (uno si usa per le label, l'altro per tutto il resto)
+	 *
+	 * @param $option string nome dell'opzione (una costante di questa classe)
+	 * @return string label
+	 */
 	function get_label_id($option) {
 		return $this->settings_prefix . '_' . $option;
 	}
