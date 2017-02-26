@@ -25,10 +25,6 @@
  * @author     Ludovico Pavesi, Valerio Bozzolan, spid-wordpress contributors
  */
 class Spid_Wordpress_Admin {
-
-	const USER_REGISTRATION    = 'registration';
-	const USER_SECURITY_CHOICE = 'user_security_choice';
-
 	/**
 	 * The ID of this plugin.
 	 *
@@ -57,24 +53,6 @@ class Spid_Wordpress_Admin {
 	private $options_page_hook_suffix = false;
 
 	/**
-	 * Settings prefix
-	 *
-	 * @since  	1.0.0
-	 * @access 	private
-	 * @var  	string 		$option_name 	Settings prefix
-	 */
-	private $settings_prefix;
-
-	/**
-	 * Settings default values
-	 *
-	 * @since   1.0.0
-	 * @access  private
-	 * @var     array       $settings_defaults Default values for every setting
-	 */
-	private $settings_defaults;
-
-	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
@@ -82,15 +60,9 @@ class Spid_Wordpress_Admin {
 	 * @param      string    $version    The version of this plugin.
 	 */
 	public function __construct( $plugin_name, $version ) {
-
 		$this->plugin_name = $plugin_name;
-		$this->settings_prefix = $plugin_name.'_settings';
-		$this->settings_defaults = array(
-			self::USER_SECURITY_CHOICE => 0,
-			self::USER_REGISTRATION    => 1
-		);
+		$this->settings = new Spid_Wordpress_Settings($plugin_name);
 		$this->version = $version;
-
 	}
 
 	/**
@@ -155,7 +127,7 @@ class Spid_Wordpress_Admin {
 	public function register_settings() {
 		add_settings_section(
 		// String for use in the 'id' attribute of tags
-			$this->settings_prefix.'_general',
+			$this->settings->get_group_id(),
 
 			// Title of the section
 			__("General", 'spid-wordpress'), // TODO: conviene far saltare fuori il domain dalla classe i18n o hardcodarlo ovunque?
@@ -169,7 +141,7 @@ class Spid_Wordpress_Admin {
 
 		add_settings_field(
 		// String for use in the 'id' attribute of tags
-			$this->label_id(self::USER_REGISTRATION),
+			$this->settings->get_label_id(Spid_Wordpress_Settings::USER_REGISTRATION),
 
 			// Title of the field
 			__("Registration", 'spid-wordpress'),
@@ -187,20 +159,20 @@ class Spid_Wordpress_Admin {
 			// The section of the settings page in which to show the box
 			// (default or a section you added with add_settings_section(),
 			// look at the page in the source to see what the existing ones are.)
-			$this->settings_prefix.'_general',
+			$this->settings->get_group_id(),
 
 			// Additional arguments that are passed to the $callback function.
 			// The 'label_for' key/value pair can be used to format the field title like so: <label for="value">$title</label>.
 			[
-				'label_for'    => $this->label_id(self::USER_REGISTRATION),
-				'option'       => self::USER_REGISTRATION,
+				'label_for'    => $this->settings->get_label_id(Spid_Wordpress_Settings::USER_REGISTRATION),
+				'option'       => Spid_Wordpress_Settings::USER_REGISTRATION,
 				'description'  => __("New users can be registered by SPID authorities.", 'spid-wordpress'),
 			]
 		);
 
 		add_settings_field(
 			// String for use in the 'id' attribute of tags
-			$this->label_id(self::USER_SECURITY_CHOICE),
+			$this->settings->get_label_id(Spid_Wordpress_Settings::USER_SECURITY_CHOICE),
 
 			// Title of the field
 			__("Force SPID integration", 'spid-wordpress'),
@@ -218,31 +190,29 @@ class Spid_Wordpress_Admin {
 			// The section of the settings page in which to show the box
 			// (default or a section you added with add_settings_section(),
 			// look at the page in the source to see what the existing ones are.)
-			$this->settings_prefix.'_general',
+			$this->settings->get_group_id(),
 
 			// Additional arguments that are passed to the $callback function.
 			// The 'label_for' key/value pair can be used to format the field title like so: <label for="value">$title</label>.
 			[
-				'label_for'    => $this->label_id(self::USER_SECURITY_CHOICE),
-				'option'       => self::USER_SECURITY_CHOICE,
+				'label_for'    => $this->settings->get_label_id(Spid_Wordpress_Settings::USER_SECURITY_CHOICE),
+				'option'       => Spid_Wordpress_Settings::USER_SECURITY_CHOICE,
 				'description'  => __("Leave this option unchecked if you care about user choice. Not all users may appreciate SPID centralization.", 'spid-wordpress'),
 			]
 		);
 
-		register_setting( $this->plugin_name, $this->settings_prefix . '_general', array( $this, 'settings_general_sanitize' ) );
+		register_setting( $this->plugin_name, $this->settings->get_group_id(), array( $this, 'settings_general_sanitize' ) );
 	}
 
 	public function settings_general_callback() {
 		echo '<p>' . __( 'General settings for SPID integration.', 'spid-wordpress' ) . '</p>';
 	}
 
-	/**
-	 * @TODO settare a zero checkbox che saranno magari salvate da qualche parte asd
-	 */
+	// TODO settare a zero checkbox che saranno magari salvate da qualche parte asd
 	public function settings_general_sanitize($input) {
 		$checkboxes = array(
-			self::USER_SECURITY_CHOICE,
-			self::USER_REGISTRATION
+			Spid_Wordpress_Settings::USER_SECURITY_CHOICE,
+			Spid_Wordpress_Settings::USER_REGISTRATION
 		);
 
 		$values = array();
@@ -251,10 +221,6 @@ class Spid_Wordpress_Admin {
 		}
 
 		return $values;
-	}
-
-	function label_id($option) {
-		return $this->settings_prefix . '_' . $option;
 	}
 
 	function spid_general_callback($args) {
@@ -274,13 +240,12 @@ class Spid_Wordpress_Admin {
 			$args['default'] = false;
 		}
 
-		$group           = $this->settings_prefix . '_general';
-		$general_options = get_option($group, array()); // TODO: $this->settings_defaults invece di array()?
-		$value           = $general_options[$opt];
+		$group           = $this->settings->get_group_id();
+		$value           = $this->settings->get_option_value($opt);
 		$checked         = isset($value) ? $value : $args['default'];
 		?>
 
-		<input type="checkbox" id="<?php echo $this->label_id($opt) ?>" value="1" name="<?php printf('%s[%s]', $group, $opt) ?>" <?php checked($checked) ?> />
+		<input type="checkbox" id="<?php echo $this->settings->get_label_id($opt) ?>" value="1" name="<?php printf('%s[%s]', $group, $opt) ?>" <?php checked($checked) ?> />
 		<p class="description"><?php echo esc_html( $args['description'] ) ?></p>
 
 		<?php

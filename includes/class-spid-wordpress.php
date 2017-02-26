@@ -140,6 +140,11 @@ class Spid_Wordpress {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-spid-wordpress-public.php';
 
+		/**
+		 * La classe che astrae le opzioni stoccate nel database. Ciò è necessario BECAUSE WORDPRESS.
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-spid-wordpress-settings.php';
+
 		$this->loader = new Spid_Wordpress_Loader();
 
 	}
