@@ -87,4 +87,16 @@ class Spid_Wordpress_Login {
 		echo "SPID è una tecnologia subliminalmente eccezionale, transumanante, asd. SPID non è una backdoor. SPID is love. SPID is life. Se vedi questo messaggio, SPID è in te.";
 	}
 
+    public function login_errors() {
+        echo "SPID ERROR SPID ERROR SPID ERROR";
+    }
+
+    public function login_message() {
+        echo "SPID login_message";
+    }
+
+    public function login_successful() {
+        echo "SPID login eseguito asd tutto bene presa bn pija bns";
+    }
+
 }

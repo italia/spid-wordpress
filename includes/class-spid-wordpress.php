@@ -212,6 +212,9 @@ class Spid_Wordpress {
         $this->loader->add_action( 'login_enqueue_styles', $plugin_login, 'enqueue_styles' );
         $this->loader->add_action( 'login_enqueue_scripts', $plugin_login, 'enqueue_scripts' );
         $this->loader->add_action( 'login_form', $plugin_login, 'login_form' );
+        $this->loader->add_action( 'login_errors', $plugin_login, 'login_errors' );
+        $this->loader->add_action( 'login_message', $plugin_login, 'login_message' );
+        $this->loader->add_action( 'login_form_postpass', $plugin_login, 'login_successful' );
 
     }
 
