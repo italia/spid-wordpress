@@ -88,11 +88,11 @@ class Spid_Wordpress_Login {
 	}
 
     public function login_errors() {
-        echo "SPID ERROR SPID ERROR SPID ERROR";
+        return "SPID ERROR SPID ERROR SPID ERROR";
     }
 
     public function login_message() {
-        echo "SPID login_message";
+        return "SPID login_message";
     }
 
     public function login_successful() {
