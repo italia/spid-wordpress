@@ -146,6 +146,11 @@ class Spid_Wordpress {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-spid-wordpress-settings.php';
 
+		/**
+		 * The login class managing the login page and other login stuff. Ecco.
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-spid-wordpress-login.php';
+
 		$this->loader = new Spid_Wordpress_Loader();
 
 	}
