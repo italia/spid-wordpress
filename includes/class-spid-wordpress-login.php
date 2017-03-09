@@ -91,17 +91,22 @@ class Spid_Wordpress_Login {
 	 * In a message box.
 	 *
 	 * Called also for action=lostpassword.
+	 *
+	 * @param string $deafult Default message
+	 * @return string
 	 */
-	public function login_errors($action) {
-		var_dump($action);
-		return "SPID ERROR SPID ERROR SPID ERROR";
+	public function login_errors($default) {
+		return $default;
 	}
 
 	/**
 	 * Not in message box.
+	 *
+	 * @param string $default Default login message
+	 * @return string
 	 */
-	public function login_message() {
-		return "SPID login_message";
+	public function login_message($default) {
+		return $default;
 	}
 
 	/**
@@ -118,7 +123,7 @@ class Spid_Wordpress_Login {
 	 * Mike, CC BY-SA 40
 	 * https://wordpress.stackexchange.com/a/156431
 	 */
-	public function authenticate($user, $email, $password) {
+	public function authenticate() {
 		// remove_filter('authenticate', 'wp_authenticate_username_password', 20);
 	}
 
