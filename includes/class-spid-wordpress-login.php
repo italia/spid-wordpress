@@ -87,16 +87,39 @@ class Spid_Wordpress_Login {
 		echo "SPID è una tecnologia subliminalmente eccezionale, transumanante, asd. SPID non è una backdoor. SPID is love. SPID is life. Se vedi questo messaggio, SPID è in te.";
 	}
 
-    public function login_errors() {
-        return "SPID ERROR SPID ERROR SPID ERROR";
-    }
+	/**
+	 * In a message box.
+	 *
+	 * Called also for action=lostpassword.
+	 */
+	public function login_errors($action) {
+		var_dump($action);
+		return "SPID ERROR SPID ERROR SPID ERROR";
+	}
 
-    public function login_message() {
-        return "SPID login_message";
-    }
+	/**
+	 * Not in message box.
+	 */
+	public function login_message() {
+		return "SPID login_message";
+	}
 
-    public function login_successful() {
-        echo "SPID login eseguito asd tutto bene presa bn pija bns";
-    }
+	/**
+	 * Never called.
+	 */
+	public function login_successful() {
+		echo "SPID login eseguito asd tutto bene presa bn pija bns";
+		die("login_successful() fired?");
+	}
+
+	/**
+	 * Replace the default authentication method.
+	 *
+	 * Mike, CC BY-SA 40
+	 * https://wordpress.stackexchange.com/a/156431
+	 */
+	public function authenticate($user, $email, $password) {
+		// remove_filter('authenticate', 'wp_authenticate_username_password', 20);
+	}
 
 }
