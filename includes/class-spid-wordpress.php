@@ -51,7 +51,7 @@ class Spid_Wordpress {
 	 *
 	 * @since    1.0.0
 	 * @access   protected
-	 * @var      Spid_Wordpress_Loader    $loader    Maintains and registers all hooks for the plugin.
+	 * @var      Spid_Wordpress_Loader $loader Maintains and registers all hooks for the plugin.
 	 */
 	protected $loader;
 
@@ -60,7 +60,7 @@ class Spid_Wordpress {
 	 *
 	 * @since    1.0.0
 	 * @access   protected
-	 * @var      string    $plugin_name    The string used to uniquely identify this plugin.
+	 * @var      string $plugin_name The string used to uniquely identify this plugin.
 	 */
 	protected $plugin_name;
 
@@ -69,7 +69,7 @@ class Spid_Wordpress {
 	 *
 	 * @since    1.0.0
 	 * @access   protected
-	 * @var      string    $version    The current version of the plugin.
+	 * @var      string $version The current version of the plugin.
 	 */
 	protected $version;
 
@@ -84,8 +84,8 @@ class Spid_Wordpress {
 	 */
 	public function __construct() {
 
-		$this->plugin_name = 'spid-wordpress';
-		$this->version = '1.0.0';
+		$this->plugin_name     = 'spid-wordpress';
+		$this->version         = '1.0.0';
 		$this->settings_prefix = 'spid';
 
 		$this->load_dependencies();
@@ -153,10 +153,10 @@ class Spid_Wordpress {
 		 */
 		require_once $path . 'includes/class-spid-wordpress-login.php';
 
-        /**
-         * The login class managing user settings (meta). Anche detta "user meta'" perche' previene il login quindi resta solo mezzo utente.
-         */
-        require_once $path . 'includes/class-spid-wordpress-user-meta.php';
+		/**
+		 * The login class managing user settings (meta). Anche detta "user meta'" perche' previene il login quindi resta solo mezzo utente.
+		 */
+		require_once $path . 'includes/class-spid-wordpress-user-meta.php';
 
 		$this->loader = new Spid_Wordpress_Loader();
 
@@ -192,24 +192,24 @@ class Spid_Wordpress {
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
-		$this->loader->add_action( 'admin_menu',            $plugin_admin, 'add_settings_page' );
-		$this->loader->add_action( 'admin_init',            $plugin_admin, 'register_settings' );
+		$this->loader->add_action( 'admin_menu', $plugin_admin, 'add_settings_page' );
+		$this->loader->add_action( 'admin_init', $plugin_admin, 'register_settings' );
 	}
 
-    /**
-     * Register all of the hooks related to the admin area functionality
-     * of the plugin.
-     *
-     * @since    1.0.0
-     * @access   private
-     */
-    private function define_user_settings_hooks() {
+	/**
+	 * Register all of the hooks related to the admin area functionality
+	 * of the plugin.
+	 *
+	 * @since    1.0.0
+	 * @access   private
+	 */
+	private function define_user_settings_hooks() {
 
-        $plugin_user_meta = new Spid_Wordpress_User_Meta( $this->get_plugin_name(), $this->get_version() );
+		$plugin_user_meta = new Spid_Wordpress_User_Meta( $this->get_plugin_name(), $this->get_version() );
 
-        $this->loader->add_action( 'profile_personal_options', $plugin_user_meta, 'add_user_settings_field' );
-        $this->loader->add_action( 'personal_options_update',  $plugin_user_meta, 'personal_options_update' );
-    }
+		$this->loader->add_action( 'profile_personal_options', $plugin_user_meta, 'add_user_settings_field' );
+		$this->loader->add_action( 'personal_options_update', $plugin_user_meta, 'personal_options_update' );
+	}
 
 	/**
 	 * Register all of the hooks related to the public-facing functionality
@@ -222,24 +222,24 @@ class Spid_Wordpress {
 
 		$plugin_public = new Spid_Wordpress_Public( $this->get_plugin_name(), $this->get_version() );
 
-		$this->loader->add_action( 'wp_enqueue_styles',  $plugin_public, 'enqueue_styles' );
+		$this->loader->add_action( 'wp_enqueue_styles', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 
 	}
 
-    private function define_login_page_hooks() {
+	private function define_login_page_hooks() {
 
-	$plugin_login = new Spid_Wordpress_Login( $this->get_plugin_name(), $this->get_version() );
-	$this->loader->add_action( 'login_enqueue_styles',  $plugin_login, 'enqueue_styles' );
-	$this->loader->add_action( 'login_enqueue_scripts', $plugin_login, 'enqueue_scripts' );
-	$this->loader->add_action( 'login_form',            $plugin_login, 'login_form' );
-	$this->loader->add_action( 'login_errors',          $plugin_login, 'login_errors' );
-	$this->loader->add_action( 'login_message',         $plugin_login, 'login_message' );
-	$this->loader->add_action( 'authenticate',          $plugin_login, 'authenticate' );
+		$plugin_login = new Spid_Wordpress_Login( $this->get_plugin_name(), $this->get_version() );
+		$this->loader->add_action( 'login_enqueue_styles', $plugin_login, 'enqueue_styles' );
+		$this->loader->add_action( 'login_enqueue_scripts', $plugin_login, 'enqueue_scripts' );
+		$this->loader->add_action( 'login_form', $plugin_login, 'login_form' );
+		$this->loader->add_action( 'login_errors', $plugin_login, 'login_errors' );
+		$this->loader->add_action( 'login_message', $plugin_login, 'login_message' );
+		$this->loader->add_action( 'authenticate', $plugin_login, 'authenticate' );
 
-	// Apparently never called
-        $this->loader->add_action( 'login_form_postpass',   $plugin_login, 'login_successful' );
-    }
+		// Apparently never called
+		$this->loader->add_action( 'login_form_postpass', $plugin_login, 'login_successful' );
+	}
 
 	/**
 	 * Run the loader to execute all of the hooks with WordPress.

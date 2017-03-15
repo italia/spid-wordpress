@@ -29,7 +29,7 @@
  */
 
 // If this file is called directly, abort.
-defined('WPINC') or die;
+defined( 'WPINC' ) or die;
 
 ?>
 <div class="wrap">
@@ -43,7 +43,7 @@ defined('WPINC') or die;
 		do_settings_sections( $this->plugin_name );
 
 		// Save button
-		submit_button( __("Save Settings", 'spid-wordpress') ); //TODO: parametri addizionali a random?
+		submit_button( __( "Save Settings", 'spid-wordpress' ) ); //TODO: parametri addizionali a random?
 		?>
 	</form>
 </div>

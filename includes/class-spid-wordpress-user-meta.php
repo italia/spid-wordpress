@@ -30,7 +30,7 @@ class Spid_Wordpress_User_Meta {
 	 *
 	 * @since    1.0.0
 	 * @access   private
-	 * @var      string    $plugin_name    The ID of this plugin.
+	 * @var      string $plugin_name The ID of this plugin.
 	 */
 	private $plugin_name;
 
@@ -39,7 +39,7 @@ class Spid_Wordpress_User_Meta {
 	 *
 	 * @since    1.0.0
 	 * @access   private
-	 * @var      string    $version    The current version of this plugin.
+	 * @var      string $version The current version of this plugin.
 	 */
 	private $version;
 
@@ -48,7 +48,7 @@ class Spid_Wordpress_User_Meta {
 	 *
 	 * @since    1.0.0
 	 * @access   private
-	 * @var      false|string    $options_page_hook_suffix    The hook suffix for the options page.
+	 * @var      false|string $options_page_hook_suffix The hook suffix for the options page.
 	 */
 	private $options_page_hook_suffix = false;
 
@@ -56,13 +56,14 @@ class Spid_Wordpress_User_Meta {
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
-	 * @param      string    $plugin_name       The name of this plugin.
-	 * @param      string    $version    The version of this plugin.
+	 *
+	 * @param      string $plugin_name The name of this plugin.
+	 * @param      string $version The version of this plugin.
 	 */
 	public function __construct( $plugin_name, $version ) {
 		$this->plugin_name = $plugin_name;
-		$this->settings = new Spid_Wordpress_Settings($plugin_name);
-		$this->version = $version;
+		$this->settings    = new Spid_Wordpress_Settings( $plugin_name );
+		$this->version     = $version;
 	}
 
 	/**
@@ -70,26 +71,27 @@ class Spid_Wordpress_User_Meta {
 	 *
 	 * @since    1.0.0
 	 */
-	public function add_user_settings_field($user) {
-		$meta_value = get_user_meta($user->ID, 'spid_disabled', true);
+	public function add_user_settings_field( $user ) {
+		$meta_value = get_user_meta( $user->ID, 'spid_disabled', true );
 		?>
 
 		<h3>SPID</h3>
 		<table class="form-table">
-		<tr>
-			<th scope="row"><label for="spid_disabled"><?php echo __("Untrust SPID", 'spid') ?></label></th>
-			<td>
-				<label for="spid_disabled">
-					<?php if( $this->settings->get_option_value( Spid_Wordpress_Settings::USER_SECURITY_CHOICE ) ): ?>
-						<input type="checkbox" id="spid_disabled" checked="checked" disabled="disabled" />
-						<?php echo __("You can't disable SPID integration.", 'spid') ?>
-					<?php else: ?>
-						<input type="checkbox" id="spid_disabled" name="spid_disabled" value="1" <?php checked($meta_value) ?> />
-						<?php echo __("Disable SPID integration. Check this if you don't trust SPID authorities.", 'spid') ?>
-					<?php endif ?>
-				</label>
-			</td>
-		</tr>
+			<tr>
+				<th scope="row"><label for="spid_disabled"><?php echo __( "Untrust SPID", 'spid' ) ?></label></th>
+				<td>
+					<label for="spid_disabled">
+						<?php if ( $this->settings->get_option_value( Spid_Wordpress_Settings::USER_SECURITY_CHOICE ) ): ?>
+							<input type="checkbox" id="spid_disabled" checked="checked" disabled="disabled"/>
+							<?php echo __( "You can't disable SPID integration.", 'spid' ) ?>
+						<?php else: ?>
+							<input type="checkbox" id="spid_disabled" name="spid_disabled"
+							       value="1" <?php checked( $meta_value ) ?> />
+							<?php echo __( "Disable SPID integration. Check this if you don't trust SPID authorities.", 'spid' ) ?>
+						<?php endif ?>
+					</label>
+				</td>
+			</tr>
 		</table>
 
 		<?php
@@ -100,9 +102,9 @@ class Spid_Wordpress_User_Meta {
 	 *
 	 * @since    1.0.0
 	 */
-	public function personal_options_update($user_id) {
-		if( ! $this->settings->get_option_value( Spid_Wordpress_Settings::USER_SECURITY_CHOICE ) && current_user_can('edit_user', $user_id) ) {
-			update_user_meta($user_id, 'spid_disabled', $_POST['spid_disabled']);
+	public function personal_options_update( $user_id ) {
+		if ( ! $this->settings->get_option_value( Spid_Wordpress_Settings::USER_SECURITY_CHOICE ) && current_user_can( 'edit_user', $user_id ) ) {
+			update_user_meta( $user_id, 'spid_disabled', $_POST['spid_disabled'] );
 		}
 	}
 

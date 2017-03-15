@@ -30,7 +30,7 @@ class Spid_Wordpress_Login {
 	 *
 	 * @since    1.0.0
 	 * @access   private
-	 * @var      string    $plugin_name    The ID of this plugin.
+	 * @var      string $plugin_name The ID of this plugin.
 	 */
 	private $plugin_name;
 
@@ -39,7 +39,7 @@ class Spid_Wordpress_Login {
 	 *
 	 * @since    1.0.0
 	 * @access   private
-	 * @var      string    $version    The ID of this plugin version.
+	 * @var      string $version The ID of this plugin version.
 	 */
 	private $version;
 
@@ -48,7 +48,7 @@ class Spid_Wordpress_Login {
 	 *
 	 * @since    1.0.0
 	 * @access   private
-	 * @var      string    $plugin_name    The ID of this plugin.
+	 * @var      string $plugin_name The ID of this plugin.
 	 */
 	private $settings;
 
@@ -56,13 +56,14 @@ class Spid_Wordpress_Login {
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
-	 * @param      string    $plugin_name       The name of this plugin.
-	 * @param      string    $version    The version of this plugin.
+	 *
+	 * @param      string $plugin_name The name of this plugin.
+	 * @param      string $version The version of this plugin.
 	 */
 	public function __construct( $plugin_name, $version ) {
 		$this->plugin_name = $plugin_name;
-		$this->version = $version;
-		$this->settings = new Spid_Wordpress_Settings($plugin_name);
+		$this->version     = $version;
+		$this->settings    = new Spid_Wordpress_Settings( $plugin_name );
 	}
 
 	/**
@@ -93,9 +94,10 @@ class Spid_Wordpress_Login {
 	 * Called also for action=lostpassword.
 	 *
 	 * @param string $deafult Default message
+	 *
 	 * @return string
 	 */
-	public function login_errors($default) {
+	public function login_errors( $default ) {
 		return $default;
 	}
 
@@ -103,9 +105,10 @@ class Spid_Wordpress_Login {
 	 * Not in message box.
 	 *
 	 * @param string $default Default login message
+	 *
 	 * @return string
 	 */
-	public function login_message($default) {
+	public function login_message( $default ) {
 		return $default;
 	}
 
@@ -114,7 +117,7 @@ class Spid_Wordpress_Login {
 	 */
 	public function login_successful() {
 		echo "SPID login eseguito asd tutto bene presa bn pija bns";
-		die("login_successful() fired?");
+		die( "login_successful() fired?" );
 	}
 
 	/**

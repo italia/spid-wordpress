@@ -64,5 +64,4 @@ class Spid_Wordpress_i18n {
 	}
 
 
-
 }
