@@ -64,6 +64,8 @@ class Spid_Wordpress {
 	 */
 	protected $plugin_name;
 
+	const PLUGIN_NAME = 'spid-wordpress';
+
 	/**
 	 * The current version of the plugin.
 	 *
@@ -72,6 +74,10 @@ class Spid_Wordpress {
 	 * @var      string $version The current version of the plugin.
 	 */
 	protected $version;
+
+	const VERSION = '1.0.0';
+
+	const SETTINGS_PREFIX = 'spid';
 
 	/**
 	 * Define the core functionality of the plugin.
@@ -84,9 +90,9 @@ class Spid_Wordpress {
 	 */
 	public function __construct() {
 
-		$this->plugin_name     = 'spid-wordpress';
-		$this->version         = '1.0.0';
-		$this->settings_prefix = 'spid';
+		$this->plugin_name     = self::PLUGIN_NAME;
+		$this->version         = self::VERSION;
+		$this->settings_prefix = self::SETTINGS_PREFIX;
 
 		$this->load_dependencies();
 		$this->set_locale();

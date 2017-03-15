@@ -69,11 +69,11 @@ class Spid_Wordpress_Login {
 	 * @param      string $plugin_name The name of this plugin.
 	 * @param      string $version The version of this plugin.
 	 */
-	public function __construct( $plugin_name, $version ) {
-		$this->plugin_name = $plugin_name;
-		$this->version     = $version;
-		$this->settings    = new Spid_Wordpress_Settings( $plugin_name );
-		$this->user_meta   = new Spid_Wordpress_User_Meta( $plugin_name, $version );
+	public function __construct() {
+		$this->plugin_name = Spid_Wordpress::PLUGIN_NAME;
+		$this->version     = Spid_Wordpress::VERSION;
+		$this->settings    = new Spid_Wordpress_Settings( Spid_Wordpress::PLUGIN_NAME );
+		$this->user_meta   = new Spid_Wordpress_User_Meta( Spid_Wordpress::PLUGIN_NAME, Spid_Wordpress::VERSION);
 	}
 
 	/**
