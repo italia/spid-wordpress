@@ -1,7 +1,7 @@
 <?php
 /*
  * SPID-Wordpress - Plugin che connette Wordpress e SPID
- * Copyright (C) 2016 Ludovico Pavesi, Valerio Bozzolan, spid-wordpress contributors
+ * Copyright (C) 2016, 2017 Ludovico Pavesi, Valerio Bozzolan, spid-wordpress contributors
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -56,7 +56,7 @@ function deactivate_spid_wordpress() {
 	Spid_Wordpress_Deactivator::deactivate();
 }
 
-register_activation_hook( __FILE__, 'activate_spid_wordpress' );
+register_activation_hook(   __FILE__, 'activate_spid_wordpress' );
 register_deactivation_hook( __FILE__, 'deactivate_spid_wordpress' );
 
 /**

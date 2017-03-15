@@ -16,6 +16,9 @@ Connette Wordpress e SPID, in qualche modo. Per ora non connette nulla, a dire i
 * https://codex.wordpress.org/Function_Reference/wp_insert_user
 * https://codex.wordpress.org/Function_Reference/wp_signon
 * https://codex.wordpress.org/Function_Reference/wp_insert_user
+* https://wordpress.stackexchange.com/questions/53503/can-i-programmatically-login-a-user-without-a-password/128445#128445
+* https://gist.github.com/raewrites/233ad31432cb112f8bef
+* https://plugins.svn.wordpress.org/openid/trunk/login.php
 
 Da https://wordpress.org/plugins/openid/:
 ```
