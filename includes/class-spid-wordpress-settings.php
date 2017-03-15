@@ -23,7 +23,12 @@ class Spid_Wordpress_Settings {
 	private $settings_defaults;
 
 	private $settings;
+
 	const USER_REGISTRATION = 'registration';
+
+	/**
+	 * true when enforcing SPID logins and no choice exists but to become part of the Borg Collective.
+	 */
 	const USER_SECURITY_CHOICE = 'user_security_choice';
 
 	function __construct( $plugin_name ) {

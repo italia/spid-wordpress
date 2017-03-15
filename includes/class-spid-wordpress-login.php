@@ -73,7 +73,7 @@ class Spid_Wordpress_Login {
 		$this->plugin_name = $plugin_name;
 		$this->version     = $version;
 		$this->settings    = new Spid_Wordpress_Settings( $plugin_name );
-		$this->user_meta   = new Spid_Wordpress_User_Meta( $plugin_name , $version );
+		$this->user_meta   = new Spid_Wordpress_User_Meta( $plugin_name, $version );
 	}
 
 	/**
@@ -133,21 +133,29 @@ class Spid_Wordpress_Login {
 	/**
 	 * Programmatically logs a user in.
 	 *
-	 * @param string $username
+	 * @param string $username the WORDPRESS, NOT SPID, username
+	 *
 	 * @return bool True if the login was successful; false if it wasn't
 	 * @throws Exception if SPID login disabled
 	 * @see https://wordpress.stackexchange.com/a/156431
 	 */
 	function bypass_login( $username ) {
-		if(!$this->settings->get_option_value(Spid_Wordpress_Settings::USER_SECURITY_CHOICE) || !$this->user_meta->get_user_security_choice(get_user_by( 'login', $username ))) {
-			throw new Exception("SPID login disabled by user or administrator");
+		$user = get_user_by( 'login', $username );
+
+		if ( ! $user ) {
+			// TODO: remove and controllare a monte
+			throw new Exception( 'User not found (this should never happen)' );
+		}
+
+		if ( ! $this->settings->get_option_value( Spid_Wordpress_Settings::USER_SECURITY_CHOICE ) && $this->user_meta->get_user_has_disabled_spid( $user->ID ) ) {
+			throw new Exception( "SPID login disabled by user" );
 		}
 
 		if ( is_user_logged_in() ) {
 			wp_logout();
 		}
 
-		$filter = array(__CLASS__, 'short_circuit_auth');
+		$filter = array( __CLASS__, 'short_circuit_auth' );
 
 		// Hook in earlier than other callbacks to short-circuit them
 		add_filter( 'authenticate', $filter, 10, 3 );
@@ -180,6 +188,7 @@ class Spid_Wordpress_Login {
 	 * @param WP_User $user
 	 * @param string $username
 	 * @param string $password
+	 *
 	 * @return bool|WP_User a WP_User object if the username matched an existing user, or false if it didn't
 	 */
 	static function short_circuit_auth( $user, $username, $password ) {
