@@ -11,6 +11,7 @@ Connette Wordpress e SPID, in qualche modo. Per ora non connette nulla, a dire i
     - [ ] Utilizzare `require_once plugin_dir_path( dirname( __FILE__ ) ) . 'simplespidphp/...';` dove sarà necessario
 - [ ] Trarre ispirazione da [SPID-Drupal](https://github.com/dev4pa/spid-drupal)
 - [ ] Scrivere il codice.
+    - [X] scrivere e cancellare molti var_dump()
 
 ## Riferimenti interessanti
 * https://codex.wordpress.org/Function_Reference/wp_insert_user
