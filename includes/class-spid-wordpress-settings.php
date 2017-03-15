@@ -60,4 +60,6 @@ class Spid_Wordpress_Settings {
 			throw new LogicException('Option '.$option.' unsupported!');
 		}
 	}
+
+	function
 }

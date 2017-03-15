@@ -189,6 +189,20 @@ class Spid_Wordpress {
 		$this->loader->add_action( 'admin_init', $plugin_admin, 'register_settings' );
 	}
 
+    /**
+     * Register all of the hooks related to the admin area functionality
+     * of the plugin.
+     *
+     * @since    1.0.0
+     * @access   private
+     */
+    private function define_user_settings_hooks() {
+
+        $plugin_user_meta = new Spid_Wordpress_User_Meta( $this->get_plugin_name(), $this->get_version() );
+
+        $this->loader->add_action( 'personal_options_update', $plugin_user_meta, 'add_user_settings_field' );
+    }
+
 	/**
 	 * Register all of the hooks related to the public-facing functionality
 	 * of the plugin.
