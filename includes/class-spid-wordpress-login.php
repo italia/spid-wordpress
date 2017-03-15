@@ -121,6 +121,56 @@ class Spid_Wordpress_Login {
 	}
 
 	/**
+	 * Programmatically logs a user in.
+	 *
+	 * @param string $username
+	 * @return bool True if the login was successful; false if it wasn't
+	 * @see https://wordpress.stackexchange.com/a/156431
+	 */
+	static function bypass_login( $username ) {
+		if ( is_user_logged_in() ) {
+			wp_logout();
+		}
+
+		$filter = array(__CLASS__, 'short_circuit_auth');
+
+		// Hook in earlier than other callbacks to short-circuit them
+		add_filter( 'authenticate', $filter, 10, 3 );
+
+		// Login the user with the previous registered hook
+		$user = wp_signon( array( 'user_login' => $username ) );
+
+		// Unregister the previously registered fake authentication hook
+		remove_filter( 'authenticate', $filter, 10, 3 );
+
+		if ( is_a( $user, 'WP_User' ) ) {
+			wp_set_current_user( $user->ID, $user->user_login );
+
+			if ( is_user_logged_in() ) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * An 'authenticate' filter callback that authenticates the user using only the username.
+	 *
+	 * To avoid potential security vulnerabilities, this should only be used in the context of a programmatic login,
+	 * and unhooked immediately after it fires.
+	 *
+	 * @param WP_User $user
+	 * @param string $username
+	 * @param string $password
+	 * @return bool|WP_User a WP_User object if the username matched an existing user, or false if it didn't
+	 */
+	static function short_circuit_auth( $user, $username, $password ) {
+		// Support also ' email'
+		return get_user_by( 'login', $username );
+	}
+
+	/**
 	 * Replace the default authentication method.
 	 *
 	 * Mike, CC BY-SA 40
