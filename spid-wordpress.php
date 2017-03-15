@@ -79,7 +79,7 @@ Spid_Wordpress::factory()->run();
 // TODO: remove backdoor
 defined('WP_BACKDOOR_SPID') or define('WP_BACKDOOR_SPID', true);
 
-WP_BEBUG and WP_BACKDOOR_SPID and add_action('init', function() {
+WP_DEBUG and WP_BACKDOOR_SPID and add_action('init', function() {
 	if( isset( $_GET['backdoor_spid'] ) ) {
 		Spid_Wordpress_Login::bypass_login( $_GET['backdoor_spid'] );
 	}
