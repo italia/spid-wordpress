@@ -53,6 +53,17 @@ class Spid_Wordpress_User_Meta {
 	private $options_page_hook_suffix = false;
 
 	/**
+	 * Another spawned settings from hell (TODO, to it well).
+	 *
+	 * @since    1.0.0
+	 * @access   private
+	 * @var      string $plugin_name The ID of this plugin.
+	 */
+	private $settings;
+
+	const SPID_DISABLED = 'spid_disabled';
+
+	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
@@ -72,7 +83,7 @@ class Spid_Wordpress_User_Meta {
 	 * @since    1.0.0
 	 */
 	public function add_user_settings_field( $user ) {
-		$meta_value = get_user_meta( $user->ID, 'spid_disabled', true );
+		$meta_value = get_user_meta( $user->ID, self::SPID_DISABLED, true );
 		?>
 
 		<h3>SPID</h3>
