@@ -114,9 +114,13 @@ class Spid_Wordpress_User_Meta {
 	 * @since    1.0.0
 	 */
 	public function personal_options_update( $user_id ) {
-		if ( ! $this->settings->get_option_value( Spid_Wordpress_Settings::USER_SECURITY_CHOICE ) && current_user_can( 'edit_user', $user_id ) ) {
+		if ( ! $this->get_user_security_choice($user_id) ) {
 			update_user_meta( $user_id, 'spid_disabled', $_POST['spid_disabled'] );
 		}
+	}
+
+	public function get_user_security_choice( $user_id ) {
+		return $this->settings->get_option_value( Spid_Wordpress_Settings::USER_SECURITY_CHOICE ) && current_user_can( 'edit_user', $user_id );
 	}
 
 }

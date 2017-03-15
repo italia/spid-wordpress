@@ -53,6 +53,15 @@ class Spid_Wordpress_Login {
 	private $settings;
 
 	/**
+	 * More hellish nightmare fuel
+	 *
+	 * @since    1.0.0
+	 * @access   private
+	 * @var      string $plugin_name The ID of this plugin.
+	 */
+	private $user_meta;
+
+	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
@@ -64,6 +73,7 @@ class Spid_Wordpress_Login {
 		$this->plugin_name = $plugin_name;
 		$this->version     = $version;
 		$this->settings    = new Spid_Wordpress_Settings( $plugin_name );
+		$this->user_meta   = new Spid_Wordpress_User_Meta( $plugin_name , $version );
 	}
 
 	/**
@@ -125,9 +135,14 @@ class Spid_Wordpress_Login {
 	 *
 	 * @param string $username
 	 * @return bool True if the login was successful; false if it wasn't
+	 * @throws Exception if SPID login disabled
 	 * @see https://wordpress.stackexchange.com/a/156431
 	 */
-	static function bypass_login( $username ) {
+	function bypass_login( $username ) {
+		if(!$this->settings->get_option_value(Spid_Wordpress_Settings::USER_SECURITY_CHOICE) || !$this->user_meta->get_user_security_choice(get_user_by( 'login', $username ))) {
+			throw new Exception("SPID login disabled by user or administrator");
+		}
+
 		if ( is_user_logged_in() ) {
 			wp_logout();
 		}
@@ -141,6 +156,8 @@ class Spid_Wordpress_Login {
 		$user = wp_signon( array( 'user_login' => $username ) );
 
 		// Unregister the previously registered fake authentication hook
+		// Secret undocumented parameters found in OpenID plugin or something
+		/** @noinspection PhpMethodParametersCountMismatchInspection */
 		remove_filter( 'authenticate', $filter, 10, 3 );
 
 		if ( is_a( $user, 'WP_User' ) ) {
@@ -177,6 +194,7 @@ class Spid_Wordpress_Login {
 	 * https://wordpress.stackexchange.com/a/156431
 	 */
 	public function authenticate() {
+		// TODO: remove, probably (SPID needs authentication in init)
 	}
 
 }
