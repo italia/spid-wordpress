@@ -1,7 +1,7 @@
 <?php
 /*
  * SPID-Wordpress - Plugin che connette Wordpress e SPID
- * Copyright (C) 2016 Ludovico Pavesi, Valerio Bozzolan, spid-wordpress contributors
+ * Copyright (C) 2016, 2017 Ludovico Pavesi, Valerio Bozzolan, spid-wordpress contributors
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -71,8 +71,39 @@ class Spid_Wordpress_User_Meta {
 	 * @since    1.0.0
 	 */
 	public function add_user_settings_field($user) {
-		// SAMPLE TEXT
-		//$this->options_page_hook_suffix = add_options_page('SPID', 'SPID', 'manage_options', $this->plugin_name, array($this, 'display_settings_page'));
+		$meta_value = get_user_meta($user->ID, 'spid_disabled', true);
+		?>
+
+		<h3>SPID</h3>
+		<table class="form-table">
+		<tr>
+			<th scope="row"><label for="spid_disabled"><?php echo __("Untrust SPID", 'spid') ?></label></th>
+			<td>
+				<label for="spid_disabled">
+					<?php if( $this->settings->get_option_value( Spid_Wordpress_Settings::USER_SECURITY_CHOICE ) ): ?>
+						<input type="checkbox" id="spid_disabled" checked="checked" disabled="disabled" />
+						<?php echo __("You can't disable SPID integration.", 'spid') ?>
+					<?php else: ?>
+						<input type="checkbox" id="spid_disabled" name="spid_disabled" value="1" <?php checked($meta_value) ?> />
+						<?php echo __("Disable SPID integration. Check this if you don't trust SPID authorities.", 'spid') ?>
+					<?php endif ?>
+				</label>
+			</td>
+		</tr>
+		</table>
+
+		<?php
+	}
+
+	/**
+	 * Manipulate the POST options in the user multiverse of asdding personalizations(C) <- copyright sign.
+	 *
+	 * @since    1.0.0
+	 */
+	public function personal_options_update($user_id) {
+		if( ! $this->settings->get_option_value( Spid_Wordpress_Settings::USER_SECURITY_CHOICE ) && current_user_can('edit_user', $user_id) ) {
+			update_user_meta($user_id, 'spid_disabled', $_POST['spid_disabled']);
+		}
 	}
 
 }

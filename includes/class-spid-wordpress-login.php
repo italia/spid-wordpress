@@ -124,7 +124,6 @@ class Spid_Wordpress_Login {
 	 * https://wordpress.stackexchange.com/a/156431
 	 */
 	public function authenticate() {
-		// remove_filter('authenticate', 'wp_authenticate_username_password', 20);
 	}
 
 }

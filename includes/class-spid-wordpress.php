@@ -92,8 +92,8 @@ class Spid_Wordpress {
 		$this->set_locale();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
-        $this->define_user_settings_hooks();
-        $this->define_login_page_hooks();
+		$this->define_user_settings_hooks();
+		$this->define_login_page_hooks();
 
 	}
 
@@ -207,7 +207,8 @@ class Spid_Wordpress {
 
         $plugin_user_meta = new Spid_Wordpress_User_Meta( $this->get_plugin_name(), $this->get_version() );
 
-        $this->loader->add_action( 'personal_options_update', $plugin_user_meta, 'add_user_settings_field' );
+        $this->loader->add_action( 'profile_personal_options', $plugin_user_meta, 'add_user_settings_field' );
+        $this->loader->add_action( 'personal_options_update',  $plugin_user_meta, 'personal_options_update' );
     }
 
 	/**
@@ -228,14 +229,13 @@ class Spid_Wordpress {
 
     private function define_login_page_hooks() {
 
-        $plugin_login = new Spid_Wordpress_Login( $this->get_plugin_name(), $this->get_version() );
-
-		$this->loader->add_action( 'login_enqueue_styles',  $plugin_login, 'enqueue_styles' );
-        $this->loader->add_action( 'login_enqueue_scripts', $plugin_login, 'enqueue_scripts' );
-		$this->loader->add_action( 'login_form',            $plugin_login, 'login_form' );
-		$this->loader->add_action( 'login_errors',          $plugin_login, 'login_errors' );
-		$this->loader->add_action( 'login_message',         $plugin_login, 'login_message' );
-		$this->loader->add_action( 'authenticate',          $plugin_login, 'authenticate' );
+	$plugin_login = new Spid_Wordpress_Login( $this->get_plugin_name(), $this->get_version() );
+	$this->loader->add_action( 'login_enqueue_styles',  $plugin_login, 'enqueue_styles' );
+	$this->loader->add_action( 'login_enqueue_scripts', $plugin_login, 'enqueue_scripts' );
+	$this->loader->add_action( 'login_form',            $plugin_login, 'login_form' );
+	$this->loader->add_action( 'login_errors',          $plugin_login, 'login_errors' );
+	$this->loader->add_action( 'login_message',         $plugin_login, 'login_message' );
+	$this->loader->add_action( 'authenticate',          $plugin_login, 'authenticate' );
 
 	// Apparently never called
         $this->loader->add_action( 'login_form_postpass',   $plugin_login, 'login_successful' );

@@ -1,7 +1,7 @@
 <?php
 /*
  * SPID-Wordpress - Plugin che connette Wordpress e SPID
- * Copyright (C) 2016 Ludovico Pavesi, Valerio Bozzolan, spid-wordpress contributors
+ * Copyright (C) 2016, 2017 Ludovico Pavesi, Valerio Bozzolan, spid-wordpress contributors
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -53,13 +53,11 @@ class Spid_Wordpress_Settings {
 	}
 
 	function get_option_value($option) {
-		if(isset($this->settings[$option])) {
+		if( isset( $this->settings[$option] ) ) {
 			return $this->settings[$option];
 		} else {
 			// TODO: fare qualcosa di sensato (o lasciare questo se è abbastanza sensato)
 			throw new LogicException('Option '.$option.' unsupported!');
 		}
 	}
-
-	function
 }
