@@ -76,10 +76,10 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-spid-wordpress.php';
  */
 Spid_Wordpress::factory()->run();
 
-defined('BACKDOOR_SPID') or
-	define('BACKDOOR_SPID', false);
+// TODO: remove backdoor
+defined('WP_BACKDOOR_SPID') or define('WP_BACKDOOR_SPID', true);
 
-WP_BEBUG and BACKDOOR_SPID and add_action('init', function() {
+WP_BEBUG and WP_BACKDOOR_SPID and add_action('init', function() {
 	if( isset( $_GET['backdoor_spid'] ) ) {
 		Spid_Wordpress_Login::bypass_login( $_GET['backdoor_spid'] );
 	}
