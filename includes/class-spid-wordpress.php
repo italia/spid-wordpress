@@ -92,6 +92,7 @@ class Spid_Wordpress {
 		$this->set_locale();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
+        $this->define_user_settings_hooks();
         $this->define_login_page_hooks();
 
 	}
