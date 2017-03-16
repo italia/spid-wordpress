@@ -46,7 +46,7 @@ class Spid_Wordpress_i18n {
 	 *
 	 * @since    1.0.0
 	 */
-	const domain = 'spid-wordpress';
+	const domain = Spid_Wordpress::PLUGIN_NAME;
 
 	/**
 	 * Load the plugin text domain for translation.

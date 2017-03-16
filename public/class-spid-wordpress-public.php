@@ -34,40 +34,16 @@
  *
  * @package    Spid_Wordpress
  * @subpackage Spid_Wordpress/public
- * @author    Ludovico Pavesi, Valerio Bozzolan, spid-wordpress contributors
+ * @author     Ludovico Pavesi, Valerio Bozzolan, spid-wordpress contributors
+ * @todo       Use this class for something. Or delete it.
  */
 class Spid_Wordpress_Public {
-
-	/**
-	 * The ID of this plugin.
-	 *
-	 * @since    1.0.0
-	 * @access   private
-	 * @var      string    $plugin_name    The ID of this plugin.
-	 */
-	private $plugin_name;
-
-	/**
-	 * The version of this plugin.
-	 *
-	 * @since    1.0.0
-	 * @access   private
-	 * @var      string    $version    The current version of this plugin.
-	 */
-	private $version;
-
 	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
-	 * @param      string    $plugin_name       The name of the plugin.
-	 * @param      string    $version    The version of this plugin.
 	 */
-	public function __construct( $plugin_name, $version ) {
-
-		$this->plugin_name = $plugin_name;
-		$this->version = $version;
-
+	public function __construct() {
 	}
 
 	/**
@@ -89,7 +65,7 @@ class Spid_Wordpress_Public {
 		 * class.
 		 */
 
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/spid-wordpress-public.css', array(), $this->version, 'all' );
+		//wp_enqueue_style( Spid_Wordpress::PLUGIN_NAME, plugin_dir_url( __FILE__ ) . 'css/spid-wordpress-public.css', array(), $this->version, 'all' );
 
 	}
 
@@ -112,7 +88,7 @@ class Spid_Wordpress_Public {
 		 * class.
 		 */
 
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/spid-wordpress-public.js', array( 'jquery' ), $this->version, false );
+		//wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/spid-wordpress-public.js', array( 'jquery' ), $this->version, false );
 
 	}
 

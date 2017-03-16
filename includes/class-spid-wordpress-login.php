@@ -26,38 +26,12 @@
  */
 class Spid_Wordpress_Login {
 	/**
-	 * The ID of this plugin.
-	 *
-	 * @since    1.0.0
-	 * @access   private
-	 * @var      string $plugin_name The ID of this plugin.
-	 */
-	private $plugin_name;
-
-	/**
-	 * The ID of this version plugin.
-	 *
-	 * @since    1.0.0
-	 * @access   private
-	 * @var      string $version The ID of this plugin version.
-	 */
-	private $version;
-
-	/**
 	 * Another spawned settings from hell (TODO, to it well).
-	 *
-	 * @since    1.0.0
-	 * @access   private
-	 * @var      string $plugin_name The ID of this plugin.
 	 */
 	private $settings;
 
 	/**
 	 * More hellish nightmare fuel
-	 *
-	 * @since    1.0.0
-	 * @access   private
-	 * @var      string $plugin_name The ID of this plugin.
 	 */
 	private $user_meta;
 
@@ -65,15 +39,10 @@ class Spid_Wordpress_Login {
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
-	 *
-	 * @param      string $plugin_name The name of this plugin.
-	 * @param      string $version The version of this plugin.
 	 */
 	public function __construct() {
-		$this->plugin_name = Spid_Wordpress::PLUGIN_NAME;
-		$this->version     = Spid_Wordpress::VERSION;
-		$this->settings    = new Spid_Wordpress_Settings( Spid_Wordpress::PLUGIN_NAME );
-		$this->user_meta   = new Spid_Wordpress_User_Meta( Spid_Wordpress::PLUGIN_NAME, Spid_Wordpress::VERSION);
+		$this->settings    = new Spid_Wordpress_Settings();
+		$this->user_meta   = new Spid_Wordpress_User_Meta();
 	}
 
 	/**
@@ -82,7 +51,7 @@ class Spid_Wordpress_Login {
 	 * @since    1.0.0
 	 */
 	public function enqueue_styles() {
-		// wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/spid-wordpress-login.css', array(), $this->version, 'all' );
+		// wp_enqueue_style( Spid_Wordpress::PLUGIN_NAME, plugin_dir_url( __FILE__ ) . 'css/spid-wordpress-login.css', array(), Spid_Wordpress::VERSION, 'all' );
 	}
 
 	/**
@@ -91,7 +60,7 @@ class Spid_Wordpress_Login {
 	 * @since    1.0.0
 	 */
 	public function enqueue_scripts() {
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/spid-wordpress-login.js', array( 'jquery' ), $this->version, false );
+		//wp_enqueue_script( Spid_Wordpress::PLUGIN_NAME, plugin_dir_url( __FILE__ ) . 'js/spid-wordpress-login.js', array( 'jquery' ), Spid_Wordpress::VERSION, false );
 	}
 
 	public function login_form() {
@@ -103,7 +72,7 @@ class Spid_Wordpress_Login {
 	 *
 	 * Called also for action=lostpassword.
 	 *
-	 * @param string $deafult Default message
+	 * @param $default string Default message
 	 *
 	 * @return string
 	 */

@@ -57,24 +57,12 @@ class Spid_Wordpress {
 
 	/**
 	 * The unique identifier of this plugin.
-	 *
-	 * @since    1.0.0
-	 * @access   protected
-	 * @var      string $plugin_name The string used to uniquely identify this plugin.
 	 */
-	protected $plugin_name;
-
 	const PLUGIN_NAME = 'spid-wordpress';
 
 	/**
 	 * The current version of the plugin.
-	 *
-	 * @since    1.0.0
-	 * @access   protected
-	 * @var      string $version The current version of the plugin.
 	 */
-	protected $version;
-
 	const VERSION = '1.0.0';
 
 	const SETTINGS_PREFIX = 'spid';
@@ -89,11 +77,6 @@ class Spid_Wordpress {
 	 * @since    1.0.0
 	 */
 	public function __construct() {
-
-		$this->plugin_name     = self::PLUGIN_NAME;
-		$this->version         = self::VERSION;
-		$this->settings_prefix = self::SETTINGS_PREFIX;
-
 		$this->load_dependencies();
 		$this->set_locale();
 		$this->define_admin_hooks();
@@ -101,10 +84,6 @@ class Spid_Wordpress {
 		$this->define_user_settings_hooks();
 		$this->define_login_page_hooks();
 
-	}
-
-	public static function factory() {
-		return new self();
 	}
 
 	/**
@@ -194,7 +173,7 @@ class Spid_Wordpress {
 	 */
 	private function define_admin_hooks() {
 
-		$plugin_admin = new Spid_Wordpress_Admin( $this->get_plugin_name(), $this->get_version() );
+		$plugin_admin = new Spid_Wordpress_Admin();
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
@@ -211,7 +190,7 @@ class Spid_Wordpress {
 	 */
 	private function define_user_settings_hooks() {
 
-		$plugin_user_meta = new Spid_Wordpress_User_Meta( $this->get_plugin_name(), $this->get_version() );
+		$plugin_user_meta = new Spid_Wordpress_User_Meta();
 
 		$this->loader->add_action( 'profile_personal_options', $plugin_user_meta, 'add_user_settings_field' );
 		$this->loader->add_action( 'personal_options_update', $plugin_user_meta, 'personal_options_update' );
@@ -226,7 +205,7 @@ class Spid_Wordpress {
 	 */
 	private function define_public_hooks() {
 
-		$plugin_public = new Spid_Wordpress_Public( $this->get_plugin_name(), $this->get_version() );
+		$plugin_public = new Spid_Wordpress_Public();
 
 		$this->loader->add_action( 'wp_enqueue_styles', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
@@ -235,7 +214,7 @@ class Spid_Wordpress {
 
 	private function define_login_page_hooks() {
 
-		$plugin_login = new Spid_Wordpress_Login( $this->get_plugin_name(), $this->get_version() );
+		$plugin_login = new Spid_Wordpress_Login();
 		$this->loader->add_action( 'login_enqueue_styles', $plugin_login, 'enqueue_styles' );
 		$this->loader->add_action( 'login_enqueue_scripts', $plugin_login, 'enqueue_scripts' );
 		$this->loader->add_action( 'login_form', $plugin_login, 'login_form' );
@@ -264,7 +243,7 @@ class Spid_Wordpress {
 	 * @return    string    The name of the plugin.
 	 */
 	public function get_plugin_name() {
-		return $this->plugin_name;
+		return Spid_Wordpress::PLUGIN_NAME;
 	}
 
 	/**
@@ -284,7 +263,7 @@ class Spid_Wordpress {
 	 * @return    string    The version number of the plugin.
 	 */
 	public function get_version() {
-		return $this->version;
+		return Spid_Wordpress::VERSION;
 	}
 
 }

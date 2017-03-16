@@ -26,38 +26,7 @@
  */
 class Spid_Wordpress_User_Meta {
 	/**
-	 * The ID of this plugin.
-	 *
-	 * @since    1.0.0
-	 * @access   private
-	 * @var      string $plugin_name The ID of this plugin.
-	 */
-	private $plugin_name;
-
-	/**
-	 * The version of this plugin.
-	 *
-	 * @since    1.0.0
-	 * @access   private
-	 * @var      string $version The current version of this plugin.
-	 */
-	private $version;
-
-	/**
-	 * Hook suffix for the options page.
-	 *
-	 * @since    1.0.0
-	 * @access   private
-	 * @var      false|string $options_page_hook_suffix The hook suffix for the options page.
-	 */
-	private $options_page_hook_suffix = false;
-
-	/**
 	 * Another spawned settings from hell (TODO, to it well).
-	 *
-	 * @since    1.0.0
-	 * @access   private
-	 * @var      string $plugin_name The ID of this plugin.
 	 */
 	private $settings;
 
@@ -67,14 +36,9 @@ class Spid_Wordpress_User_Meta {
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
-	 *
-	 * @param      string $plugin_name The name of this plugin.
-	 * @param      string $version The version of this plugin.
 	 */
-	public function __construct( $plugin_name, $version ) {
-		$this->plugin_name = $plugin_name;
-		$this->settings    = new Spid_Wordpress_Settings( $plugin_name );
-		$this->version     = $version;
+	public function __construct() {
+		$this->settings    = new Spid_Wordpress_Settings();
 	}
 
 	/**
@@ -120,7 +84,7 @@ class Spid_Wordpress_User_Meta {
 	 */
 	public function personal_options_update( $user_id ) {
 		if ( ! $this->settings->get_option_value(Spid_Wordpress_Settings::USER_SECURITY_CHOICE) && current_user_can( 'edit_user', $user_id )) {
-			update_user_meta( $user_id, 'spid_disabled', $_POST['spid_disabled'] );
+			update_user_meta( $user_id, self::SPID_DISABLED, $_POST['spid_disabled'] );
 		}
 	}
 

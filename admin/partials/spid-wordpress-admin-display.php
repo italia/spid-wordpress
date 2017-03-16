@@ -37,10 +37,10 @@ defined( 'WPINC' ) or die;
 	<form action="options.php" method="post">
 		<?php
 		// Output security fields for the registered option group
-		settings_fields( $this->plugin_name );
+		settings_fields( Spid_Wordpress::PLUGIN_NAME );
 
 		// Call sections of registered option group
-		do_settings_sections( $this->plugin_name );
+		do_settings_sections( Spid_Wordpress::PLUGIN_NAME );
 
 		// Save button
 		submit_button( __( "Save Settings", 'spid-wordpress' ) ); //TODO: parametri addizionali a random?

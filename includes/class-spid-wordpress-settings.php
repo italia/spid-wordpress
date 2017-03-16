@@ -31,8 +31,8 @@ class Spid_Wordpress_Settings {
 	 */
 	const USER_SECURITY_CHOICE = 'user_security_choice';
 
-	function __construct( $plugin_name ) {
-		$this->settings_prefix   = $plugin_name . '_settings';
+	function __construct() {
+		$this->settings_prefix   = Spid_Wordpress::PLUGIN_NAME . '_settings';
 		$this->settings_general  = $this->settings_prefix . '_general';
 		$this->settings_defaults = array(
 			self::USER_SECURITY_CHOICE => 0,

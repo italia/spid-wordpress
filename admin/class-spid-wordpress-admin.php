@@ -26,24 +26,6 @@
  */
 class Spid_Wordpress_Admin {
 	/**
-	 * The ID of this plugin.
-	 *
-	 * @since    1.0.0
-	 * @access   private
-	 * @var      string $plugin_name The ID of this plugin.
-	 */
-	private $plugin_name;
-
-	/**
-	 * The version of this plugin.
-	 *
-	 * @since    1.0.0
-	 * @access   private
-	 * @var      string $version The current version of this plugin.
-	 */
-	private $version;
-
-	/**
 	 * Hook suffix for the options page.
 	 *
 	 * @since    1.0.0
@@ -56,21 +38,17 @@ class Spid_Wordpress_Admin {
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
-	 *
-	 * @param      string $plugin_name The name of this plugin.
-	 * @param      string $version The version of this plugin.
 	 */
-	public function __construct( $plugin_name, $version ) {
-		$this->plugin_name = $plugin_name;
-		$this->settings    = new Spid_Wordpress_Settings( $plugin_name );
-		$this->version     = $version;
+	public function __construct() {
+		$this->settings    = new Spid_Wordpress_Settings();
 	}
 
+	// TODO: uncomment if we need these
 	/**
 	 * Register the stylesheets for the admin area.
 	 *
 	 * @since    1.0.0
-	 */
+	 *
 	public function enqueue_styles() {
 
 		/**
@@ -83,9 +61,9 @@ class Spid_Wordpress_Admin {
 		 * The Spid_Wordpress_Loader will then create the relationship
 		 * between the defined hooks and the functions defined in this
 		 * class.
-		 */
+		 *
 
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/spid-wordpress-admin.css', array(), $this->version, 'all' );
+		wp_enqueue_style( Spid_Wordpress::PLUGIN_NAME, plugin_dir_url( __FILE__ ) . 'css/spid-wordpress-admin.css', array(), Spid_Wordpress::VERSION, 'all' );
 
 	}
 
@@ -93,7 +71,7 @@ class Spid_Wordpress_Admin {
 	 * Register the JavaScript for the admin area.
 	 *
 	 * @since    1.0.0
-	 */
+	 *
 	public function enqueue_scripts() {
 
 		/**
@@ -106,11 +84,11 @@ class Spid_Wordpress_Admin {
 		 * The Spid_Wordpress_Loader will then create the relationship
 		 * between the defined hooks and the functions defined in this
 		 * class.
-		 */
+		 *
 
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/spid-wordpress-admin.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script( Spid_Wordpress::PLUGIN_NAME, plugin_dir_url( __FILE__ ) . 'js/spid-wordpress-admin.js', array( 'jquery' ), Spid_Wordpress::VERSION, false );
 
-	}
+	}*/
 
 	/**
 	 * Brings into existence a magnificent settings page.
@@ -118,7 +96,7 @@ class Spid_Wordpress_Admin {
 	 * @since    1.0.0
 	 */
 	public function add_settings_page() {
-		$this->options_page_hook_suffix = add_options_page( 'SPID', 'SPID', 'manage_options', $this->plugin_name, array(
+		$this->options_page_hook_suffix = add_options_page( 'SPID', 'SPID', 'manage_options', Spid_Wordpress::PLUGIN_NAME, array(
 			$this,
 			'display_settings_page'
 		) );
@@ -140,7 +118,7 @@ class Spid_Wordpress_Admin {
 			array( $this, 'settings_general_callback' ),
 
 			// The menu page on which to display this section. Should match $menu_slug from Function Reference/add theme page
-			$this->plugin_name
+			Spid_Wordpress::PLUGIN_NAME
 		);
 
 		add_settings_field(
@@ -158,7 +136,7 @@ class Spid_Wordpress_Admin {
 
 			// The menu page on which to display this field.
 			// Should match $menu_slug from add_theme_page() or from do_settings_sections().
-			$this->plugin_name,
+			Spid_Wordpress::PLUGIN_NAME,
 
 			// The section of the settings page in which to show the box
 			// (default or a section you added with add_settings_section(),
@@ -189,7 +167,7 @@ class Spid_Wordpress_Admin {
 
 			// The menu page on which to display this field.
 			// Should match $menu_slug from add_theme_page() or from do_settings_sections().
-			$this->plugin_name,
+			Spid_Wordpress::PLUGIN_NAME,
 
 			// The section of the settings page in which to show the box
 			// (default or a section you added with add_settings_section(),
@@ -205,7 +183,7 @@ class Spid_Wordpress_Admin {
 			)
 		);
 
-		register_setting( $this->plugin_name, $this->settings->get_group_id(), array(
+		register_setting( Spid_Wordpress::PLUGIN_NAME, $this->settings->get_group_id(), array(
 			$this,
 			'settings_general_sanitize'
 		) );
