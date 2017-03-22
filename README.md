@@ -6,11 +6,11 @@ Connette Wordpress e SPID, in qualche modo. Per ora non connette nulla, a dire i
 ## TODO
 - [X] Scegliere una licenza consona (GPLv3+, MIT, o Apache 2.0?)
 - [ ] Capire come funziona SPID
-- [ ] Capire come si scrive un plugin Wordpress
+- [X] Capire come si scrive un plugin Wordpress
 - [X] Utilizzare la libreria [SimpleSpidphp](https://github.com/dev4pa/simplespidphp)
     - [ ] Utilizzare `require_once plugin_dir_path( dirname( __FILE__ ) ) . 'simplespidphp/...';` dove sarà necessario
-- [ ] Trarre ispirazione da [SPID-Drupal](https://github.com/dev4pa/spid-drupal)
-- [ ] Scrivere il codice.
+- [X] Trarre ispirazione da [SPID-Drupal](https://github.com/dev4pa/spid-drupal)
+- [X] Scrivere il codice.
     - [X] scrivere e cancellare molti var_dump()
 
 ## Riferimenti interessanti
