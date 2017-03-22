@@ -12,6 +12,7 @@ Connette Wordpress e SPID, in qualche modo. Per ora non connette nulla, a dire i
 - [X] Trarre ispirazione da [SPID-Drupal](https://github.com/dev4pa/spid-drupal)
 - [X] Scrivere il codice.
     - [X] scrivere e cancellare molti var_dump()
+- [ ] contattare gente da contattare
 
 ## Riferimenti interessanti
 * https://codex.wordpress.org/Function_Reference/wp_insert_user
