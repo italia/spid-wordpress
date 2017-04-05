@@ -3,4 +3,4 @@
 	url = https://github.com/dev4pa/simplespidphp
 [submodule "public/spid-button"]
 	path = public/spid-button
-	url = git@github.com:lvps/spid-button.git
+	url = https://github.com/lvps/spid-button.git
