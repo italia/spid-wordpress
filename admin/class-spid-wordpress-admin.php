@@ -48,7 +48,8 @@ class Spid_Wordpress_Admin {
 	 * Register the stylesheets for the admin area.
 	 *
 	 * @since    1.0.0
-	 *
+	 * @deprecated
+	 */
 	public function enqueue_styles() {
 
 		/**
@@ -61,17 +62,17 @@ class Spid_Wordpress_Admin {
 		 * The Spid_Wordpress_Loader will then create the relationship
 		 * between the defined hooks and the functions defined in this
 		 * class.
-		 *
+		 */
 
-		wp_enqueue_style( Spid_Wordpress::PLUGIN_NAME, plugin_dir_url( __FILE__ ) . 'css/spid-wordpress-admin.css', array(), Spid_Wordpress::VERSION, 'all' );
-
+		//wp_enqueue_style( Spid_Wordpress::PLUGIN_NAME, plugin_dir_url( __FILE__ ) . 'css/spid-wordpress-admin.css', array(), Spid_Wordpress::VERSION, 'all' );
 	}
 
 	/**
 	 * Register the JavaScript for the admin area.
 	 *
 	 * @since    1.0.0
-	 *
+	 * @deprecated
+	 */
 	public function enqueue_scripts() {
 
 		/**
@@ -84,11 +85,10 @@ class Spid_Wordpress_Admin {
 		 * The Spid_Wordpress_Loader will then create the relationship
 		 * between the defined hooks and the functions defined in this
 		 * class.
-		 *
+		 */
 
-		wp_enqueue_script( Spid_Wordpress::PLUGIN_NAME, plugin_dir_url( __FILE__ ) . 'js/spid-wordpress-admin.js', array( 'jquery' ), Spid_Wordpress::VERSION, false );
-
-	}*/
+		//wp_enqueue_script( Spid_Wordpress::PLUGIN_NAME, plugin_dir_url( __FILE__ ) . 'js/spid-wordpress-admin.js', array( 'jquery' ), Spid_Wordpress::VERSION, false );
+	}
 
 	/**
 	 * Brings into existence a magnificent settings page.
