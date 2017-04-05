@@ -3,6 +3,9 @@ Connette Wordpress e SPID, in qualche modo. Per ora non connette nulla, a dire i
 
 **Work in progress**
 
+## Hacking
+    git clone --recursive git@github.com:lvps/spid-wordpress.git
+
 ## TODO
 - [X] Scegliere una licenza consona (GPLv3+, MIT, o Apache 2.0?)
 - [ ] Capire come funziona SPID
@@ -12,6 +15,9 @@ Connette Wordpress e SPID, in qualche modo. Per ora non connette nulla, a dire i
 - [X] Trarre ispirazione da [SPID-Drupal](https://github.com/dev4pa/spid-drupal)
 - [X] Scrivere il codice.
     - [X] scrivere e cancellare molti var_dump()
+    - [X] Capire come funzionano i `submodule`s
+    - [X] Capire se non siamo denunciati se usiamo il materiale di Poste SIELTE & compagnia cantante
+        - [X] Aggiunto un submodule con il materiale legale recuperato da Commons se che non va bene andate a denunciare Wikimedia Foundation e non noi
 - [X] contattare gente da contattare
 
 ## Riferimenti interessanti
