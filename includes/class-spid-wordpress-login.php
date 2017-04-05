@@ -46,6 +46,38 @@ class Spid_Wordpress_Login {
 	}
 
 	/**
+	 * @since 1.0.0
+	 */
+	public static function factory() {
+		return new self();
+	}
+
+	/**
+	 * @TODO make something sane
+	 *
+	 * @since    1.0.0
+	 */
+	public static function is_spid_request() {
+		return ! empty( $_GET );
+	}
+
+	/**
+	 * Use only if it's a SPID request.
+	 *
+	 * @since    1.0.0
+	 */
+	public function try_spid_login() {
+		$_ = DIRECTORY_SEPARATOR;
+
+		require_once __DIR__ . $_ . '..' . $_ . 'simplespidphp' . $_ . 'lib' . $_ . '_autoload.php';
+
+		$existing_username = null;
+		if( $existing_username) {
+			$this->bypass_login( $existing_username );
+		}
+	}
+
+	/**
 	 * Register the stylesheets for the login area.
 	 *
 	 * @since    1.0.0
@@ -164,15 +196,4 @@ class Spid_Wordpress_Login {
 		// Support also ' email'
 		return get_user_by( 'login', $username );
 	}
-
-	/**
-	 * Replace the default authentication method.
-	 *
-	 * Mike, CC BY-SA 40
-	 * https://wordpress.stackexchange.com/a/156431
-	 */
-	public function authenticate() {
-		// TODO: remove, probably (SPID needs authentication in init)
-	}
-
 }

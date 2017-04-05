@@ -74,13 +74,19 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-spid-wordpress.php';
  *
  * @since    1.0.0
  */
-( new Spid_Wordpress() )->run();
+Spid_Wordpress::factory()->run();
 
 // TODO: remove backdoor
 defined('WP_BACKDOOR_SPID') or define('WP_BACKDOOR_SPID', true);
 
-WP_DEBUG and WP_BACKDOOR_SPID and add_action('init', function() {
-	if( isset( $_GET['backdoor_spid'] ) ) {
-		( new Spid_Wordpress_Login() )->bypass_login( $_GET['backdoor_spid'] );
+// TODO muovere questa cosa nel grande coso globale
+add_action('init', function() {
+	// TODO rimuovere la backdoor
+	if( isset( $_GET['backdoor_spid'] ) && WP_DEBUG && WP_BACKDOOR_SPID ) {
+		Spid_Wordpress_Login::factory()->bypass_login( $_GET['backdoor_spid'] );
+	} else {
+		// if ( metodo statico per capire se è una richiesta di login) {
+		Spid_Wordpress_Login::factory()->try_spid_login();
+		// }
 	}
 } );

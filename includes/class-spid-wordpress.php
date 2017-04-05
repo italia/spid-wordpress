@@ -83,7 +83,13 @@ class Spid_Wordpress {
 		$this->define_public_hooks();
 		$this->define_user_settings_hooks();
 		$this->define_login_page_hooks();
+	}
 
+	/**
+	 * @since    1.0.0
+	 */
+	static function factory() {
+		return new self();
 	}
 
 	/**
@@ -220,7 +226,6 @@ class Spid_Wordpress {
 		$this->loader->add_action( 'login_form', $plugin_login, 'login_form' );
 		$this->loader->add_action( 'login_errors', $plugin_login, 'login_errors' );
 		$this->loader->add_action( 'login_message', $plugin_login, 'login_message' );
-		$this->loader->add_action( 'authenticate', $plugin_login, 'authenticate' );
 
 		// Apparently never called
 		$this->loader->add_action( 'login_form_postpass', $plugin_login, 'login_successful' );
