@@ -61,15 +61,24 @@ class Spid_Wordpress_Login {
 		return ! empty( $_GET );
 	}
 
+	private function require_spid_library() {
+		$_ = DIRECTORY_SEPARATOR;
+
+		/*
+		 * __DIR__ => /foo/bar/wordpress/plugin/spid-wordpress/includes
+		 * dirname => /foo/bar/wordpress/plugin/spid-wordpress
+		 *
+		 */
+		require_once dirname(__DIR__) . $_ . 'autoload.php';
+	}
+
 	/**
 	 * Use only if it's a SPID request.
 	 *
 	 * @since    1.0.0
 	 */
 	public function try_spid_login() {
-		$_ = DIRECTORY_SEPARATOR;
-
-		require_once __DIR__ . $_ . '..' . $_ . 'simplespidphp' . $_ . 'lib' . $_ . '_autoload.php';
+		$this->require_spid_library();
 
 		$existing_username = null;
 		if( $existing_username) {

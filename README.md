@@ -4,7 +4,11 @@ Connette Wordpress e SPID, in qualche modo. Per ora non connette nulla, a dire i
 **Work in progress**
 
 ## Hacking
-    git clone --recursive git@github.com:lvps/spid-wordpress.git
+
+    git clone --recursive git@github.com:ItalianLinuxSociety/spid-wordpress.git
+
+O almeno dare `git submodule update` dopo il clone, per scaricare anche i submodule.
+
 
 ## TODO
 - [X] Scegliere una licenza consona (GPLv3+, MIT, o Apache 2.0?)
@@ -12,6 +16,7 @@ Connette Wordpress e SPID, in qualche modo. Per ora non connette nulla, a dire i
 - [X] Capire come si scrive un plugin Wordpress
 - [X] Utilizzare la libreria [SimpleSpidphp](https://github.com/dev4pa/simplespidphp)
     - [ ] Utilizzare `require_once plugin_dir_path( dirname( __FILE__ ) ) . 'simplespidphp/...';` dove sarà necessario
+    - [ ] Capire come includere correttamente SimpleSpidphp
 - [X] Trarre ispirazione da [SPID-Drupal](https://github.com/dev4pa/spid-drupal)
 - [X] Scrivere il codice.
     - [X] scrivere e cancellare molti var_dump()
