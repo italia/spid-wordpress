@@ -62,14 +62,12 @@ class Spid_Wordpress_Login {
 	}
 
 	private function require_spid_library() {
-		$_ = DIRECTORY_SEPARATOR;
-
 		/*
 		 * __DIR__ => /foo/bar/wordpress/plugin/spid-wordpress/includes
 		 * dirname => /foo/bar/wordpress/plugin/spid-wordpress
 		 *
 		 */
-		require_once dirname(__DIR__) . $_ . 'autoload.php';
+		require_once dirname(__DIR__) . DIRECTORY_SEPARATOR  . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 	}
 
 	/**

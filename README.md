@@ -9,14 +9,22 @@ Connette Wordpress e SPID, in qualche modo. Per ora non connette nulla, a dire i
 
 O almeno dare `git submodule update` dopo il clone, per scaricare anche i submodule.
 
+In realtà i submodule non servono più a nulla e forse li toglieremo, però bisogna fare `composer install`
+che scarica l'intero repo di simplespidphp e viene bloccato a metà dal rate limiting delle API di Github
+e bisogna andare a creare un token e serve l'account su Github e direi che è un metodo che non scala,
+ma proprio per nulla.
+
+Diciamo che è tutto altamente **Work in progress**, in caso non fosse chiaro.
 
 ## TODO
 - [X] Scegliere una licenza consona (GPLv3+, MIT, o Apache 2.0?)
 - [ ] Capire come funziona SPID
 - [X] Capire come si scrive un plugin Wordpress
 - [X] Utilizzare la libreria [SimpleSpidphp](https://github.com/dev4pa/simplespidphp)
-    - [ ] Utilizzare `require_once plugin_dir_path( dirname( __FILE__ ) ) . 'simplespidphp/...';` dove sarà necessario
+    - [ ] ~~Utilizzare `require_once plugin_dir_path( dirname( __FILE__ ) ) . 'simplespidphp/...';` dove sarà necessario~~
     - [ ] Capire come includere correttamente SimpleSpidphp
+        - [ ] Capire come includere versioni che non siano la v2.0, se servisse (simplespidphp-1.0 non è una versione valida, per Composer)
+        - [ ] Capire perché tra le dipendenze ci sia uno specifico commit, o forse in generale l'ultimo commit sul master, di saml2, invece che una versione stabile
 - [X] Trarre ispirazione da [SPID-Drupal](https://github.com/dev4pa/spid-drupal)
 - [X] Scrivere il codice.
     - [X] scrivere e cancellare molti var_dump()
