@@ -75,13 +75,38 @@ class Spid_Wordpress_Login {
 		$saml_auth_as = new SimpleSAML_Auth_Simple('default-sp');
 		//$saml_auth_attributes = $saml_auth_as->getAttributes();
 
+		DEBUG and var_dump($sams_auth_as);
+
 		if($saml_auth_as->isAuthenticated()) {
-			// TODO: aggiungere QUELLA PARTE
-			//$existing_username = null;
+			$existing_username = self::get_spid_authname($saml_auth_as);
 			//if($existing_username) {
 			$this->bypass_login( $existing_username );
 			//}
 		}
+	}
+
+	/**
+	 * @param $auth SimpleSAML_Auth_Simple
+	 * @return string
+	 */
+	private static function get_spid_authname($auth) {
+		$simplesaml_attributes = $auth->getAttributes();
+		$authname = '';
+		// Check if valid local session exists..
+		if( isset($simplesaml_attributes) ) {
+			DEBUG and printf('_spid_auth_get_authname: Valid local session exist');
+			if (isset($simplesaml_attributes['fiscalNumber']) ) {
+				$authname = $simplesaml_attributes['fiscalNumber'][0];
+			} else if (isset($simplesaml_attributes['ivaCode'])) {
+				$authname = $simplesaml_attributes['ivaCode'][0];
+			} else {
+				throw new Exception( sprintf("Error in %s: no valid unique id attribute set", __FILE__ ) );
+			}
+		} else {
+			// TODO: Capire se è intenzionale qui evitare di scagliare eccezioni ecco
+		}
+		// TODO: Capire perchè @madbob qui ha messo 6
+		return substr($authname, 6);
 	}
 
 	/**
