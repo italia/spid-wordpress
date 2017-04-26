@@ -61,26 +61,26 @@ class Spid_Wordpress_Login {
 		return ! empty( $_GET );
 	}
 
-	private function require_spid_library() {
-		/*
-		 * __DIR__ => /foo/bar/wordpress/plugin/spid-wordpress/includes
-		 * dirname => /foo/bar/wordpress/plugin/spid-wordpress
-		 *
-		 */
-		require_once dirname(__DIR__) . DIRECTORY_SEPARATOR  . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
-	}
-
 	/**
 	 * Use only if it's a SPID request.
 	 *
 	 * @since    1.0.0
 	 */
 	public function try_spid_login() {
-		$this->require_spid_library();
+		include plugin_dir_path(__FILE__) . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 
-		$existing_username = null;
-		if( $existing_username) {
+		$saml_auth_config = SimpleSAML_Configuration::getInstance();
+		//$saml_auth_version = $saml_auth_config->getVersion();
+
+		$saml_auth_as = new SimpleSAML_Auth_Simple('default-sp');
+		//$saml_auth_attributes = $saml_auth_as->getAttributes();
+
+		if($saml_auth_as->isAuthenticated()) {
+			// TODO: aggiungere QUELLA PARTE
+			//$existing_username = null;
+			//if($existing_username) {
 			$this->bypass_login( $existing_username );
+			//}
 		}
 	}
 
