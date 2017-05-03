@@ -70,13 +70,16 @@ class Spid_Wordpress_Login {
 		include plugin_dir_path( dirname( __FILE__ ) ) . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 
 		SimpleSAML_Configuration::setConfigDir(dirname(__FILE__), 'spid');
+		SimpleSAML_Configuration::loadFromArray(array(), '[ARRAY A MUZZO]', 'spid');
 		$saml_auth_config = SimpleSAML_Configuration::getInstance('spid');
 		//$saml_auth_version = $saml_auth_config->getVersion();
+		// what now? what do I use this config for?
 
 		$saml_auth_as = new SimpleSAML_Auth_Simple('default-sp');
 		//$saml_auth_attributes = $saml_auth_as->getAttributes();
 
 		if($saml_auth_as->isAuthenticated()) {
+			// TODO: see https://github.com/dev4pa/spid-drupal/blob/master/spid_auth.module#L210 for some switchy switches switching among POST parameters and setting IDP thingamjig
 			$existing_username = self::get_spid_authname($saml_auth_as);
 			//if($existing_username) {
 			$this->bypass_login( $existing_username );
