@@ -67,7 +67,7 @@ class Spid_Wordpress_Login {
 	 * @since    1.0.0
 	 */
 	public function try_spid_login() {
-		include plugin_dir_path(__FILE__) . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
+		include plugin_dir_path( dirname( __FILE__ ) ) . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 
 		$saml_auth_config = SimpleSAML_Configuration::getInstance();
 		//$saml_auth_version = $saml_auth_config->getVersion();
