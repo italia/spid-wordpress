@@ -85,14 +85,17 @@ class Spid_Wordpress_Login {
 	}
 
 	/**
-	 * @param $auth SimpleSAML_Auth_Simple
-	 * @return string
+	 * @param $auth SimpleSAML_Auth_Simple the auth thingamajig.
+	 *
+	 * @return string authname. Substring of it, for unknown reasons.
+	 * @throws Exception if no valid unique ID (codice fiscale et al) can be found in SPID response
 	 */
 	private static function get_spid_authname($auth) {
 		$simplesaml_attributes = $auth->getAttributes();
 		$authname = '';
 		// Check if valid local session exists..
 		if( isset($simplesaml_attributes) ) {
+			// TODO: remove this?
 			DEBUG and printf('_spid_auth_get_authname: Valid local session exist');
 			if (isset($simplesaml_attributes['fiscalNumber']) ) {
 				$authname = $simplesaml_attributes['fiscalNumber'][0];
