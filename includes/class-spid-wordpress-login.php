@@ -107,7 +107,7 @@ class Spid_Wordpress_Login {
 		} else {
 			// TODO: Capire se è intenzionale qui evitare di scagliare eccezioni ecco
 		}
-		// TODO: Capire perchè @madbob qui ha messo 6
+		// TODO: Capire cos'hanno fatto di male i primi 6 caratteri
 		return substr($authname, 6);
 	}
 
