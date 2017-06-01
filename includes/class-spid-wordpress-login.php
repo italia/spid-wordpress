@@ -251,6 +251,7 @@ class Spid_Wordpress_Login {
 	 */
 	static function isShibbolethRequest() {
 		foreach(self::$SHIB_HEADERS as $header) {
+			// Why isn't enough `! empty()` alone? Boh.
 			if( array_key_exists($header, $_SERVER) && ! empty( $_SERVER[$header] ) ) {
 				return true;
 			}
