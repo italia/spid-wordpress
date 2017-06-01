@@ -36,6 +36,15 @@ class Spid_Wordpress_Login {
 	private $user_meta;
 
 	/**
+	 * Headers of a shibboleth request (don't know why we are inserting this if it is a SPID integration?)
+	 *
+	 * Are they the same inconsistence thing of they co-exist? I think the first.
+	 *
+	 * @see https://gist.github.com/umbros/0c0293b9fa541cd34be33f099611e79e
+	 */
+	private static $SHIB_HEADERS = array('Shib-Session-ID', 'Shib_Session_ID', 'HTTP_SHIB_IDENTITY_PROVIDER');
+
+	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
@@ -58,7 +67,7 @@ class Spid_Wordpress_Login {
 	 * @since    1.0.0
 	 */
 	public static function is_spid_request() {
-		return ! empty( $_GET );
+		return self::isShibbolethRequest(); // Nonsense? No idea.
 	}
 
 	/**
@@ -71,13 +80,16 @@ class Spid_Wordpress_Login {
 
 		$config_path = dirname( dirname(__FILE__) ) . DIRECTORY_SEPARATOR  . 'config';
 		SimpleSAML_Configuration::setConfigDir($config_path, 'spid');
+		SimpleSAML_Configuration::loadFromArray(array(), '[ARRAY A MUZZO]', 'spid');
 		$saml_auth_config = SimpleSAML_Configuration::getInstance('spid');
 		//$saml_auth_version = $saml_auth_config->getVersion();
+		// what now? what do I use this config for?
 
 		$saml_auth_as = new SimpleSAML_Auth_Simple('default-sp');
 		//$saml_auth_attributes = $saml_auth_as->getAttributes();
 
 		if($saml_auth_as->isAuthenticated()) {
+			// TODO: see https://github.com/dev4pa/spid-drupal/blob/master/spid_auth.module#L210 for some switchy switches switching among POST parameters and setting IDP thingamjig
 			$existing_username = self::get_spid_authname($saml_auth_as);
 			//if($existing_username) {
 			$this->bypass_login( $existing_username );
@@ -230,5 +242,19 @@ class Spid_Wordpress_Login {
 	static function short_circuit_auth( $user, $username, $password ) {
 		// Support also ' email'
 		return get_user_by( 'login', $username );
+	}
+
+	/**
+	 * Check if the client is a Shibboleth request (don't know why we are inserting this if it is a SPID integration?)
+	 *
+	 * @see https://gist.github.com/umbros/0c0293b9fa541cd34be33f099611e79e
+	 */
+	static function isShibbolethRequest() {
+		foreach(self::$SHIB_HEADERS as $header) {
+			if( array_key_exists($header, $_SERVER) && ! empty( $_SERVER[$header] ) ) {
+				return true;
+			}
+       	         }
+		return false;
 	}
 }
