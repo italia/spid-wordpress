@@ -254,7 +254,7 @@ class Spid_Wordpress_Login {
 			if( array_key_exists($header, $_SERVER) && ! empty( $_SERVER[$header] ) ) {
 				return true;
 			}
-       	         }
+		}
 		return false;
 	}
 }
