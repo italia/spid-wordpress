@@ -32,6 +32,10 @@ Diciamo che è tutto altamente **Work in progress**, in caso non fosse chiaro.
     - [X] Capire se non siamo denunciati se usiamo il materiale di Poste SIELTE & compagnia cantante
         - [X] Aggiunto un submodule con il materiale legale recuperato da Commons se che non va bene andate a denunciare Wikimedia Foundation e non noi
 - [X] contattare gente da contattare
+- [ ] Loggare gli "scontrini" SPID (risposte XML o qualcosa del genere di autenticazione)
+   - [ ] Cacciare tutto in una tabella del db, per capire, tracciare, memorizzare, "certificare" che "Tizio si è loggato con SPID col provider X"
+       - [ ] Rendersi conto che ciò andrebbe associato alle operazioni compiute dopo, ma è complicato...
+   - [ ] Controllare che ciò non vada contro le leggi contro il tracciamento (e.g. cookie law, non si applica strettamente ai cookie)
 
 ## Riferimenti interessanti
 * https://codex.wordpress.org/Function_Reference/wp_insert_user
