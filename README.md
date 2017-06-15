@@ -32,6 +32,7 @@ Diciamo che è tutto altamente **Work in progress**, in caso non fosse chiaro.
     - [X] Capire se non siamo denunciati se usiamo il materiale di Poste SIELTE & compagnia cantante
         - [X] Aggiunto un submodule con il materiale legale recuperato da Commons se che non va bene andate a denunciare Wikimedia Foundation e non noi
 - [X] contattare gente da contattare
+- [X] procurarsi esempi di risposta XML
 - [ ] Loggare gli "scontrini" SPID (risposte XML o qualcosa del genere di autenticazione)
    - [ ] Cacciare tutto in una tabella del db, per capire, tracciare, memorizzare, "certificare" che "Tizio si è loggato con SPID col provider X"
        - [ ] Rendersi conto che ciò andrebbe associato alle operazioni compiute dopo, ma è complicato...
@@ -62,11 +63,30 @@ Da https://wordpress.org/plugins/openid/:
 ````
 
 ## Sicurezza
+
+### Limitazione all'accesso
 Dato che qualunque sistemista che lavora per TIM, Poste, Info Cert, Sielte, ecc.,
 ha la potenziale possibilità di loggarsi nel mio account universitario o in
 qualsiasi altro servio con supporto a SPID, questo plugin per WordPress comprenderà
 una pagina di impostazioni per permettere al singolo utente di disabilitare l'accesso
 SPID in todo, o da certi provider.
+
+### Tracciamento operazioni
+È utile che venga memorizzata data e ora di ogni login con SPID, e anche la data e ora
+di fine della sessione (= logout, o login con altro metodo, o altro login con SPID),
+in modo da poter "dimostrare" che qualcuno si è loggato con un account e ha fatto cosa,
+per casi di account rubati, sistemisti maligni che si divertono a usare account di altri,
+etc...
+
+Bisognerebbe tracciare le operazioni compiute, ma poi il plugin diventa abnorme e
+complicatissimo: allora si memorizza data e ora, e sarà cura del resto del sito memorizzare
+data e ora delle operazioni, in modo da poter verificare o smentire l'appartenenza di
+queste operazioni all'intervallo di una sessione.
+
+Ciò implica che se un utente fa qualsiasi altra operazione di login/logout dopo il
+login con SPID, la sessione autenticata con SPID va terminata con la forza, altrimenti
+uno fa il login con SPID e poi con username e password e fa cose da lì e risultano fatte
+con SPID, che non sarebbe vero.
 
 ## Licenza
 GPLv3 o successive.
