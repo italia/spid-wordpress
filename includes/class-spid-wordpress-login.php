@@ -76,7 +76,7 @@ class Spid_Wordpress_Login {
 	 * @since    1.0.0
 	 */
 	public function try_spid_login() {
-		include plugin_dir_path( dirname( __FILE__ ) ) . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
+		require WP_SIMPLESAML_DIR . DIRECTORY_SEPARATOR . WP_SIMPLESAML_AUTOLOADER_FILE;
 
 		$config_path = dirname( dirname(__FILE__) ) . DIRECTORY_SEPARATOR  . 'config';
 		SimpleSAML_Configuration::setConfigDir($config_path, 'spid');
@@ -85,7 +85,7 @@ class Spid_Wordpress_Login {
 		//$saml_auth_version = $saml_auth_config->getVersion();
 		// what now? what do I use this config for?
 
-		$saml_auth_as = new SimpleSAML_Auth_Simple('default-sp');
+		$saml_auth_as = new SimpleSAML_Auth_Simple( WP_SIMPLESAML_AUTHSOURCE );
 		//$saml_auth_attributes = $saml_auth_as->getAttributes();
 
 		if($saml_auth_as->isAuthenticated()) {

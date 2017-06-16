@@ -38,6 +38,26 @@
 // If this file is called directly, abort.
 defined('WPINC') or die;
 
+// PHPSimpleSaml directory
+defined(  'WP_SIMPLESAML_DIR')
+or define('WP_SIMPLESAML_DIR', plugin_dir_path( __FILE__ ) . 'vendor');
+
+// PHPSimpleSaml autoloader file
+defined(  'WP_SIMPLESAML_AUTOLOADER_FILE')
+or define('WP_SIMPLESAML_AUTOLOADER_FILE', 'autoload.php');
+
+// PHPSimpleSaml auth source
+defined(  'WP_SIMPLESAML_AUTHSOURCE')
+or define('WP_SIMPLESAML_AUTHSOURCE', 'default-sp');
+
+// PHPSimpleSaml attribute mapping
+defined(  'WP_SIMPLESAML_ATTR_MAPPING')
+or define('WP_SIMPLESAML_ATTR_MAPPING', '?');
+
+// TODO: remove backdoor
+defined(  'WP_BACKDOOR_SPID')
+or define('WP_BACKDOOR_SPID', WP_DEBUG);
+
 /**
  * The code that runs during plugin activation.
  * This action is documented in includes/class-spid-wordpress-activator.php
@@ -76,13 +96,10 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-spid-wordpress.php';
  */
 Spid_Wordpress::factory()->run();
 
-// TODO: remove backdoor
-defined('WP_BACKDOOR_SPID') or define('WP_BACKDOOR_SPID', true);
-
 // TODO muovere questa cosa nel grande coso globale
 add_action('init', function() {
 	// TODO rimuovere la backdoor
-	if( isset( $_GET['backdoor_spid'] ) && WP_DEBUG && WP_BACKDOOR_SPID ) {
+	if( isset( $_GET['backdoor_spid'] ) && WP_BACKDOOR_SPID ) {
 		Spid_Wordpress_Login::factory()->bypass_login( $_GET['backdoor_spid'] );
 	} else {
 		// if ( metodo statico per capire se è una richiesta di login) {
