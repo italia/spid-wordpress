@@ -34,6 +34,8 @@ Diciamo che è tutto altamente **Work in progress**, in caso non fosse chiaro.
     - [X] Capire se non siamo denunciati se usiamo il materiale di Poste SIELTE & compagnia cantante
         - [X] Aggiunto un submodule con il materiale legale recuperato da Commons se che non va bene andate a denunciare Wikimedia Foundation e non noi
 - [X] contattare gente da contattare
+- [ ] Finire di aggiungere immagini degli IDP
+    - [ ] Capire come gestire il fatto che in futuro possano esserci nuovi IDP (= monitorare la situazione e aggiungerli a mano?)
 
 ### Test, debugging, prove
 - [ ] Attendere gli ambienti di test
@@ -57,6 +59,7 @@ Diciamo che è tutto altamente **Work in progress**, in caso non fosse chiaro.
 * https://wordpress.stackexchange.com/questions/53503/can-i-programmatically-login-a-user-without-a-password/128445#128445
 * https://gist.github.com/raewrites/233ad31432cb112f8bef
 * https://plugins.svn.wordpress.org/openid/trunk/login.php
+* https://github.com/italia/spid-graphics
 
 Da https://wordpress.org/plugins/openid/:
 ```
