@@ -1,5 +1,5 @@
-# SPID-Wordpress
-Connette Wordpress e SPID, in qualche modo. Per ora non connette nulla, a dire il vero.
+# SPID-WordPress
+Connette WordPress e SPID, in qualche modo. Per ora non connette nulla, a dire il vero.
 
 **Work in progress**
 
@@ -21,7 +21,7 @@ Diciamo che è tutto altamente **Work in progress**, in caso non fosse chiaro.
 ### Parti base
 - [X] Scegliere una licenza consona (GPLv3+, MIT, o Apache 2.0?)
 - [ ] Capire come funziona SPID
-- [X] Capire come si scrive un plugin Wordpress
+- [X] Capire come si scrive un plugin WordPress
 - [X] Utilizzare la libreria [SimpleSpidphp](https://github.com/dev4pa/simplespidphp)
     - [ ] ~~Utilizzare `require_once plugin_dir_path( dirname( __FILE__ ) ) . 'simplespidphp/...';` dove sarà necessario~~
     - [ ] Capire come includere correttamente SimpleSpidphp
