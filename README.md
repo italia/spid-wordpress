@@ -16,6 +16,19 @@ ma proprio per nulla.
 
 Diciamo che è tutto altamente **Work in progress**, in caso non fosse chiaro.
 
+## Installazione
+Questa è una bozza. **Non installare questo plugin**: non può funzionare. È un **work in progress**.
+
+Posiziona il plugin nella cartella `wp-content/plugins`.
+
+Posiziona SimpleSamlPHP da qualche parte (lanciando il composer si installa il `vendor`, all'interno del plugin).
+
+Su evenienza, dichiarare queste costanti in `wp-config.php`:
+
+* `WP_SIMPLESAML_DIR`: Cartella dove andrai ad installare SimpleSamlPHP (default: `vendor`, all'interno del plugin)
+* `WP_SIMPLESAML_AUTHSOURCE`: Nome del tuo `auth source` (default: `default-sp`)
+* `WP_SIMPLESAML_ATTR_MAPPING`: Nome del tuo `attribute mapping` (cos'è?)
+
 ## TODO
 
 ### Parti base
