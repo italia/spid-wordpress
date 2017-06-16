@@ -1,13 +1,15 @@
 {
   "repositories": [
     {
-      "type": "vcs",
-      "url": "https://github.com/dev4pa/simplespidphp"
+      "type": "git",
+      "url": "https://github.com/italia/spid-simplesamlphp.git"
     }
   ],
+  "name": "italia/spid-wordpress-plugin",
+  "description": "Wordpress Plugin for SPID",
   "minimum-stability": "dev",
   "prefer-stable": true,
   "require": {
-    "dev4pa/simplespidphp": "v2.0"
+    "italia/spid-simplesamlphp": "v1.14.11"
   }
 }
