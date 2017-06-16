@@ -92,6 +92,19 @@ Da https://wordpress.org/plugins/openid/:
 
 ## Sicurezza
 
+### Configurazione di SimpleSPIDphp
+Bisogna utilizzare [config-spid.php](https://github.com/italia/spid-simplesamlphp/tree/master/config-templates/config-spid.php),
+sostituendolo a config.php. Il contenuto del file però dev'essere diverso per ogni
+installazione (contiene password, sale, etc...). Dev'essere possibile impostare
+un percorso in cui la libreria è stata installata a livello di sistema. Al momento
+ciò è fatto tramite una variabile d'ambiente, mentre nel plugin per Drupal con
+un'opzione per l'amministratore: valutare se fare altrettanto.
+
+Se il percorso non è impostato, dev'essere utilizzata la libreria inclusa,
+tuttavia bisogna generare o consentire di impostare opportunamente questi
+dati, possibilmente senza rimandare alla configurazione manuale della
+libreria. In sintesi: mettere opzioni per l'admin.
+
 ### Limitazione all'accesso
 Dato che qualunque sistemista che lavora per TIM, Poste, Info Cert, Sielte, ecc.,
 ha la potenziale possibilità di loggarsi nel mio account universitario o in
