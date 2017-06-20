@@ -1,0 +1,563 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "5e48e861b18deedf5ddef39908d3ecdd",
+    "packages": [
+        {
+            "name": "dev4pa/simplespidphp",
+            "version": "v2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dev4pa/simplespidphp.git",
+                "reference": "fc2079d13a8e485db87b0c0c9e243afe8fdefd63"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dev4pa/simplespidphp/zipball/fc2079d13a8e485db87b0c0c9e243afe8fdefd63",
+                "reference": "fc2079d13a8e485db87b0c0c9e243afe8fdefd63",
+                "shasum": ""
+            },
+            "require": {
+                "ext-date": "*",
+                "ext-dom": "*",
+                "ext-hash": "*",
+                "ext-json": "*",
+                "ext-openssl": "*",
+                "ext-pcre": "*",
+                "ext-spl": "*",
+                "ext-zlib": "*",
+                "gettext/gettext": "^3.5",
+                "jaimeperez/twig-configurable-i18n": "^1.2",
+                "php": ">=5.3",
+                "robrichards/xmlseclibs": "~2.0",
+                "simplesamlphp/saml2": "dev-master#f079abe36ab4101dfda654a087f8003a9673b952 as 2.4",
+                "twig/twig": "~1.0",
+                "whitehat101/apr1-md5": "~1.0"
+            },
+            "require-dev": {
+                "ext-pdo_sqlite": "*",
+                "phpunit/phpunit": "~4.8",
+                "satooshi/php-coveralls": "^1.0"
+            },
+            "type": "project",
+            "autoload": {
+                "psr-4": {
+                    "SimpleSAML\\": "lib/SimpleSAML"
+                },
+                "files": [
+                    "lib/_autoload_modules.php"
+                ]
+            },
+            "license": [
+                "LGPL-2.1"
+            ],
+            "authors": [
+                {
+                    "name": "Andrea Manzi",
+                    "email": "manzolo@libero.it"
+                },
+                {
+                    "name": "Andreas Åkre Solberg",
+                    "email": "andreas.solberg@uninett.no"
+                },
+                {
+                    "name": "Olav Morken",
+                    "email": "olav.morken@uninett.no"
+                },
+                {
+                    "name": "Jaime Perez",
+                    "email": "jaime.perez@uninett.no"
+                }
+            ],
+            "description": "A Fork of simplesamlphp, A PHP implementation of a SAML 2.0 service provider and identity provider, also compatible with Shibboleth 1.3 and 2.0.",
+            "homepage": "https://github.com/dev4pa/simplespidphp",
+            "keywords": [
+                "idp",
+                "oauth",
+                "saml2",
+                "shibboleth",
+                "sp",
+                "ws-federation"
+            ],
+            "support": {
+                "source": "https://github.com/dev4pa/simplespidphp/tree/v2.0"
+            },
+            "time": "2017-03-14T16:49:27+00:00"
+        },
+        {
+            "name": "gettext/gettext",
+            "version": "v3.6.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/oscarotero/Gettext.git",
+                "reference": "cd3be64443551e3a693117c4bccbe53e36282456"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/oscarotero/Gettext/zipball/cd3be64443551e3a693117c4bccbe53e36282456",
+                "reference": "cd3be64443551e3a693117c4bccbe53e36282456",
+                "shasum": ""
+            },
+            "require": {
+                "gettext/languages": "2.*",
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "illuminate/view": "*",
+                "symfony/yaml": "~2",
+                "twig/extensions": "*",
+                "twig/twig": "*"
+            },
+            "suggest": {
+                "illuminate/view": "Is necessary if you want to use the Blade extractor",
+                "symfony/yaml": "Is necessary if you want to use the Yaml extractor/generator",
+                "twig/extensions": "Is necessary if you want to use the Twig extractor",
+                "twig/twig": "Is necessary if you want to use the Twig extractor"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Gettext\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Oscar Otero",
+                    "email": "oom@oscarotero.com",
+                    "homepage": "http://oscarotero.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PHP gettext manager",
+            "homepage": "https://github.com/oscarotero/Gettext",
+            "keywords": [
+                "JS",
+                "gettext",
+                "i18n",
+                "mo",
+                "po",
+                "translation"
+            ],
+            "time": "2016-08-01T18:09:57+00:00"
+        },
+        {
+            "name": "gettext/languages",
+            "version": "2.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mlocati/cldr-to-gettext-plural-rules.git",
+                "reference": "49c39e51569963cc917a924b489e7025bfb9d8c7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mlocati/cldr-to-gettext-plural-rules/zipball/49c39e51569963cc917a924b489e7025bfb9d8c7",
+                "reference": "49c39e51569963cc917a924b489e7025bfb9d8c7",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4"
+            },
+            "bin": [
+                "bin/export-plural-rules",
+                "bin/export-plural-rules.php"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Gettext\\Languages\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michele Locati",
+                    "email": "mlocati@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "gettext languages with plural rules",
+            "homepage": "https://github.com/mlocati/cldr-to-gettext-plural-rules",
+            "keywords": [
+                "cldr",
+                "i18n",
+                "internationalization",
+                "l10n",
+                "language",
+                "languages",
+                "localization",
+                "php",
+                "plural",
+                "plural rules",
+                "plurals",
+                "translate",
+                "translations",
+                "unicode"
+            ],
+            "time": "2017-03-23T17:02:28+00:00"
+        },
+        {
+            "name": "jaimeperez/twig-configurable-i18n",
+            "version": "v1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jaimeperez/twig-configurable-i18n.git",
+                "reference": "75d4926fd102c9e62219ad7f94a6136d2f2ccd93"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jaimeperez/twig-configurable-i18n/zipball/75d4926fd102c9e62219ad7f94a6136d2f2ccd93",
+                "reference": "75d4926fd102c9e62219ad7f94a6136d2f2ccd93",
+                "shasum": ""
+            },
+            "require": {
+                "twig/extensions": "^1.3"
+            },
+            "type": "project",
+            "autoload": {
+                "psr-4": {
+                    "JaimePerez\\TwigConfigurableI18n\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-2.1"
+            ],
+            "authors": [
+                {
+                    "name": "Jaime Perez",
+                    "email": "jaime.perez@uninett.no"
+                }
+            ],
+            "description": "This is an extension on top of Twig's i18n extension, allowing you to customize which functions to use for translations.",
+            "keywords": [
+                "extension",
+                "gettext",
+                "i18n",
+                "internationalization",
+                "translation",
+                "twig"
+            ],
+            "time": "2016-10-03T12:34:15+00:00"
+        },
+        {
+            "name": "psr/log",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/log.git",
+                "reference": "4ebe3a8bf773a19edfe0a84b6585ba3d401b724d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/log/zipball/4ebe3a8bf773a19edfe0a84b6585ba3d401b724d",
+                "reference": "4ebe3a8bf773a19edfe0a84b6585ba3d401b724d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Log\\": "Psr/Log/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for logging libraries",
+            "homepage": "https://github.com/php-fig/log",
+            "keywords": [
+                "log",
+                "psr",
+                "psr-3"
+            ],
+            "time": "2016-10-10T12:19:37+00:00"
+        },
+        {
+            "name": "robrichards/xmlseclibs",
+            "version": "2.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/robrichards/xmlseclibs.git",
+                "reference": "53bb1e9cae490a8f93af41bd9df6ea897161ca05"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/robrichards/xmlseclibs/zipball/53bb1e9cae490a8f93af41bd9df6ea897161ca05",
+                "reference": "53bb1e9cae490a8f93af41bd9df6ea897161ca05",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">= 5.3"
+            },
+            "suggest": {
+                "ext/mcrypt": "MCrypt extension",
+                "ext/openssl": "OpenSSL extension"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "RobRichards\\XMLSecLibs\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "A PHP library for XML Security",
+            "homepage": "https://github.com/robrichards/xmlseclibs",
+            "keywords": [
+                "security",
+                "signature",
+                "xml",
+                "xmldsig"
+            ],
+            "time": "2016-09-08T13:15:00+00:00"
+        },
+        {
+            "name": "simplesamlphp/saml2",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/simplesamlphp/saml2.git",
+                "reference": "8651bdf190cefd962e718263e00fdbf456dbb05b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/simplesamlphp/saml2/zipball/8651bdf190cefd962e718263e00fdbf456dbb05b",
+                "reference": "8651bdf190cefd962e718263e00fdbf456dbb05b",
+                "shasum": ""
+            },
+            "require": {
+                "ext-dom": "*",
+                "ext-openssl": "*",
+                "ext-zlib": "*",
+                "php": ">=5.3.3",
+                "psr/log": "~1.0",
+                "robrichards/xmlseclibs": "^2.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "~0.9",
+                "phpmd/phpmd": "~1.5",
+                "phpunit/phpunit": "~3.7",
+                "satooshi/php-coveralls": "~0.6.1",
+                "sebastian/phpcpd": "~1.4",
+                "sensiolabs/security-checker": "~1.1",
+                "squizlabs/php_codesniffer": "~1.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "SAML2\\": "src/"
+                },
+                "files": [
+                    "src/_autoload.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-2.1"
+            ],
+            "authors": [
+                {
+                    "name": "Andreas Åkre Solberg",
+                    "email": "andreas.solberg@uninett.no"
+                }
+            ],
+            "description": "SAML2 PHP library from SimpleSAMLphp",
+            "time": "2017-04-07 08:57:57"
+        },
+        {
+            "name": "twig/extensions",
+            "version": "v1.4.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/twigphp/Twig-extensions.git",
+                "reference": "f0bb8431c8691f5a39f1017d9a5967a082bf01ff"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/twigphp/Twig-extensions/zipball/f0bb8431c8691f5a39f1017d9a5967a082bf01ff",
+                "reference": "f0bb8431c8691f5a39f1017d9a5967a082bf01ff",
+                "shasum": ""
+            },
+            "require": {
+                "twig/twig": "~1.20|~2.0"
+            },
+            "require-dev": {
+                "symfony/translation": "~2.3"
+            },
+            "suggest": {
+                "symfony/translation": "Allow the time_diff output to be translated"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.4-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Twig_Extensions_": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                }
+            ],
+            "description": "Common additional features for Twig that do not directly belong in core",
+            "homepage": "http://twig.sensiolabs.org/doc/extensions/index.html",
+            "keywords": [
+                "i18n",
+                "text"
+            ],
+            "time": "2016-10-25T17:34:14+00:00"
+        },
+        {
+            "name": "twig/twig",
+            "version": "v1.33.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/twigphp/Twig.git",
+                "reference": "05cf49921b13f6f01d3cfdf9018cfa7a8086fd5a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/05cf49921b13f6f01d3cfdf9018cfa7a8086fd5a",
+                "reference": "05cf49921b13f6f01d3cfdf9018cfa7a8086fd5a",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2.7"
+            },
+            "require-dev": {
+                "psr/container": "^1.0",
+                "symfony/debug": "~2.7",
+                "symfony/phpunit-bridge": "~3.3@dev"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.33-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Twig_": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com",
+                    "homepage": "http://fabien.potencier.org",
+                    "role": "Lead Developer"
+                },
+                {
+                    "name": "Armin Ronacher",
+                    "email": "armin.ronacher@active-4.com",
+                    "role": "Project Founder"
+                },
+                {
+                    "name": "Twig Team",
+                    "homepage": "http://twig.sensiolabs.org/contributors",
+                    "role": "Contributors"
+                }
+            ],
+            "description": "Twig, the flexible, fast, and secure template language for PHP",
+            "homepage": "http://twig.sensiolabs.org",
+            "keywords": [
+                "templating"
+            ],
+            "time": "2017-03-22T15:40:09+00:00"
+        },
+        {
+            "name": "whitehat101/apr1-md5",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/whitehat101/apr1-md5.git",
+                "reference": "8b261c9fc0481b4e9fa9d01c6ca70867b5d5e819"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/whitehat101/apr1-md5/zipball/8b261c9fc0481b4e9fa9d01c6ca70867b5d5e819",
+                "reference": "8b261c9fc0481b4e9fa9d01c6ca70867b5d5e819",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.0.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "WhiteHat101\\Crypt\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jeremy Ebler",
+                    "email": "jebler@gmail.com"
+                }
+            ],
+            "description": "Apache's APR1-MD5 algorithm in pure PHP",
+            "homepage": "https://github.com/whitehat101/apr1-md5",
+            "keywords": [
+                "MD5",
+                "apr1"
+            ],
+            "time": "2015-02-11T11:06:42+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "dev",
+    "stability-flags": [],
+    "prefer-stable": true,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}
