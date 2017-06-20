@@ -1,21 +1,19 @@
-# WordPress Plugin per SPID
+# WordPress plugin per SPID
 
-Plugin per integrare il sistema di autenticazione SPID all'interno di WordPress
+Plugin per integrare il sistema di autenticazione SPID all'interno di WordPress.
 
 ## Contenuto
 
-La struttura del repository contiene i seguenti files:
+La struttura del repository contiene i seguenti file:
 * `README.md` - Guida alla struttura del repository
-* `CHANGELOG.md` - Contiene la traccia delle modifiche fatte al plugin.
-* `doc` - Documentazione del plugin
-* `spid-wordpress` - Il codice del plugin
+* [`CHANGELOG.md`](/CHANGELOG.md) - Contiene la traccia delle modifiche fatte al plugin.
+* [`doc/`](/doc) - Documentazione del plugin
+* [`spid-wordpress/`](/spid-wordpress/) - Il codice del plugin
 
 ## Installazione
 
-*TODO*
+**WORK IN PROGRESS: NON INSTALLATE QUESTO PLUGIN**
 
 ## Licenza
 
-*TODO*
-
-
+GNU GPL v3+.

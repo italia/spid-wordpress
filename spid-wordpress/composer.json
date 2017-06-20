@@ -1,0 +1,15 @@
+{
+  "repositories": [
+    {
+      "type": "git",
+      "url": "https://github.com/italia/spid-simplesamlphp.git"
+    }
+  ],
+  "name": "italia/spid-wordpress-plugin",
+  "description": "Wordpress Plugin for SPID",
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "require": {
+    "italia/spid-simplesamlphp": "v1.14.11"
+  }
+}

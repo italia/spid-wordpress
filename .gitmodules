@@ -1,0 +1,3 @@
+[submodule "public/spid-button"]
+	path = public/spid-button
+	url = https://github.com/lvps/spid-button.git
