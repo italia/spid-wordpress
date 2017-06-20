@@ -25,7 +25,7 @@ chown -R www-data:www-data wordpress/
 
 # Installo il plugin
 cd /tmp
-git clone https://github.com/ItalianLinuxSociety/spid-wordpress
+git clone https://github.com/italia/spid-wordpress
 cp -R spid-wordpress/spid-wordpress /var/www/html/wordpress/wp-content/plugins
 chown -R www-data:www-data /var/www/html/wordpress/wp-content/plugins
 
