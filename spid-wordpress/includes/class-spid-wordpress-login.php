@@ -76,25 +76,34 @@ class Spid_Wordpress_Login {
 	 * @since    1.0.0
 	 */
 	public function try_spid_login() {
-		require WP_SIMPLESAML_DIR . DIRECTORY_SEPARATOR . WP_SIMPLESAML_AUTOLOADER_FILE;
-
-		$config_path = dirname( dirname(__FILE__) ) . DIRECTORY_SEPARATOR  . 'config';
-		SimpleSAML_Configuration::setConfigDir($config_path, 'spid');
-		SimpleSAML_Configuration::loadFromArray(array(), '[ARRAY A MUZZO]', 'spid');
-		$saml_auth_config = SimpleSAML_Configuration::getInstance('spid');
-		//$saml_auth_version = $saml_auth_config->getVersion();
-		// what now? what do I use this config for?
-
-		$saml_auth_as = new SimpleSAML_Auth_Simple( WP_SIMPLESAML_AUTHSOURCE );
-		//$saml_auth_attributes = $saml_auth_as->getAttributes();
-
-		if($saml_auth_as->isAuthenticated()) {
-			// TODO: see https://github.com/dev4pa/spid-drupal/blob/master/spid_auth.module#L210 for some switchy switches switching among POST parameters and setting IDP thingamjig
-			$existing_username = self::get_spid_authname($saml_auth_as);
-			//if($existing_username) {
-			$this->bypass_login( $existing_username );
-			//}
-		}
+        require WP_SIMPLESAML_DIR . DIRECTORY_SEPARATOR . WP_SIMPLESAML_AUTOLOADER_FILE;
+        // @TODO da sostituire con il nome dl servizio configurato dall'utente
+        $saml_auth_as = new SimpleSAML_Auth_Simple( 'service-name' );
+        if(!$saml_auth_as->isAuthenticated()) {
+            $saml_auth_as->login();
+        } else {
+            $saml_auth_attributes = $saml_auth_as->getAttributes();
+            // @TODO recuperare il codice utente dagli attributi utilizzati
+        }
+//		require WP_SIMPLESAML_DIR . DIRECTORY_SEPARATOR . WP_SIMPLESAML_AUTOLOADER_FILE;
+//
+//		$config_path = dirname( dirname(__FILE__) ) . DIRECTORY_SEPARATOR  . 'config';
+//		SimpleSAML_Configuration::setConfigDir($config_path, 'spid');
+//		SimpleSAML_Configuration::loadFromArray(array(), '[ARRAY A MUZZO]', 'spid');
+//		$saml_auth_config = SimpleSAML_Configuration::getInstance('spid');
+//		//$saml_auth_version = $saml_auth_config->getVersion();
+//		// what now? what do I use this config for?
+//
+//		$saml_auth_as = new SimpleSAML_Auth_Simple( WP_SIMPLESAML_AUTHSOURCE );
+//		//$saml_auth_attributes = $saml_auth_as->getAttributes();
+//
+//		if($saml_auth_as->isAuthenticated()) {
+//			// TODO: see https://github.com/dev4pa/spid-drupal/blob/master/spid_auth.module#L210 for some switchy switches switching among POST parameters and setting IDP thingamjig
+//			$existing_username = self::get_spid_authname($saml_auth_as);
+//			//if($existing_username) {
+//			$this->bypass_login( $existing_username );
+//			//}
+//		}
 	}
 
 	/**
