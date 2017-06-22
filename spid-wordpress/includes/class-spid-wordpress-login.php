@@ -79,11 +79,11 @@ class Spid_Wordpress_Login {
 		require WP_SIMPLESAML_DIR . DIRECTORY_SEPARATOR . WP_SIMPLESAML_AUTOLOADER_FILE;
 
 		// @TODO da sostituire con il nome dl servizio configurato dall'utente
-		$saml_auth_as = new SimpleSAML_Auth_Simple( 'service-name' );
-		if( ! $saml_auth_as->isAuthenticated() ) {
-			$saml_auth_as->login();
-		} else {
+		$saml_auth_as = new SimpleSAML_Auth_Simple( WP_SIMPLESAML_AUTHSOURCE );
+		if( $saml_auth_as->isAuthenticated() ) {
 			$saml_auth_attributes = $saml_auth_as->getAttributes();
+		} else {
+			$saml_auth_as->login();
 			// @TODO recuperare il codice utente dagli attributi utilizzati
 		}
 //		require WP_SIMPLESAML_DIR . DIRECTORY_SEPARATOR . WP_SIMPLESAML_AUTOLOADER_FILE;
