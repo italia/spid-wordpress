@@ -130,44 +130,58 @@ class Spid_Wordpress_Login {
 	 * @since    1.0.0
 	 */
 	public function try_spid_login() {
-//        require WP_SIMPLESAML_DIR . DIRECTORY_SEPARATOR . WP_SIMPLESAML_AUTOLOADER_FILE;
-//        // @TODO da sostituire con il nome dl servizio configurato dall'utente
-//        $saml_auth_as = new SimpleSAML_Auth_Simple( 'service-name' );
-//        if(!$saml_auth_as->isAuthenticated()) {
-//            $saml_auth_as->login();
-//        } else {
-//            $saml_auth_attributes = $saml_auth_as->getAttributes();
-//            // @TODO recuperare il codice utente dagli attributi utilizzati
-//        }
-//		require WP_SIMPLESAML_DIR . DIRECTORY_SEPARATOR . WP_SIMPLESAML_AUTOLOADER_FILE;
-//
-//		$config_path = dirname( dirname(__FILE__) ) . DIRECTORY_SEPARATOR  . 'config';
-//		SimpleSAML_Configuration::setConfigDir($config_path, 'spid');
-//		SimpleSAML_Configuration::loadFromArray(array(), '[ARRAY A MUZZO]', 'spid');
-//		$saml_auth_config = SimpleSAML_Configuration::getInstance('spid');
-//		//$saml_auth_version = $saml_auth_config->getVersion();
-//		// what now? what do I use this config for?
-//
-//		$saml_auth_as = new SimpleSAML_Auth_Simple( WP_SIMPLESAML_AUTHSOURCE );
-//		//$saml_auth_attributes = $saml_auth_as->getAttributes();
-//
-//		if($saml_auth_as->isAuthenticated()) {
-//			// TODO: see https://github.com/dev4pa/spid-drupal/blob/master/spid_auth.module#L210 for some switchy switches switching among POST parameters and setting IDP thingamjig
-//			$existing_username = self::get_spid_authname($saml_auth_as);
-//			//if($existing_username) {
-//			$this->bypass_login( $existing_username );
-//			//}
-//		}
+
+		require WP_SIMPLESAML_DIR . DIRECTORY_SEPARATOR . WP_SIMPLESAML_AUTOLOADER_FILE;
+
+		// @TODO da sostituire con il nome dl servizio configurato dall'utente
+		$saml_auth_as = new SimpleSAML_Auth_Simple( WP_SIMPLESAML_AUTHSOURCE );
+		if( $saml_auth_as->isAuthenticated() ) {
+
+			$saml_auth_attributes = $saml_auth_as->getAttributes();
+
+			$spid_user_authname = self::get_spid_authname( $saml_auth_attributes );
+
+			// Check if user exists
+			$user = get_user_by( 'login', $spid_user_uid );
+			if( ! $user ) {
+
+				if( ! $this->settings->get_option_value( Spid_Wordpress_Settings::USER_REGISTRATION ) ) {
+					throw new Exception("Users are not allowed to register in using SPID in this website.");
+				}
+
+				// https://codex.wordpress.org/Function_Reference/wp_insert_user
+				$user_id = wp_insert_user( array(
+				    'user_login' => $spid_user_uid,
+				    'user_pass'  => NULL // When creating an user, `user_pass` is expected.
+				) );
+				if ( is_wp_error( $user_id ) ) {
+					throw new Exception("Can't create user");
+				}
+
+				// Obtain the already created user
+				$user = get_user_by('id', $user_id);
+			}
+
+			if( $user ) {
+				// Login the user, that now exists
+				$this->bypass_login( $user->user_login );
+			} else {
+				throw new Exception("Can't login a non-existing user");
+			}
+		} else {
+			$saml_auth_as->login();
+			// @TODO recuperare il codice utente dagli attributi utilizzati
+		}
+
 	}
 
 	/**
-	 * @param $auth SimpleSAML_Auth_Simple the auth thingamajig.
+	 * @param $simplesaml_attributes SimpleSAML_Auth_Simple#getAttributes().
 	 *
 	 * @return string authname. Substring of it, for unknown reasons.
 	 * @throws Exception if no valid unique ID (codice fiscale et al) can be found in SPID response
 	 */
-	private static function get_spid_authname($auth) {
-		$simplesaml_attributes = $auth->getAttributes();
+	private static function get_spid_authname($simplesaml_attributes) {
 		$authname = '';
 		// Check if valid local session exists..
 		if( isset($simplesaml_attributes) ) {
