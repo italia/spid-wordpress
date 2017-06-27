@@ -89,7 +89,10 @@ class Spid_Wordpress_Login {
 			// Check if user exists
 			$user = get_user_by( 'login', $spid_user_uid );
 			if( ! $user ) {
-				// @TODO: Read the existing option if users have to be created or not
+
+				if( ! $this->settings->get_option_value( Spid_Wordpress_Settings::USER_REGISTRATION ) ) {
+					throw new Exception("Users are not allowed to register in using SPID in this website.");
+				}
 
 				// https://codex.wordpress.org/Function_Reference/wp_insert_user
 				$user_id = wp_insert_user( array(
