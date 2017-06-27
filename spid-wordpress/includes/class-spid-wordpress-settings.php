@@ -31,14 +31,30 @@ class Spid_Wordpress_Settings {
 	 */
 	const USER_SECURITY_CHOICE = 'user_security_choice';
 
+	// Path where simplesamlphp is installed
+	const SIMPLESAMLPHP_PATH = 'simplesamlphp_path';
+
+	// Authentication source name
+    const SIMPLESAMLPHP_AUTHSOURCE = 'simplesamlphp_authsource';
+
+    // UserID Attribute.
+    const SIMPLESAMLPHP_UIDATTRIBUTE = 'simplesamlphp_uidattribute';
+
+
 	function __construct() {
 		$this->settings_prefix   = Spid_Wordpress::PLUGIN_NAME . '_settings';
 		$this->settings_general  = $this->settings_prefix . '_general';
+
 		$this->settings_defaults = array(
 			self::USER_SECURITY_CHOICE => 0,
-			self::USER_REGISTRATION    => 1
+			self::USER_REGISTRATION    => 1,
+            self::SIMPLESAMLPHP_AUTHSOURCE => '-',
+            self::SIMPLESAMLPHP_PATH => '-',
+            self::SIMPLESAMLPHP_UIDATTRIBUTE => '-'
 		);
-		$this->settings          = get_option( $this->get_group_id(), $this->settings_defaults );
+
+		$this->settings = get_option( $this->get_group_id(), $this->settings_defaults );
+
 	}
 
 	public function get_group_id() {
@@ -60,6 +76,7 @@ class Spid_Wordpress_Settings {
 	}
 
 	function get_option_value( $option ) {
+
 		if ( isset( $this->settings[ $option ] ) ) {
 			return $this->settings[ $option ];
 		} else {

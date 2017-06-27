@@ -30,6 +30,31 @@ class Spid_Wordpress_Login {
 	 */
 	private $settings;
 
+    /**
+     * Public class where all hooks are added
+     * @var Spid_Wordpress_Public   $spid
+     */
+    public $spid;
+
+    /**
+     * The current version of the plugin.
+     *
+     * @since    1.0.0
+     * @access   protected
+     * @var      string    $version    The current version of the plugin.
+     */
+    protected $version;
+
+    /**
+     * The loader that's responsible for maintaining and registering all hooks that power
+     * the plugin.
+     *
+     * @since    1.0.0
+     * @access   protected
+     * @var      Facebook_Login_Loader    $loader    Maintains and registers all hooks for the plugin.
+     */
+    protected $loader;
+
 	/**
 	 * More hellish nightmare fuel
 	 */
@@ -44,15 +69,53 @@ class Spid_Wordpress_Login {
 	 */
 	private static $SHIB_HEADERS = array('Shib-Session-ID', 'Shib_Session_ID', 'HTTP_SHIB_IDENTITY_PROVIDER');
 
+    protected $plugin_name;
+
+
+    /**
+     * Main Spid Instance
+     *
+     * Ensures only one instance of WSI is loaded or can be loaded.
+     *
+     * @since 1.0.0
+     * @static
+     * @see WSI()
+     * @return Fbl - Main instance
+     */
+    public static function instance() {
+        if ( is_null( self::$_instance ) ) {
+            self::$_instance = new self();
+        }
+        return self::$_instance;
+    }
+
+    /**
+     * Cloning is forbidden.
+     * @since 1.0.0
+     */
+    public function __clone() {
+        _doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'wsi' ), '2.1' );
+    }
+
 	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
 	 */
 	public function __construct() {
-		$this->settings    = new Spid_Wordpress_Settings();
-		$this->user_meta   = new Spid_Wordpress_User_Meta();
+        $this->version      = SPID_VERSION;
+        $this->plugin_name  = 'spid-login';
+        $this->loader       = new Spid_Wordpress_Loader();
+		$this->settings     = new Spid_Wordpress_Settings();
+		$this->user_meta    = new Spid_Wordpress_User_Meta();
+        $this->shortcodes = new Spid_Login_Shortcodes( $this->get_plugin_name(), $this->get_version() );
+        $this->define_public_hooks();
+        //$this->loader->run();
+
+
 	}
+
+
 
 	/**
 	 * @since 1.0.0
@@ -62,29 +125,20 @@ class Spid_Wordpress_Login {
 	}
 
 	/**
-	 * @TODO make something sane
-	 *
-	 * @since    1.0.0
-	 */
-	public static function is_spid_request() {
-		return self::isShibbolethRequest(); // Nonsense? No idea.
-	}
-
-	/**
 	 * Use only if it's a SPID request.
 	 *
 	 * @since    1.0.0
 	 */
 	public function try_spid_login() {
-        require WP_SIMPLESAML_DIR . DIRECTORY_SEPARATOR . WP_SIMPLESAML_AUTOLOADER_FILE;
-        // @TODO da sostituire con il nome dl servizio configurato dall'utente
-        $saml_auth_as = new SimpleSAML_Auth_Simple( 'service-name' );
-        if(!$saml_auth_as->isAuthenticated()) {
-            $saml_auth_as->login();
-        } else {
-            $saml_auth_attributes = $saml_auth_as->getAttributes();
-            // @TODO recuperare il codice utente dagli attributi utilizzati
-        }
+//        require WP_SIMPLESAML_DIR . DIRECTORY_SEPARATOR . WP_SIMPLESAML_AUTOLOADER_FILE;
+//        // @TODO da sostituire con il nome dl servizio configurato dall'utente
+//        $saml_auth_as = new SimpleSAML_Auth_Simple( 'service-name' );
+//        if(!$saml_auth_as->isAuthenticated()) {
+//            $saml_auth_as->login();
+//        } else {
+//            $saml_auth_attributes = $saml_auth_as->getAttributes();
+//            // @TODO recuperare il codice utente dagli attributi utilizzati
+//        }
 //		require WP_SIMPLESAML_DIR . DIRECTORY_SEPARATOR . WP_SIMPLESAML_AUTOLOADER_FILE;
 //
 //		$config_path = dirname( dirname(__FILE__) ) . DIRECTORY_SEPARATOR  . 'config';
@@ -149,11 +203,10 @@ class Spid_Wordpress_Login {
 	 */
 	public function enqueue_scripts() {
 		//wp_enqueue_script( Spid_Wordpress::PLUGIN_NAME, plugin_dir_url( __FILE__ ) . 'js/spid-wordpress-login.js', array( 'jquery' ), Spid_Wordpress::VERSION, false );
-	}
+        wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . '../public/js/spid-sp-access-button.min.js', array( 'jquery' ), $this->version, true );
+        wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . '../public/css/spid-sp-access-button.min.css', array(), $this->version, 'all' );
 
-	public function login_form() {
-		echo "SPID è una tecnologia subliminalmente eccezionale, transumanante, asd. SPID non è una backdoor. SPID is love. SPID is life. Se vedi questo messaggio, SPID è in te.";
-	}
+    }
 
 	/**
 	 * In a message box.
@@ -267,4 +320,46 @@ class Spid_Wordpress_Login {
 		}
 		return false;
 	}
+
+    private function define_public_hooks()
+    {
+        $this->spid = new Spid_Wordpress_Public( $this->get_plugin_name(), $this->get_version() );
+
+        // TODO: Attivare le opzioni solo se il plugin e' configurato bene.
+
+        $this->loader->add_action( 'login_form', $this->spid, 'print_button' );
+        $this->loader->add_action( 'spid_login_button', $this->spid, 'print_button' );
+
+
+    }
+
+    /**
+     * Run the loader to execute all of the hooks with WordPress.
+     *
+     * @since    1.0.0
+     */
+    public function run() {
+        $this->loader->run();
+    }
+
+    /**
+     * The name of the plugin used to uniquely identify it within the context of
+     * WordPress and to define internationalization functionality.
+     *
+     * @since     1.0.0
+     * @return    string    The name of the plugin.
+     */
+    public function get_plugin_name() {
+        return $this->plugin_name;
+    }
+
+    /**
+     * Retrieve the version number of the plugin.
+     *
+     * @since     1.0.0
+     * @return    string    The version number of the plugin.
+     */
+    public function get_version() {
+        return $this->version;
+    }
 }

@@ -47,7 +47,7 @@ Su evenienza, dichiarare queste costanti in `wp-config.php`:
     - [X] Capire se non siamo denunciati se usiamo il materiale di Poste SIELTE & compagnia cantante
         - [X] Aggiunto un submodule con il materiale legale recuperato da Commons se che non va bene andate a denunciare Wikimedia Foundation e non noi
 - [X] contattare gente da contattare
-- [ ] Finire di aggiungere immagini degli IDP
+- [X] Integrazione pulsante SP 
     - [ ] Capire come gestire il fatto che in futuro possano esserci nuovi IDP (= monitorare la situazione e aggiungerli a mano?)
 
 ### Test, debugging, prove

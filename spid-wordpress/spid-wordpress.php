@@ -23,7 +23,7 @@
  *
  * @wordpress-plugin
  * Plugin Name:       SPID Wordpress
- * Plugin URI:
+ * Plugin URI:        https://github.com/italia/spid-wordpress
  * Description:       Permette l'autenticazione degli utenti tramite SPID.
  * Version:           1.0.0
  * Author:            Ludovico Pavesi, Valerio Bozzolan, spid-wordpress contributors
@@ -57,6 +57,9 @@ or define('WP_SIMPLESAML_ATTR_MAPPING', '?');
 // TODO: remove backdoor
 defined(  'WP_BACKDOOR_SPID')
 or define('WP_BACKDOOR_SPID', WP_DEBUG);
+
+
+define( 'SPID_VERSION', '1.0');
 
 /**
  * The code that runs during plugin activation.
@@ -96,14 +99,16 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-spid-wordpress.php';
  */
 Spid_Wordpress::factory()->run();
 
+
 // TODO muovere questa cosa nel grande coso globale
 add_action('init', function() {
 	// TODO rimuovere la backdoor
-	if( isset( $_GET['backdoor_spid'] ) && WP_BACKDOOR_SPID ) {
-		Spid_Wordpress_Login::factory()->bypass_login( $_GET['backdoor_spid'] );
-	} else {
-		// if ( metodo statico per capire se è una richiesta di login) {
-		Spid_Wordpress_Login::factory()->try_spid_login();
-		// }
-	}
+
+//	if( isset( $_GET['backdoor_spid'] ) && WP_BACKDOOR_SPID ) {
+//		Spid_Wordpress_Login::factory()->bypass_login( $_GET['backdoor_spid'] );
+//	} else {
+//		// if ( metodo statico per capire se è una richiesta di login) {
+//		Spid_Wordpress_Login::factory()->try_spid_login();
+//		// }
+//	}
 } );

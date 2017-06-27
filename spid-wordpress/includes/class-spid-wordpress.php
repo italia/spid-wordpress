@@ -55,6 +55,17 @@ class Spid_Wordpress {
 	 */
 	protected $loader;
 
+	public $path;
+
+	private $thisFile;
+
+    /**
+     * Plugin Instance
+     * @since 1.0.0
+     * @var The Spid plugin instance
+     */
+    protected static $_instance = null;
+
 	/**
 	 * The unique identifier of this plugin.
 	 */
@@ -83,18 +94,22 @@ class Spid_Wordpress {
 		$this->define_public_hooks();
 		$this->define_user_settings_hooks();
 		$this->define_login_page_hooks();
+        $this->thisFile = __FILE__;
 	}
 
 	/**
 	 * @since    1.0.0
 	 */
-	static function factory() {
-		return new self();
+	public static function factory() {
+        if ( is_null( self::$_instance ) ) {
+            self::$_instance = new self();
+        }
+        return self::$_instance;
 	}
 
 	/**
 	 * Load the required dependencies for this plugin.
-	 *
+	 *r
 	 * Include the following files that make up the plugin:
 	 *
 	 * - Spid_Wordpress_Loader. Orchestrates the hooks of the plugin.
@@ -109,47 +124,53 @@ class Spid_Wordpress {
 	 * @access   private
 	 */
 	private function load_dependencies() {
-		$path = plugin_dir_path( dirname( __FILE__ ) );
+		$this->path = plugin_dir_path( dirname( __FILE__ ) );
 
 		/**
 		 * The class responsible for orchestrating the actions and filters of the
 		 * core plugin.
 		 */
-		require_once $path . 'includes/class-spid-wordpress-loader.php';
+		require_once $this->path . 'includes/class-spid-wordpress-loader.php';
 
 		/**
 		 * The class responsible for defining internationalization functionality
 		 * of the plugin.
 		 */
-		require_once $path . 'includes/class-spid-wordpress-i18n.php';
+		require_once $this->path . 'includes/class-spid-wordpress-i18n.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the admin area.
 		 */
-		require_once $path . 'admin/class-spid-wordpress-admin.php';
+		require_once $this->path . 'admin/class-spid-wordpress-admin.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the public-facing
 		 * side of the site.
 		 */
-		require_once $path . 'public/class-spid-wordpress-public.php';
+		require_once $this->path . 'public/class-spid-wordpress-public.php';
 
 		/**
 		 * La classe che astrae le opzioni stoccate nel database. Ciò è necessario BECAUSE WORDPRESS.
 		 */
-		require_once $path . 'includes/class-spid-wordpress-settings.php';
+		require_once $this->path . 'includes/class-spid-wordpress-settings.php';
 
 		/**
 		 * The login class managing the login page and other login stuff. Ecco.
 		 */
-		require_once $path . 'includes/class-spid-wordpress-login.php';
+		require_once $this->path . 'includes/class-spid-wordpress-login.php';
 
 		/**
 		 * The login class managing user settings (meta). Anche detta "user meta'" perche' previene il login quindi resta solo mezzo utente.
 		 */
-		require_once $path . 'includes/class-spid-wordpress-user-meta.php';
+		require_once $this->path . 'includes/class-spid-wordpress-user-meta.php';
+
+		/*
+		 * The shortcodes
+		 */
+		require_once $this->path . 'includes/class-spid-wordpress-shortcodes.php';
 
 		$this->loader = new Spid_Wordpress_Loader();
+		$this->login = new Spid_Wordpress_Login();
 
 	}
 
@@ -215,6 +236,7 @@ class Spid_Wordpress {
 
 		$this->loader->add_action( 'wp_enqueue_styles', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+		$this->loader->add_action('wp_footer',$plugin_public,'add_spid_scripts');
 
 	}
 
@@ -223,9 +245,10 @@ class Spid_Wordpress {
 		$plugin_login = new Spid_Wordpress_Login();
 		$this->loader->add_action( 'login_enqueue_styles', $plugin_login, 'enqueue_styles' );
 		$this->loader->add_action( 'login_enqueue_scripts', $plugin_login, 'enqueue_scripts' );
-		$this->loader->add_action( 'login_form', $plugin_login, 'login_form' );
+		//$this->loader->add_action( 'login_form', $plugin_login, 'login_form' );
 		$this->loader->add_action( 'login_errors', $plugin_login, 'login_errors' );
 		$this->loader->add_action( 'login_message', $plugin_login, 'login_message' );
+
 
 		// Apparently never called
 		$this->loader->add_action( 'login_form_postpass', $plugin_login, 'login_successful' );
@@ -238,6 +261,7 @@ class Spid_Wordpress {
 	 */
 	public function run() {
 		$this->loader->run();
+		$this->login->run();
 	}
 
 	/**
@@ -270,5 +294,7 @@ class Spid_Wordpress {
 	public function get_version() {
 		return Spid_Wordpress::VERSION;
 	}
+
+
 
 }
