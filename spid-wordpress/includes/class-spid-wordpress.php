@@ -59,12 +59,12 @@ class Spid_Wordpress {
 
 	private $thisFile;
 
-    /**
-     * Plugin Instance
-     * @since 1.0.0
-     * @var The Spid plugin instance
-     */
-    protected static $_instance = null;
+	/**
+	 * Plugin Instance
+	 * @since 1.0.0
+	 * @var Spid_Wordpress The Spid plugin instance
+	 */
+	protected static $_instance = null;
 
 	/**
 	 * The unique identifier of this plugin.
@@ -94,17 +94,17 @@ class Spid_Wordpress {
 		$this->define_public_hooks();
 		$this->define_user_settings_hooks();
 		$this->define_login_page_hooks();
-        $this->thisFile = __FILE__;
+		$this->thisFile = __FILE__;
 	}
 
 	/**
 	 * @since    1.0.0
 	 */
 	public static function factory() {
-        if ( is_null( self::$_instance ) ) {
-            self::$_instance = new self();
-        }
-        return self::$_instance;
+		if ( is_null( self::$_instance ) ) {
+			self::$_instance = new self();
+		}
+		return self::$_instance;
 	}
 
 	/**

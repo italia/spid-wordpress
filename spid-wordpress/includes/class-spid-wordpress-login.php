@@ -70,12 +70,19 @@ class Spid_Wordpress_Login {
 	protected $plugin_name;
 
 	/**
+	 * Contains the instance.
+	 *
+	 * @type Spid_Wordpress_Login
+	 */
+	protected static $_instance;
+
+	/**
 	 * Main Spid Instance
 	 *
 	 * @since 1.0.0
 	 */
 	public static function factory() {
-		if ( is_null( self::$_instance ) ) {
+		if ( ! isset( self::$_instance ) ) {
 		    self::$_instance = new self();
 		}
 		return self::$_instance;
