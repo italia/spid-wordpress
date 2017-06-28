@@ -157,7 +157,7 @@ class Spid_Wordpress_Admin {
 
 		add_settings_field(
 			// String for use in the 'id' attribute of tags
-			$this->settings->get_label_id(Spid_Wordpress_Settings::USER_SECURITY_CHOICE),
+			$this->settings->get_label_id(Spid_Wordpress_Settings::NO_USER_SECURITY_CHOICE),
 
 			// Title of the field
 			__("Force SPID integration", 'spid-wordpress'),
@@ -180,8 +180,8 @@ class Spid_Wordpress_Admin {
 			// Additional arguments that are passed to the $callback function.
 			// The 'label_for' key/value pair can be used to format the field title like so: <label for="value">$title</label>.
 			array(
-				'label_for' => $this->settings->get_label_id(Spid_Wordpress_Settings::USER_SECURITY_CHOICE),
-				'option' => Spid_Wordpress_Settings::USER_SECURITY_CHOICE,
+				'label_for' => $this->settings->get_label_id(Spid_Wordpress_Settings::NO_USER_SECURITY_CHOICE),
+				'option' => Spid_Wordpress_Settings::NO_USER_SECURITY_CHOICE,
 				'description' => __("Leave this option unchecked if you care about user choice. Not all users may appreciate SPID centralization.", 'spid-wordpress'),
 			)
 		);
@@ -216,7 +216,7 @@ class Spid_Wordpress_Admin {
 	// TODO settare a zero checkbox che saranno magari salvate da qualche parte asd
 	public function settings_general_sanitize($input) {
 		$checkboxes = array(
-			Spid_Wordpress_Settings::USER_SECURITY_CHOICE,
+			Spid_Wordpress_Settings::NO_USER_SECURITY_CHOICE,
 			Spid_Wordpress_Settings::USER_REGISTRATION
 		);
 
