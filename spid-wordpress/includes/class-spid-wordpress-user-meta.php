@@ -77,9 +77,18 @@ class Spid_Wordpress_User_Meta {
 	 * @since    1.0.0
 	 */
 	public function personal_options_update( $user_id ) {
-		if ( ! $this->settings->get_option_value(Spid_Wordpress_Settings::NO_USER_SECURITY_CHOICE) && current_user_can( 'edit_user', $user_id )) {
-			update_user_meta( $user_id, self::SPID_DISABLED, $_POST['spid_disabled'] );
+		if( ! current_user_can( 'edit_user', $user_id )	) {
+			// @TODO: Does this case really occur?
+			return;
 		}
+
+		if ( $this->settings->get_option_value(Spid_Wordpress_Settings::NO_USER_SECURITY_CHOICE) ) {
+			// Unuseful to save if the value is forced (the checkbox is checked disabled).
+			// This will keep the user value for future sysadmin mind changes.
+			return;
+		}
+
+		update_user_meta( $user_id, self::SPID_DISABLED, (int) isset( $_POST['spid_disabled'] ) );
 	}
 
 	/**
