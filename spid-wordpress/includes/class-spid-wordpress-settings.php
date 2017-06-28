@@ -84,9 +84,12 @@ class Spid_Wordpress_Settings {
 	function get_option_value( $option ) {
 
 		if ( isset( $this->settings[ $option ] ) ) {
+			// Option supported and set by the user
 			return $this->settings[ $option ];
+		} else if( isset ( $this->settings_defaults[ $option ] ) ) {
+			// Option supported but never set by the user
+			return $this->settings_defaults[ $option ];
 		} else {
-			// TODO: fare qualcosa di sensato (o lasciare questo se è abbastanza sensato)
 			throw new LogicException( 'Option ' . $option . ' unsupported!' );
 		}
 	}

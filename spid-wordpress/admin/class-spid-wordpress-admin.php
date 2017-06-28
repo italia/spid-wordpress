@@ -188,14 +188,14 @@ class Spid_Wordpress_Admin {
 
 		add_settings_field(
 			$this->settings->get_label_id(Spid_Wordpress_Settings::SIMPLESAMLPHP_PATH),
-			"SimpleSAMLPHP Path",
+			_("SimpleSAMLPHP Path", 'spid-wordpress'),
 			array($this, 'settings_field_textbox_callback'),
 			Spid_Wordpress::PLUGIN_NAME,
 			$this->settings->get_group_id(),
 			array(
 				'label_for' => $this->settings->get_label_id(Spid_Wordpress_Settings::SIMPLESAMLPHP_PATH),
 				'option' => Spid_Wordpress_Settings::SIMPLESAMLPHP_PATH,
-				'description' => 'Inserisci il path di SimpleSAMLPHP'
+				'description' => _('SimpleSAMLPHP (or SimpleSPIDPHP?) path, if globally installed', 'spid-wordpress')
 			)
 		);
 
