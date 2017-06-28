@@ -261,7 +261,7 @@ class Spid_Wordpress {
 	 */
 	public function run() {
 		$this->loader->run();
-		$this->login->run();
+		Spid_Wordpress_Login::factory()->run();
 	}
 
 	/**
