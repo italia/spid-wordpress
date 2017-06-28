@@ -1,5 +1,4 @@
 <?php
-
 /*
  * SPID-Wordpress - Plugin che connette Wordpress e SPID
  * Copyright (C) 2016, 2017 Ludovico Pavesi, Valerio Bozzolan, spid-wordpress contributors
@@ -35,11 +34,10 @@ class Spid_Wordpress_Settings {
 	const SIMPLESAMLPHP_PATH = 'simplesamlphp_path';
 
 	// Authentication source name
-    const SIMPLESAMLPHP_AUTHSOURCE = 'simplesamlphp_authsource';
+	const SIMPLESAMLPHP_AUTHSOURCE = 'simplesamlphp_authsource';
 
-    // UserID Attribute.
-    const SIMPLESAMLPHP_UIDATTRIBUTE = 'simplesamlphp_uidattribute';
-
+	// UserID Attribute.
+	const SIMPLESAMLPHP_UIDATTRIBUTE = 'simplesamlphp_uidattribute';
 
 	function __construct() {
 		$this->settings_prefix   = Spid_Wordpress::PLUGIN_NAME . '_settings';
@@ -48,13 +46,12 @@ class Spid_Wordpress_Settings {
 		$this->settings_defaults = array(
 			self::USER_SECURITY_CHOICE => 0,
 			self::USER_REGISTRATION    => 1,
-            self::SIMPLESAMLPHP_AUTHSOURCE => '-',
-            self::SIMPLESAMLPHP_PATH => '-',
-            self::SIMPLESAMLPHP_UIDATTRIBUTE => '-'
+			self::SIMPLESAMLPHP_AUTHSOURCE => '-',
+			self::SIMPLESAMLPHP_PATH => '-',
+			self::SIMPLESAMLPHP_UIDATTRIBUTE => '-'
 		);
 
 		$this->settings = get_option( $this->get_group_id(), $this->settings_defaults );
-
 	}
 
 	public function get_group_id() {

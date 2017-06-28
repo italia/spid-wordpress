@@ -30,30 +30,28 @@ class Spid_Wordpress_Login {
 	 */
 	private $settings;
 
-    /**
-     * Public class where all hooks are added
-     * @var Spid_Wordpress_Public   $spid
-     */
-    public $spid;
+	/**
+	 * Public class where all hooks are added
+	 * @var Spid_Wordpress_Public   $spid
+	 */
+	public $spid;
 
-    /**
-     * The current version of the plugin.
-     *
-     * @since    1.0.0
-     * @access   protected
-     * @var      string    $version    The current version of the plugin.
-     */
-    protected $version;
+	/**
+	 * The current version of the plugin.
+	 *
+	 * @since 1.0.0
+	 * @var string    $version    The current version of the plugin.
+	 */
+	protected $version;
 
-    /**
-     * The loader that's responsible for maintaining and registering all hooks that power
-     * the plugin.
-     *
-     * @since    1.0.0
-     * @access   protected
-     * @var      Facebook_Login_Loader    $loader    Maintains and registers all hooks for the plugin.
-     */
-    protected $loader;
+	/**
+	 * The loader that's responsible for maintaining and registering all hooks that power
+	 * the plugin.
+	 *
+	 * @since 1.0.0
+	 * @var Facebook_Login_Loader    $loader    Maintains and registers all hooks for the plugin.
+	 */
+	protected $loader;
 
 	/**
 	 * More hellish nightmare fuel
@@ -69,53 +67,48 @@ class Spid_Wordpress_Login {
 	 */
 	private static $SHIB_HEADERS = array('Shib-Session-ID', 'Shib_Session_ID', 'HTTP_SHIB_IDENTITY_PROVIDER');
 
-    protected $plugin_name;
+	protected $plugin_name;
 
+	/**
+	 * Main Spid Instance
+	 *
+	 * Ensures only one instance of WSI is loaded or can be loaded.
+	 *
+	 * @since 1.0.0
+	 * @see WSI()
+	 * @return Fbl - Main instance
+	 */
+	public static function instance() {
+		if ( is_null( self::$_instance ) ) {
+		    self::$_instance = new self();
+		}
+		return self::$_instance;
+	}
 
-    /**
-     * Main Spid Instance
-     *
-     * Ensures only one instance of WSI is loaded or can be loaded.
-     *
-     * @since 1.0.0
-     * @static
-     * @see WSI()
-     * @return Fbl - Main instance
-     */
-    public static function instance() {
-        if ( is_null( self::$_instance ) ) {
-            self::$_instance = new self();
-        }
-        return self::$_instance;
-    }
-
-    /**
-     * Cloning is forbidden.
-     * @since 1.0.0
-     */
-    public function __clone() {
-        _doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'wsi' ), '2.1' );
-    }
+	/**
+	 * Cloning is forbidden.
+	 * @since 1.0.0
+	 * @TODO WTF?
+	 */
+	public function __clone() {
+		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'wsi' ), '2.1' );
+	}
 
 	/**
 	 * Initialize the class and set its properties.
 	 *
-	 * @since    1.0.0
+	 * @since 1.0.0
 	 */
 	public function __construct() {
-        $this->version      = SPID_VERSION;
-        $this->plugin_name  = 'spid-login';
-        $this->loader       = new Spid_Wordpress_Loader();
+		$this->version      = SPID_VERSION;
+		$this->plugin_name  = 'spid-login';
+		$this->loader       = new Spid_Wordpress_Loader();
 		$this->settings     = new Spid_Wordpress_Settings();
 		$this->user_meta    = new Spid_Wordpress_User_Meta();
-        $this->shortcodes = new Spid_Login_Shortcodes( $this->get_plugin_name(), $this->get_version() );
-        $this->define_public_hooks();
-        //$this->loader->run();
-
-
+		$this->shortcodes = new Spid_Login_Shortcodes( $this->get_plugin_name(), $this->get_version() );
+		$this->define_public_hooks();
+		//$this->loader->run();
 	}
-
-
 
 	/**
 	 * @since 1.0.0
@@ -127,7 +120,7 @@ class Spid_Wordpress_Login {
 	/**
 	 * Use only if it's a SPID request.
 	 *
-	 * @since    1.0.0
+	 * @since 1.0.0
 	 */
 	public function try_spid_login() {
 
@@ -217,10 +210,9 @@ class Spid_Wordpress_Login {
 	 */
 	public function enqueue_scripts() {
 		//wp_enqueue_script( Spid_Wordpress::PLUGIN_NAME, plugin_dir_url( __FILE__ ) . 'js/spid-wordpress-login.js', array( 'jquery' ), Spid_Wordpress::VERSION, false );
-        wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . '../public/js/spid-sp-access-button.min.js', array( 'jquery' ), $this->version, true );
-        wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . '../public/css/spid-sp-access-button.min.css', array(), $this->version, 'all' );
-
-    }
+		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . '../public/js/spid-sp-access-button.min.js', array( 'jquery' ), $this->version, true );
+		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . '../public/css/spid-sp-access-button.min.css', array(), $this->version, 'all' );
+	}
 
 	/**
 	 * In a message box.
@@ -335,45 +327,42 @@ class Spid_Wordpress_Login {
 		return false;
 	}
 
-    private function define_public_hooks()
-    {
-        $this->spid = new Spid_Wordpress_Public( $this->get_plugin_name(), $this->get_version() );
+	private function define_public_hooks() {
+		$this->spid = new Spid_Wordpress_Public( $this->get_plugin_name(), $this->get_version() );
 
-        // TODO: Attivare le opzioni solo se il plugin e' configurato bene.
+		// TODO: Attivare le opzioni solo se il plugin e' configurato bene.
 
-        $this->loader->add_action( 'login_form', $this->spid, 'print_button' );
-        $this->loader->add_action( 'spid_login_button', $this->spid, 'print_button' );
+		$this->loader->add_action( 'login_form', $this->spid, 'print_button' );
+		$this->loader->add_action( 'spid_login_button', $this->spid, 'print_button' );
+	}
 
+	/**
+	* Run the loader to execute all of the hooks with WordPress.
+	*
+	* @since    1.0.0
+	*/
+	public function run() {
+		$this->loader->run();
+	}
 
-    }
+	/**
+	 * The name of the plugin used to uniquely identify it within the context of
+	 * WordPress and to define internationalization functionality.
+	 *
+	 * @since     1.0.0
+	 * @return    string    The name of the plugin.
+	 */
+	public function get_plugin_name() {
+		return $this->plugin_name;
+	}
 
-    /**
-     * Run the loader to execute all of the hooks with WordPress.
-     *
-     * @since    1.0.0
-     */
-    public function run() {
-        $this->loader->run();
-    }
-
-    /**
-     * The name of the plugin used to uniquely identify it within the context of
-     * WordPress and to define internationalization functionality.
-     *
-     * @since     1.0.0
-     * @return    string    The name of the plugin.
-     */
-    public function get_plugin_name() {
-        return $this->plugin_name;
-    }
-
-    /**
-     * Retrieve the version number of the plugin.
-     *
-     * @since     1.0.0
-     * @return    string    The version number of the plugin.
-     */
-    public function get_version() {
-        return $this->version;
-    }
+	/**
+	 * Retrieve the version number of the plugin.
+	 *
+	 * @since     1.0.0
+	 * @return    string    The version number of the plugin.
+	 */
+	public function get_version() {
+		return $this->version;
+	}
 }
