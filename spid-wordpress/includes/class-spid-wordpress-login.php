@@ -72,13 +72,9 @@ class Spid_Wordpress_Login {
 	/**
 	 * Main Spid Instance
 	 *
-	 * Ensures only one instance of WSI is loaded or can be loaded.
-	 *
 	 * @since 1.0.0
-	 * @see WSI()
-	 * @return Fbl - Main instance
 	 */
-	public static function instance() {
+	public static function factory() {
 		if ( is_null( self::$_instance ) ) {
 		    self::$_instance = new self();
 		}
@@ -88,10 +84,9 @@ class Spid_Wordpress_Login {
 	/**
 	 * Cloning is forbidden.
 	 * @since 1.0.0
-	 * @TODO WTF?
 	 */
 	public function __clone() {
-		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'wsi' ), '2.1' );
+		_doing_it_wrong( __FUNCTION__, 'Cannot clone an instance', '2.1' );
 	}
 
 	/**
@@ -99,7 +94,7 @@ class Spid_Wordpress_Login {
 	 *
 	 * @since 1.0.0
 	 */
-	public function __construct() {
+	private function __construct() {
 		$this->version     = SPID_VERSION;
 		$this->plugin_name = 'spid-login';
 		$this->loader      = new Spid_Wordpress_Loader();
@@ -108,13 +103,6 @@ class Spid_Wordpress_Login {
 		$this->shortcodes  = new Spid_Login_Shortcodes( $this->get_plugin_name(), $this->get_version() );
 		$this->define_public_hooks();
 		//$this->loader->run();
-	}
-
-	/**
-	 * @since 1.0.0
-	 */
-	public static function factory() {
-		return new self();
 	}
 
 	/**

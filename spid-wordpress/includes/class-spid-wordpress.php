@@ -170,7 +170,6 @@ class Spid_Wordpress {
 		require_once $this->path . 'includes/class-spid-wordpress-shortcodes.php';
 
 		$this->loader = new Spid_Wordpress_Loader();
-		$this->login = new Spid_Wordpress_Login();
 
 	}
 
@@ -242,7 +241,7 @@ class Spid_Wordpress {
 
 	private function define_login_page_hooks() {
 
-		$plugin_login = new Spid_Wordpress_Login();
+		$plugin_login = Spid_Wordpress_Login::factory();
 		$this->loader->add_action( 'login_enqueue_styles', $plugin_login, 'enqueue_styles' );
 		$this->loader->add_action( 'login_enqueue_scripts', $plugin_login, 'enqueue_scripts' );
 		//$this->loader->add_action( 'login_form', $plugin_login, 'login_form' );
@@ -251,6 +250,7 @@ class Spid_Wordpress {
 
 
 		// Apparently never called
+		// TODO: use for something useful
 		$this->loader->add_action( 'login_form_postpass', $plugin_login, 'login_successful' );
 	}
 
