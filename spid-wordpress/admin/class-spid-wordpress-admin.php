@@ -24,269 +24,256 @@
  * @subpackage Spid_Wordpress/admin
  * @author     Ludovico Pavesi, Valerio Bozzolan, spid-wordpress contributors
  */
-class Spid_Wordpress_Admin
-{
-    /**
-     * Hook suffix for the options page.
-     *
-     * @since    1.0.0
-     * @access   private
-     * @var      false|string $options_page_hook_suffix The hook suffix for the options page.
-     */
-    private $options_page_hook_suffix = false;
+class Spid_Wordpress_Admin {
+	/**
+	 * Hook suffix for the options page.
+	 *
+	 * @since    1.0.0
+	 * @access   private
+	 * @var      false|string $options_page_hook_suffix The hook suffix for the options page.
+	 */
+	private $options_page_hook_suffix = false;
 
-    /**
-     * Initialize the class and set its properties.
-     *
-     * @since    1.0.0
-     */
-    public function __construct()
-    {
-        $this->settings = new Spid_Wordpress_Settings();
-    }
+	/**
+	 * Initialize the class and set its properties.
+	 *
+	 * @since    1.0.0
+	 */
+	public function __construct() {
+		$this->settings = new Spid_Wordpress_Settings();
+	}
 
-    // TODO: uncomment if we need these
+	// TODO: uncomment if we need these
 
-    /**
-     * Register the stylesheets for the admin area.
-     *
-     * @since    1.0.0
-     * @deprecated
-     */
-    public function enqueue_styles()
-    {
+	/**
+	 * Register the stylesheets for the admin area.
+	 *
+	 * @since    1.0.0
+	 * @deprecated
+	 */
+	public function enqueue_styles() {
 
-        /**
-         * This function is provided for demonstration purposes only.
-         *
-         * An instance of this class should be passed to the run() function
-         * defined in Spid_Wordpress_Loader as all of the hooks are defined
-         * in that particular class.
-         *
-         * The Spid_Wordpress_Loader will then create the relationship
-         * between the defined hooks and the functions defined in this
-         * class.
-         */
+		/**
+		 * This function is provided for demonstration purposes only.
+		 *
+		 * An instance of this class should be passed to the run() function
+		 * defined in Spid_Wordpress_Loader as all of the hooks are defined
+		 * in that particular class.
+		 *
+		 * The Spid_Wordpress_Loader will then create the relationship
+		 * between the defined hooks and the functions defined in this
+		 * class.
+		 */
 
-        //wp_enqueue_style( Spid_Wordpress::PLUGIN_NAME, plugin_dir_url( __FILE__ ) . 'css/spid-wordpress-admin.css', array(), Spid_Wordpress::VERSION, 'all' );
-    }
+		//wp_enqueue_style( Spid_Wordpress::PLUGIN_NAME, plugin_dir_url( __FILE__ ) . 'css/spid-wordpress-admin.css', array(), Spid_Wordpress::VERSION, 'all' );
+	}
 
-    /**
-     * Register the JavaScript for the admin area.
-     *
-     * @since    1.0.0
-     * @deprecated
-     */
-    public function enqueue_scripts()
-    {
+	/**
+	 * Register the JavaScript for the admin area.
+	 *
+	 * @since 1.0.0
+	 * @deprecated
+	 */
+	public function enqueue_scripts() {
 
-        /**
-         * This function is provided for demonstration purposes only.
-         *
-         * An instance of this class should be passed to the run() function
-         * defined in Spid_Wordpress_Loader as all of the hooks are defined
-         * in that particular class.
-         *
-         * The Spid_Wordpress_Loader will then create the relationship
-         * between the defined hooks and the functions defined in this
-         * class.
-         */
+		/**
+		 * This function is provided for demonstration purposes only.
+		 *
+		 * An instance of this class should be passed to the run() function
+		 * defined in Spid_Wordpress_Loader as all of the hooks are defined
+		 * in that particular class.
+		 *
+		 * The Spid_Wordpress_Loader will then create the relationship
+		 * between the defined hooks and the functions defined in this
+		 * class.
+		 */
 
-        //wp_enqueue_script( Spid_Wordpress::PLUGIN_NAME, plugin_dir_url( __FILE__ ) . 'js/spid-wordpress-admin.js', array( 'jquery' ), Spid_Wordpress::VERSION, false );
-    }
+		//wp_enqueue_script( Spid_Wordpress::PLUGIN_NAME, plugin_dir_url( __FILE__ ) . 'js/spid-wordpress-admin.js', array( 'jquery' ), Spid_Wordpress::VERSION, false );
+	}
 
-    /**
-     * Brings into existence a magnificent settings page.
-     *
-     * @since    1.0.0
-     */
-    public function add_settings_page()
-    {
-        $this->options_page_hook_suffix = add_options_page('SPID',
-                                                           'SPID',
-                                                           'manage_options',
-                                                           Spid_Wordpress::PLUGIN_NAME,
-            array(
-            $this,
-            'display_settings_page'
-        ));
-    }
+	/**
+	 * Brings into existence a magnificent settings page.
+	 *
+	 * @since    1.0.0
+	 */
+	public function add_settings_page() {
+		$this->options_page_hook_suffix = add_options_page('SPID',
+			'SPID',
+			'manage_options',
+			Spid_Wordpress::PLUGIN_NAME,
+			array( $this, 'display_settings_page' )
+		);
+	}
 
-    public function display_settings_page()
-    {
-        require_once 'partials/spid-wordpress-admin-display.php';
-    }
+	public function display_settings_page() {
+		require_once 'partials/spid-wordpress-admin-display.php';
+	}
 
-    public function register_settings()
-    {
-        add_settings_section(
-        // String for use in the 'id' attribute of tags
-            $this->settings->get_group_id(),
+	public function register_settings() {
+		add_settings_section(
+			// String for use in the 'id' attribute of tags
+			$this->settings->get_group_id(),
 
-            // Title of the section
-            __("General", 'spid-wordpress'), // TODO: conviene far saltare fuori il domain dalla classe i18n o hardcodarlo ovunque?
+			// Title of the section
+			__("General", 'spid-wordpress'), // TODO: conviene far saltare fuori il domain dalla classe i18n o hardcodarlo ovunque?
 
-            // Callback
-            array($this, 'settings_general_callback'),
+			// Callback
+			array($this, 'settings_general_callback'),
 
-            // The menu page on which to display this section. Should match $menu_slug from Function Reference/add theme page
-            Spid_Wordpress::PLUGIN_NAME
-        );
+			// The menu page on which to display this section. Should match $menu_slug from Function Reference/add theme page
+			Spid_Wordpress::PLUGIN_NAME
+		);
 
-        add_settings_field(
-        // String for use in the 'id' attribute of tags
-            $this->settings->get_label_id(Spid_Wordpress_Settings::USER_REGISTRATION),
+		add_settings_field(
+			// String for use in the 'id' attribute of tags
+			$this->settings->get_label_id(Spid_Wordpress_Settings::USER_REGISTRATION),
 
-            // Title of the field
-            __("Registration", 'spid-wordpress'),
+			// Title of the field
+			__("Registration", 'spid-wordpress'),
 
-            // Function that fills the field with the desired inputs as part of the larger form.
-            // assed a single argument, the $args array.
-            // Name and id of the input should match the $id given to this function.
-            // The function should echo its output.
-            array($this, 'settings_field_checkbox_callback'),
+			// Function that fills the field with the desired inputs as part of the larger form.
+			// assed a single argument, the $args array.
+			// Name and id of the input should match the $id given to this function.
+			// The function should echo its output.
+			array($this, 'settings_field_checkbox_callback'),
 
-            // The menu page on which to display this field.
-            // Should match $menu_slug from add_theme_page() or from do_settings_sections().
-            Spid_Wordpress::PLUGIN_NAME,
+			// The menu page on which to display this field.
+			// Should match $menu_slug from add_theme_page() or from do_settings_sections().
+			Spid_Wordpress::PLUGIN_NAME,
 
-            // The section of the settings page in which to show the box
-            // (default or a section you added with add_settings_section(),
-            // look at the page in the source to see what the existing ones are.)
-            $this->settings->get_group_id(),
+			// The section of the settings page in which to show the box
+			// (default or a section you added with add_settings_section(),
+			// look at the page in the source to see what the existing ones are.)
+			$this->settings->get_group_id(),
 
-            // Additional arguments that are passed to the $callback function.
-            // The 'label_for' key/value pair can be used to format the field title like so: <label for="value">$title</label>.
-            array(
-                'label_for' => $this->settings->get_label_id(Spid_Wordpress_Settings::USER_REGISTRATION),
-                'option' => Spid_Wordpress_Settings::USER_REGISTRATION,
-                'description' => __("New users can be registered by SPID authorities.", 'spid-wordpress'),
-            )
-        );
+			// Additional arguments that are passed to the $callback function.
+			// The 'label_for' key/value pair can be used to format the field title like so: <label for="value">$title</label>.
+			array(
+				'label_for' => $this->settings->get_label_id(Spid_Wordpress_Settings::USER_REGISTRATION),
+				'option' => Spid_Wordpress_Settings::USER_REGISTRATION,
+				'description' => __("New users can be registered by SPID authorities.", 'spid-wordpress'),
+			)
+		);
 
-        add_settings_field(
-        // String for use in the 'id' attribute of tags
-            $this->settings->get_label_id(Spid_Wordpress_Settings::USER_SECURITY_CHOICE),
+		add_settings_field(
+			// String for use in the 'id' attribute of tags
+			$this->settings->get_label_id(Spid_Wordpress_Settings::USER_SECURITY_CHOICE),
 
-            // Title of the field
-            __("Force SPID integration", 'spid-wordpress'),
+			// Title of the field
+			__("Force SPID integration", 'spid-wordpress'),
 
-            // Function that fills the field with the desired inputs as part of the larger form.
-            // assed a single argument, the $args array.
-            // Name and id of the input should match the $id given to this function.
-            // The function should echo its output.
-            array($this, 'settings_field_checkbox_callback'),
+			// Function that fills the field with the desired inputs as part of the larger form.
+			// assed a single argument, the $args array.
+			// Name and id of the input should match the $id given to this function.
+			// The function should echo its output.
+			array($this, 'settings_field_checkbox_callback'),
 
-            // The menu page on which to display this field.
-            // Should match $menu_slug from add_theme_page() or from do_settings_sections().
-            Spid_Wordpress::PLUGIN_NAME,
+			// The menu page on which to display this field.
+			// Should match $menu_slug from add_theme_page() or from do_settings_sections().
+			Spid_Wordpress::PLUGIN_NAME,
 
-            // The section of the settings page in which to show the box
-            // (default or a section you added with add_settings_section(),
-            // look at the page in the source to see what the existing ones are.)
-            $this->settings->get_group_id(),
+			// The section of the settings page in which to show the box
+			// (default or a section you added with add_settings_section(),
+			// look at the page in the source to see what the existing ones are.)
+			$this->settings->get_group_id(),
 
-            // Additional arguments that are passed to the $callback function.
-            // The 'label_for' key/value pair can be used to format the field title like so: <label for="value">$title</label>.
-            array(
-                'label_for' => $this->settings->get_label_id(Spid_Wordpress_Settings::USER_SECURITY_CHOICE),
-                'option' => Spid_Wordpress_Settings::USER_SECURITY_CHOICE,
-                'description' => __("Leave this option unchecked if you care about user choice. Not all users may appreciate SPID centralization.", 'spid-wordpress'),
-            )
-        );
+			// Additional arguments that are passed to the $callback function.
+			// The 'label_for' key/value pair can be used to format the field title like so: <label for="value">$title</label>.
+			array(
+				'label_for' => $this->settings->get_label_id(Spid_Wordpress_Settings::USER_SECURITY_CHOICE),
+				'option' => Spid_Wordpress_Settings::USER_SECURITY_CHOICE,
+				'description' => __("Leave this option unchecked if you care about user choice. Not all users may appreciate SPID centralization.", 'spid-wordpress'),
+			)
+		);
 
-        add_settings_field(
-            $this->settings->get_label_id(Spid_Wordpress_Settings::SIMPLESAMLPHP_PATH),
-            "SimpleSAMLPHP Path",
-            array($this, 'settings_field_textbox_callback'),
-            Spid_Wordpress::PLUGIN_NAME,
-            $this->settings->get_group_id(),
-            array(
-                'label_for' => $this->settings->get_label_id(Spid_Wordpress_Settings::SIMPLESAMLPHP_PATH),
-                'option' => Spid_Wordpress_Settings::SIMPLESAMLPHP_PATH,
-                'description' => 'Inserisci il path di SimpleSAMLPHP'
-            )
+		add_settings_field(
+			$this->settings->get_label_id(Spid_Wordpress_Settings::SIMPLESAMLPHP_PATH),
+			"SimpleSAMLPHP Path",
+			array($this, 'settings_field_textbox_callback'),
+			Spid_Wordpress::PLUGIN_NAME,
+			$this->settings->get_group_id(),
+			array(
+				'label_for' => $this->settings->get_label_id(Spid_Wordpress_Settings::SIMPLESAMLPHP_PATH),
+				'option' => Spid_Wordpress_Settings::SIMPLESAMLPHP_PATH,
+				'description' => 'Inserisci il path di SimpleSAMLPHP'
+			)
+		);
 
+		register_setting(
+			Spid_Wordpress::PLUGIN_NAME,
+			$this->settings->get_group_id(),
+			array(
+				$this,
+				'settings_general_sanitize'
+			)
+		);
+	}
 
-        );
+	public function settings_general_callback() {
+		echo '<p>' . __('General settings for SPID integration.', 'spid-wordpress') . '</p>';
+	}
 
-        register_setting(Spid_Wordpress::PLUGIN_NAME, $this->settings->get_group_id(), array(
-            $this,
-            'settings_general_sanitize'
-        ));
-    }
+	// TODO settare a zero checkbox che saranno magari salvate da qualche parte asd
+	public function settings_general_sanitize($input) {
+		$checkboxes = array(
+			Spid_Wordpress_Settings::USER_SECURITY_CHOICE,
+			Spid_Wordpress_Settings::USER_REGISTRATION
+		);
 
-    public function settings_general_callback()
-    {
-        echo '<p>' . __('General settings for SPID integration.', 'spid-wordpress') . '</p>';
-    }
+		$values = array();
+		foreach ($checkboxes as $i) {
+			$values[$i] = isset($input[$i]) ? (int)$input[$i] : 0;
+		}
+		$values[Spid_Wordpress_Settings::SIMPLESAMLPHP_PATH] = $input[Spid_Wordpress_Settings::SIMPLESAMLPHP_PATH];
 
-    // TODO settare a zero checkbox che saranno magari salvate da qualche parte asd
-    public function settings_general_sanitize($input)
-    {
-        $checkboxes = array(
-            Spid_Wordpress_Settings::USER_SECURITY_CHOICE,
-            Spid_Wordpress_Settings::USER_REGISTRATION
-        );
+		return $values;
+	}
 
-        $values = array();
-        foreach ($checkboxes as $i) {
-            $values[$i] = isset($input[$i]) ? (int)$input[$i] : 0;
-        }
-        $values[Spid_Wordpress_Settings::SIMPLESAMLPHP_PATH] = $input[Spid_Wordpress_Settings::SIMPLESAMLPHP_PATH];
+	function spid_general_callback($args) {
+		printf(
+		    '<p id="%s-%s">%s</p>',
+		    $args['id'],
+		    $args['name']
+		);
+   	 }
 
-        return $values;
-    }
+	/**
+	* @param array $args ['option' => string, 'label_for' => string]
+	*/
+	function settings_field_checkbox_callback($args) {
+		$opt = $args['option'];
+		if (!isset($args['default'])) {
+		    $args['default'] = false;
+		}
 
-    function spid_general_callback($args)
-    {
-        printf(
-            '<p id="%s-%s">%s</p>',
-            $args['id'],
-            $args['name']
-        );
-    }
+		$group = $this->settings->get_group_id();
+		$value = $this->settings->get_option_value($opt);
+		$checked = isset($value) ? $value : $args['default'];
+		?>
 
-    /**
-     * @param array $args ['option' => string, 'label_for' => string]
-     */
-    function settings_field_checkbox_callback($args)
-    {
-        $opt = $args['option'];
-        if (!isset($args['default'])) {
-            $args['default'] = false;
-        }
+		<input type="checkbox" id="<?php echo $this->settings->get_label_id($opt) ?>" value="1"
+		       name="<?php printf('%s[%s]', $group, $opt) ?>" <?php checked($checked) ?> />
+		<p class="description"><?php echo esc_html($args['description']) ?></p>
 
-        $group = $this->settings->get_group_id();
-        $value = $this->settings->get_option_value($opt);
-        $checked = isset($value) ? $value : $args['default'];
-        ?>
+		<?php
+	}
 
-        <input type="checkbox" id="<?php echo $this->settings->get_label_id($opt) ?>" value="1"
-               name="<?php printf('%s[%s]', $group, $opt) ?>" <?php checked($checked) ?> />
-        <p class="description"><?php echo esc_html($args['description']) ?></p>
+	function settings_field_textbox_callback($args) {
+		$opt = $args['option'];
+		if ( ! isset($args['default']) ) {
+			$args['default'] = false;
+		}
 
-        <?php
-    }
+		$group = $this->settings->get_group_id();
+		$value = $this->settings->get_option_value($opt);
+		//$value = 'abc';
+		$value2 = isset($value) ? $value : $args['default'];
+		?>
 
-    function settings_field_textbox_callback($args) {
-        $opt = $args['option'];
-        if (!isset($args['default'])) {
-            $args['default'] = false;
-        }
+		<input type="text" id="<?php echo $this->settings->get_label_id($opt) ?>" name="<?php printf('%s[%s]', $group, $opt) ?>" value="<?php echo esc_html($value2); ?>" />
+		<p class="description"><?php echo esc_html($args['description']) ?></p>
 
-        $group = $this->settings->get_group_id();
-        $value = $this->settings->get_option_value($opt);
-        //$value = 'abc';
-        $value2 = isset($value) ? $value : $args['default'];
-        ?>
+		<?php
 
-        <input type="text" id="<?php echo $this->settings->get_label_id($opt) ?>"
-               name="<?php printf('%s[%s]', $group, $opt) ?>" value="<?php echo esc_html($value2); ?>" />
-        <p class="description"><?php echo esc_html($args['description']) ?></p>
-
-        <?php
-
-    }
-
+	}
 }
