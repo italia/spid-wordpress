@@ -38,7 +38,7 @@ class Spid_Wordpress_User_Meta {
 	 * @since    1.0.0
 	 */
 	public function __construct() {
-		$this->settings    = new Spid_Wordpress_Settings();
+		$this->settings = new Spid_Wordpress_Settings();
 	}
 
 	/**
@@ -47,12 +47,6 @@ class Spid_Wordpress_User_Meta {
 	 * @since    1.0.0
 	 */
 	public function add_user_settings_field( $user ) {
-
-		if( $this->settings->get_option_value(Spid_Wordpress_Settings::USER_SECURITY_CHOICE) ) {
-			return;
-		}
-
-		$meta_value = $this->get_user_has_disabled_spid($user->ID);
 		?>
 
 		<h3>SPID</h3>
@@ -61,12 +55,12 @@ class Spid_Wordpress_User_Meta {
 				<th scope="row"><label for="spid_disabled"><?php echo __( "Untrust SPID", 'spid' ) ?></label></th>
 				<td>
 					<label for="spid_disabled">
-						<?php if ( $this->settings->get_option_value( Spid_Wordpress_Settings::USER_SECURITY_CHOICE ) ): ?>
+						<?php if ( $this->settings->get_option_value( Spid_Wordpress_Settings::NO_USER_SECURITY_CHOICE ) ): ?>
 							<input type="checkbox" id="spid_disabled" checked="checked" disabled="disabled"/>
 							<?php echo __( "You can't disable SPID integration.", 'spid' ) ?>
 						<?php else: ?>
-							<input type="checkbox" id="spid_disabled" name="spid_disabled"
-							       value="1" <?php checked( $meta_value ) ?> />
+							<?php $meta_value = $this->get_user_has_disabled_spid($user->ID); ?>
+							<input type="checkbox" id="spid_disabled" name="spid_disabled" value="1" <?php checked( $meta_value ) ?> />
 							<?php echo __( "Disable SPID integration. Check this if you don't trust SPID authorities.", 'spid' ) ?>
 						<?php endif ?>
 					</label>
@@ -83,7 +77,7 @@ class Spid_Wordpress_User_Meta {
 	 * @since    1.0.0
 	 */
 	public function personal_options_update( $user_id ) {
-		if ( ! $this->settings->get_option_value(Spid_Wordpress_Settings::USER_SECURITY_CHOICE) && current_user_can( 'edit_user', $user_id )) {
+		if ( ! $this->settings->get_option_value(Spid_Wordpress_Settings::NO_USER_SECURITY_CHOICE) && current_user_can( 'edit_user', $user_id )) {
 			update_user_meta( $user_id, self::SPID_DISABLED, $_POST['spid_disabled'] );
 		}
 	}

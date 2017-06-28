@@ -28,7 +28,7 @@ class Spid_Wordpress_Settings {
 	/**
 	 * true when enforcing SPID logins and no choice exists but to become part of the Borg Collective.
 	 */
-	const USER_SECURITY_CHOICE = 'user_security_choice';
+	const NO_USER_SECURITY_CHOICE = 'user_security_choice';
 
 	// Path where simplesamlphp is installed
 	const SIMPLESAMLPHP_PATH = 'simplesamlphp_path';
@@ -44,10 +44,19 @@ class Spid_Wordpress_Settings {
 		$this->settings_general  = $this->settings_prefix . '_general';
 
 		$this->settings_defaults = array(
-			self::USER_SECURITY_CHOICE => 0,
-			self::USER_REGISTRATION    => 1,
-			self::SIMPLESAMLPHP_AUTHSOURCE => '-',
-			self::SIMPLESAMLPHP_PATH => '-',
+			// As default, users can choose to disable their SPID integration
+			self::NO_USER_SECURITY_CHOICE => 0,
+
+			// As default, SPID can register new users
+			self::USER_REGISTRATION => 1,
+
+			// @TODO: Why this should be database-definable?
+			self::SIMPLESAMLPHP_AUTHSOURCE => WP_SIMPLESAML_AUTHSOURCE,
+
+			// @TODO: Why this should be database-definable?
+			self::SIMPLESAMLPHP_PATH => WP_SIMPLESAML_DIR . DIRECTORY_SEPARATOR . WP_SIMPLESAML_AUTOLOADER_FILE,
+
+			// @TODO: What is this?
 			self::SIMPLESAMLPHP_UIDATTRIBUTE => '-'
 		);
 

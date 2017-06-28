@@ -100,12 +100,12 @@ class Spid_Wordpress_Login {
 	 * @since 1.0.0
 	 */
 	public function __construct() {
-		$this->version      = SPID_VERSION;
-		$this->plugin_name  = 'spid-login';
-		$this->loader       = new Spid_Wordpress_Loader();
-		$this->settings     = new Spid_Wordpress_Settings();
-		$this->user_meta    = new Spid_Wordpress_User_Meta();
-		$this->shortcodes = new Spid_Login_Shortcodes( $this->get_plugin_name(), $this->get_version() );
+		$this->version     = SPID_VERSION;
+		$this->plugin_name = 'spid-login';
+		$this->loader      = new Spid_Wordpress_Loader();
+		$this->settings    = new Spid_Wordpress_Settings();
+		$this->user_meta   = new Spid_Wordpress_User_Meta();
+		$this->shortcodes  = new Spid_Login_Shortcodes( $this->get_plugin_name(), $this->get_version() );
 		$this->define_public_hooks();
 		//$this->loader->run();
 	}
@@ -124,9 +124,11 @@ class Spid_Wordpress_Login {
 	 */
 	public function try_spid_login() {
 
+		// @TODO Should this be database-selectable?
 		require WP_SIMPLESAML_DIR . DIRECTORY_SEPARATOR . WP_SIMPLESAML_AUTOLOADER_FILE;
 
 		// @TODO da sostituire con il nome dl servizio configurato dall'utente
+		// @TODO Should this be database-selectable?
 		$saml_auth_as = new SimpleSAML_Auth_Simple( WP_SIMPLESAML_AUTHSOURCE );
 		if( $saml_auth_as->isAuthenticated() ) {
 
@@ -134,34 +136,11 @@ class Spid_Wordpress_Login {
 
 			$spid_user_authname = self::get_spid_authname( $saml_auth_attributes );
 
-			// Check if user exists
-			$user = get_user_by( 'login', $spid_user_uid );
-			if( ! $user ) {
+			// Try login
+			$this->bypass_login( $spid_user_authname );
 
-				if( ! $this->settings->get_option_value( Spid_Wordpress_Settings::USER_REGISTRATION ) ) {
-					throw new Exception("Users are not allowed to register in using SPID in this website.");
-				}
-
-				// https://codex.wordpress.org/Function_Reference/wp_insert_user
-				$user_id = wp_insert_user( array(
-				    'user_login' => $spid_user_uid,
-				    'user_pass'  => NULL // When creating an user, `user_pass` is expected.
-				) );
-				if ( is_wp_error( $user_id ) ) {
-					throw new Exception("Can't create user");
-				}
-
-				// Obtain the already created user
-				$user = get_user_by('id', $user_id);
-			}
-
-			if( $user ) {
-				// Login the user, that now exists
-				$this->bypass_login( $user->user_login );
-			} else {
-				throw new Exception("Can't login a non-existing user");
-			}
 		} else {
+			// @TODO What does it do?
 			$saml_auth_as->login();
 			// @TODO recuperare il codice utente dagli attributi utilizzati
 		}
@@ -211,7 +190,7 @@ class Spid_Wordpress_Login {
 	public function enqueue_scripts() {
 		//wp_enqueue_script( Spid_Wordpress::PLUGIN_NAME, plugin_dir_url( __FILE__ ) . 'js/spid-wordpress-login.js', array( 'jquery' ), Spid_Wordpress::VERSION, false );
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . '../public/js/spid-sp-access-button.min.js', array( 'jquery' ), $this->version, true );
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . '../public/css/spid-sp-access-button.min.css', array(), $this->version, 'all' );
+		wp_enqueue_style(  $this->plugin_name, plugin_dir_url( __FILE__ ) . '../public/css/spid-sp-access-button.min.css', array(), $this->version, 'all' );
 	}
 
 	/**
@@ -247,24 +226,33 @@ class Spid_Wordpress_Login {
 	}
 
 	/**
-	 * Programmatically logs a user in.
+	 * Programmatically logs a user in (if allowed).
 	 *
-	 * @param string $username the WORDPRESS, NOT SPID, username
+	 * @param string $user_login the WORDPRESS, NOT SPID, username, as WP_User#user_login
 	 *
 	 * @return bool True if the login was successful; false if it wasn't
 	 * @throws Exception if SPID login disabled
 	 * @see https://wordpress.stackexchange.com/a/156431
 	 */
-	function bypass_login( $username ) {
-		$user = get_user_by( 'login', $username );
+	function bypass_login( $user_login ) {
 
-		if ( ! $user ) {
-			// TODO: remove and controllare a monte
-			throw new Exception( 'User not found (this should never happen)' );
+		$user = get_user_by( 'login', $user_login );
+
+		// Check if the user exists
+		if( ! $user ) {
+			// Try to create this new user if allowed or throw exception
+			$user = $this->create_new_user($user_login);
 		}
 
-		if ( ! $this->settings->get_option_value( Spid_Wordpress_Settings::USER_SECURITY_CHOICE ) && $this->user_meta->get_user_has_disabled_spid( $user->ID ) ) {
-			throw new Exception( "SPID login disabled by user" );
+		// Now the $user exists
+
+		// The user is allowed to choose?
+		if( ! $this->settings->get_option_value(Spid_Wordpress_Settings::NO_USER_SECURITY_CHOICE) ) {
+			// The user is allowed to choose!
+			if( get_user_has_disabled_spid( $user->ID ) ) {
+				// The user don't want SPID integration
+				throw new Exception("SPID login disabled by user.");
+			}
 		}
 
 		if ( is_user_logged_in() ) {
@@ -277,7 +265,7 @@ class Spid_Wordpress_Login {
 		add_filter( 'authenticate', $filter, 10, 3 );
 
 		// Login the user with the previous registered hook
-		$user = wp_signon( array( 'user_login' => $username ) );
+		$user = wp_signon( array( 'user_login' => $user_login ) );
 
 		// Unregister the previously registered fake authentication hook
 		// Secret undocumented parameters found in OpenID plugin or something
@@ -293,6 +281,34 @@ class Spid_Wordpress_Login {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Create a new user (if allowed by the settings).
+	 *
+	 * @param string $user_login WP_User#user_login
+	 * @return WP_User
+	 */
+	function create_new_user($user_login) {
+		// The user does not exist
+
+		if( ! $this->settings->get_option_value( Spid_Wordpress_Settings::USER_REGISTRATION ) ) {
+			throw new Exception("Users are not allowed to register in using SPID in this website.");
+		}
+
+		// https://codex.wordpress.org/Function_Reference/wp_insert_user
+		$user_ID = wp_insert_user( array(
+		    'user_login' => $user_login,
+		    'user_pass'  => NULL // When creating an user, `user_pass` is expected.
+		) );
+
+		if ( is_wp_error( $user_ID ) ) {
+			// Probably the user already exists, or illegal characters in username
+			throw new Exception("Can't create user");
+		}
+
+		// Obtain the already created user
+		return get_user_by('ID', $user_ID);
 	}
 
 	/**
@@ -332,7 +348,7 @@ class Spid_Wordpress_Login {
 
 		// TODO: Attivare le opzioni solo se il plugin e' configurato bene.
 
-		$this->loader->add_action( 'login_form', $this->spid, 'print_button' );
+		$this->loader->add_action( 'login_form',        $this->spid, 'print_button' );
 		$this->loader->add_action( 'spid_login_button', $this->spid, 'print_button' );
 	}
 
