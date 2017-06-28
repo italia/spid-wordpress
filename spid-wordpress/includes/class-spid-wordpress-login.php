@@ -137,6 +137,7 @@ class Spid_Wordpress_Login {
 			$spid_user_authname = self::get_spid_authname( $saml_auth_attributes );
 
 			// Try login
+			// @TODO: Pass also other fields (which fields are available?)
 			$this->bypass_login( $spid_user_authname );
 
 		} else {
@@ -229,19 +230,20 @@ class Spid_Wordpress_Login {
 	 * Programmatically logs a user in (if allowed).
 	 *
 	 * @param string $user_login the WORDPRESS, NOT SPID, username, as WP_User#user_login
+	 * @param array $userdata See 2nd ::create_new_user() param
 	 *
 	 * @return bool True if the login was successful; false if it wasn't
 	 * @throws Exception if SPID login disabled
 	 * @see https://wordpress.stackexchange.com/a/156431
 	 */
-	function bypass_login( $user_login ) {
+	function bypass_login( $user_login, $userdata = array() ) {
 
 		$user = get_user_by( 'login', $user_login );
 
 		// Check if the user exists
 		if( ! $user ) {
 			// Try to create this new user if allowed or throw exception
-			$user = $this->create_new_user($user_login);
+			$user = $this->create_new_user($user_login, $userdata);
 		}
 
 		// Now the $user exists
@@ -287,20 +289,23 @@ class Spid_Wordpress_Login {
 	 * Create a new user (if allowed by the settings).
 	 *
 	 * @param string $user_login WP_User#user_login
+	 * @param array $userdata WP_User fields
 	 * @return WP_User
 	 */
-	function create_new_user($user_login) {
+	function create_new_user($user_login, $userdata = array() ) {
 		// The user does not exist
 
 		if( ! $this->settings->get_option_value( Spid_Wordpress_Settings::USER_REGISTRATION ) ) {
 			throw new Exception("Users are not allowed to register in using SPID in this website.");
 		}
 
+		$default_userdata = array(
+			'user_login' => $user_login,
+			'user_pass'  => NULL // When creating an user, `user_pass` is expected.
+		);
+
 		// https://codex.wordpress.org/Function_Reference/wp_insert_user
-		$user_ID = wp_insert_user( array(
-		    'user_login' => $user_login,
-		    'user_pass'  => NULL // When creating an user, `user_pass` is expected.
-		) );
+		$user_ID = wp_insert_user( array_merge($default_userdata, $userdata) );
 
 		if ( is_wp_error( $user_ID ) ) {
 			// Probably the user already exists, or illegal characters in username
