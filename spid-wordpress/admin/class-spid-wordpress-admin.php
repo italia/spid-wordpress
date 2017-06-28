@@ -213,7 +213,6 @@ class Spid_Wordpress_Admin {
 		echo '<p>' . __('General settings for SPID integration.', 'spid-wordpress') . '</p>';
 	}
 
-	// TODO settare a zero checkbox che saranno magari salvate da qualche parte asd
 	public function settings_general_sanitize($input) {
 		$checkboxes = array(
 			Spid_Wordpress_Settings::NO_USER_SECURITY_CHOICE,
@@ -243,7 +242,7 @@ class Spid_Wordpress_Admin {
 	function settings_field_checkbox_callback($args) {
 		$opt = $args['option'];
 		if (!isset($args['default'])) {
-		    $args['default'] = false;
+			$args['default'] = false;
 		}
 
 		$group = $this->settings->get_group_id();
@@ -252,7 +251,7 @@ class Spid_Wordpress_Admin {
 		?>
 
 		<input type="checkbox" id="<?php echo $this->settings->get_label_id($opt) ?>" value="1"
-		       name="<?php printf('%s[%s]', $group, $opt) ?>" <?php checked($checked) ?> />
+			name="<?php printf('%s[%s]', $group, $opt) ?>" <?php checked($checked) ?> />
 		<p class="description"><?php echo esc_html($args['description']) ?></p>
 
 		<?php
@@ -266,11 +265,11 @@ class Spid_Wordpress_Admin {
 
 		$group = $this->settings->get_group_id();
 		$value = $this->settings->get_option_value($opt);
-		//$value = 'abc';
-		$value2 = isset($value) ? $value : $args['default'];
+		$sanitized = isset($value) ? $value : $args['default'];
 		?>
 
-		<input type="text" id="<?php echo $this->settings->get_label_id($opt) ?>" name="<?php printf('%s[%s]', $group, $opt) ?>" value="<?php echo esc_html($value2); ?>" />
+		<input type="text" id="<?php echo $this->settings->get_label_id($opt) ?>"
+				name="<?php printf('%s[%s]', $group, $opt) ?>" value="<?php echo esc_html($sanitized); ?>" />
 		<p class="description"><?php echo esc_html($args['description']) ?></p>
 
 		<?php
