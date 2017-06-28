@@ -118,11 +118,16 @@ class Spid_Wordpress_Login {
 	}
 
 	/**
-	 * Use only if it's a SPID request.
+	 * Check if this is a SPID request and then try a login.
 	 *
 	 * @since 1.0.0
 	 */
 	public function try_spid_login() {
+
+		// @since @umbros call
+		if( ! self::is_shibbosomething_request() ) {
+			return;
+		}
 
 		// @TODO Should this be database-selectable?
 		require WP_SIMPLESAML_DIR . DIRECTORY_SEPARATOR . WP_SIMPLESAML_AUTOLOADER_FILE;
@@ -329,11 +334,12 @@ class Spid_Wordpress_Login {
 	}
 
 	/**
-	 * Check if the client is a Shibboleth request (don't know why we are inserting this if it is a SPID integration?)
+	 * Check if the client is a Shibboleth request
 	 *
+	 * @TODO (don't know why we are inserting this if it is a SPID integration)
 	 * @see https://gist.github.com/umbros/0c0293b9fa541cd34be33f099611e79e
 	 */
-	static function isShibbolethRequest() {
+	static function is_shibbosomething_request() {
 		foreach(self::$SHIB_HEADERS as $header) {
 			// Why isn't enough `! empty()` alone? Boh.
 			if( array_key_exists($header, $_SERVER) && ! empty( $_SERVER[$header] ) ) {
