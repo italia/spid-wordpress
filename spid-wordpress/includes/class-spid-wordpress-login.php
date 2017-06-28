@@ -254,7 +254,7 @@ class Spid_Wordpress_Login {
 		// The user is allowed to choose?
 		if( ! $this->settings->get_option_value(Spid_Wordpress_Settings::NO_USER_SECURITY_CHOICE) ) {
 			// The user is allowed to choose!
-			if( get_user_has_disabled_spid( $user->ID ) ) {
+			if( Spid_Wordpress_User_Meta::get_user_has_disabled_spid( $user->ID ) ) {
 				// The user don't want SPID integration
 				throw new Exception("SPID login disabled by user.");
 			}

@@ -59,7 +59,7 @@ class Spid_Wordpress_User_Meta {
 							<input type="checkbox" id="spid_disabled" checked="checked" disabled="disabled"/>
 							<?php echo __( "You can't disable SPID integration.", 'spid' ) ?>
 						<?php else: ?>
-							<?php $meta_value = $this->get_user_has_disabled_spid($user->ID); ?>
+							<?php $meta_value = self::get_user_has_disabled_spid($user->ID); ?>
 							<input type="checkbox" id="spid_disabled" name="spid_disabled" value="1" <?php checked( $meta_value ) ?> />
 							<?php echo __( "Disable SPID integration. Check this if you don't trust SPID authorities.", 'spid' ) ?>
 						<?php endif ?>
@@ -82,7 +82,12 @@ class Spid_Wordpress_User_Meta {
 		}
 	}
 
-	public function get_user_has_disabled_spid( $user_id ) {
+	/**
+	 * The user has disabled SPID?
+	 *
+	 * @return bool
+	 */
+	public static function get_user_has_disabled_spid( $user_id ) {
 		return get_user_meta( $user_id, self::SPID_DISABLED, true );
 	}
 
