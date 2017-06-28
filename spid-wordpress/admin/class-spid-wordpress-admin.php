@@ -188,24 +188,21 @@ class Spid_Wordpress_Admin {
 
 		add_settings_field(
 			$this->settings->get_label_id(Spid_Wordpress_Settings::SIMPLESAMLPHP_PATH),
-			_("SimpleSAMLPHP Path", 'spid-wordpress'),
+			__("SimpleSAMLPHP Path", 'spid-wordpress'),
 			array($this, 'settings_field_textbox_callback'),
 			Spid_Wordpress::PLUGIN_NAME,
 			$this->settings->get_group_id(),
 			array(
 				'label_for' => $this->settings->get_label_id(Spid_Wordpress_Settings::SIMPLESAMLPHP_PATH),
 				'option' => Spid_Wordpress_Settings::SIMPLESAMLPHP_PATH,
-				'description' => _('SimpleSAMLPHP (or SimpleSPIDPHP?) path, if globally installed', 'spid-wordpress')
+				'description' => __('SimpleSAMLPHP (or SimpleSPIDPHP?) path, if globally installed', 'spid-wordpress')
 			)
 		);
 
 		register_setting(
 			Spid_Wordpress::PLUGIN_NAME,
 			$this->settings->get_group_id(),
-			array(
-				$this,
-				'settings_general_sanitize'
-			)
+			array( $this, 'settings_general_sanitize' )
 		);
 	}
 
