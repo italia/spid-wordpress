@@ -8,7 +8,8 @@
  * @package    Facebook_Login_Pro
  * @subpackage Facebook_Login_Pro/includes
  * @author     Damian Logghe <info@timersys.com>
- * @TODO LICENSE!!
+ * @see        https://github.com/timersys/facebook-login/blob/master/trunk/includes/class-facebook-login-shortcodes.php
+ * @license    GNU GPL v3
  */
 class Spid_Login_Shortcodes {
 
