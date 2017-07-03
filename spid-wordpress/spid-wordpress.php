@@ -58,6 +58,10 @@ or define('WP_SIMPLESAML_AUTHSOURCE', 'default-sp');
 defined(  'WP_SIMPLESAML_ATTR_MAPPING')
 or define('WP_SIMPLESAML_ATTR_MAPPING', '?');
 
+// PHPSimpleSaml is called only if headers have sense. Disable only for static authentication tests.
+defined(  'WP_SIMPLESAML_CHECK_HEADERS')
+or define('WP_SIMPLESAML_CHECK_HEADERS', true);
+
 // To try the consistence of the WordPress login API across WordPress versions
 // If you try this in production, you are an idiot.
 defined(  'WP_BACKDOOR_SPID')

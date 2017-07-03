@@ -120,7 +120,7 @@ class Spid_Wordpress_Login {
 	public function try_spid_login() {
 
 		// @since @umbros call
-		if( ! self::is_shibbosomething_request() ) {
+		if( WP_SIMPLESAML_CHECK_HEADERS && ! self::is_shibbosomething_request() ) {
 			return;
 		}
 
