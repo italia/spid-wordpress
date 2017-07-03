@@ -136,9 +136,27 @@ class Spid_Wordpress_Login {
 
 			$spid_user_authname = self::get_spid_authname( $saml_auth_attributes );
 
+			// Enrich the registered WordPress user with provided data.
+			$userdata = array(
+				'user_email' => 'email',
+				'first_name' => 'name',
+				'last_name'  => 'familyName'
+			);
+			foreach($userdata as $wp_field => $saml_field) {
+				// The value is NULL if not available
+				$userdata[ $wp_field ] = self::get_attribute($saml_auth_attributes, $saml_field);
+			}
+
+			// Enrich also with Consider also the username as "Name Surname"
+			if( isset( $userdata['first_name'], $userdata['last_name'] ) ) {
+				$userdata['user_nicename'] = sprintf("%s %s",
+					$userdata['first_name'],
+					$userdata['last_name']
+				);
+			}
+
 			// Try login
-			// @TODO: Pass also other fields (which fields are available?)
-			$this->bypass_login( $spid_user_authname );
+			$this->bypass_login( $spid_user_authname, $userdata );
 
 		} else {
 			// @TODO What does it do?
@@ -148,13 +166,22 @@ class Spid_Wordpress_Login {
 
 	}
 
+	/**
+	 * Try to get a certain element from a non-so-consistent array.
+	 *
+	 * @param $attributes Heystack
+	 * @param $attribute Needle (index of the array)
+	 * @return mixed|null The element, if found
+	 */
 	static function get_attribute($attributes, $attribute) {
 		if( isset( $attributes[ $attribute ] ) ) {
-			return is_array( $attributes[ $attribute ] )
-				? $attributes[ $attribute ][0]
-				: $attributes[ $attribute ];
+			$v = $attributes[ $attribute ];
+			if( is_array( $v ) ) {
+				return $v[0];
+			}
+			return $v;
 		}
-		return false;
+		return null;
 	}
 
 	/**
