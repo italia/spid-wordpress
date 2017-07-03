@@ -148,30 +148,39 @@ class Spid_Wordpress_Login {
 
 	}
 
+	static function get_attribute($attributes, $attribute) {
+		if( isset( $attributes[ $attribute ] ) ) {
+			return is_array( $attributes[ $attribute ] )
+				? $attributes[ $attribute ][0]
+				: $attributes[ $attribute ];
+		}
+		return false;
+	}
+
 	/**
+	 * Get an identifier from SPID. This will be the username.
+	 *
 	 * @param $simplesaml_attributes SimpleSAML_Auth_Simple#getAttributes().
 	 *
-	 * @return string authname. Substring of it, for unknown reasons.
-	 * @throws Exception if no valid unique ID (codice fiscale et al) can be found in SPID response
+	 * @return string Any SPID identifier
+	 * @throws Exception if no valid unique ID (codice fiscale et all) can be found in SPID response
 	 */
 	private static function get_spid_authname($simplesaml_attributes) {
-		$authname = '';
-		// Check if valid local session exists..
-		if( isset($simplesaml_attributes) ) {
-			// TODO: remove this?
-			DEBUG and printf('_spid_auth_get_authname: Valid local session exist');
-			if (isset($simplesaml_attributes['fiscalNumber']) ) {
-				$authname = $simplesaml_attributes['fiscalNumber'][0];
-			} else if (isset($simplesaml_attributes['ivaCode'])) {
-				$authname = $simplesaml_attributes['ivaCode'][0];
-			} else {
-				throw new Exception( sprintf("Error in %s: no valid unique id attribute set", __FILE__ ) );
+
+		$identifiers = array(
+			'CF'   => 'fiscalNumber',
+			'IVA'  => 'ivaCode',
+			'SPID' => 'spidCode'
+		);
+
+		foreach($identifiers as $prefix => $identifier) {
+			$authname = self::get_attribute($simplesaml_attributes, $identifier);
+			if($authname) {
+				return sprintf( "%s_%s", $prefix, $authname );
 			}
-		} else {
-			// TODO: Capire se è intenzionale qui evitare di scagliare eccezioni ecco
 		}
-		// TODO: Capire cos'hanno fatto di male i primi 6 caratteri
-		return substr($authname, 6);
+
+		throw new Exception( sprintf("Error in %s: no valid unique id attribute set", __FILE__ ) );
 	}
 
 	/**
