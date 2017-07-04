@@ -29,15 +29,10 @@ Per installare il plugin è necessario copiare la directory `spid-wordpress` all
 
 ## Sviluppo
 
-Per agevolare lo sviluppo del plugin è stato creato un `Vagrantfile` per creare una VM sul proprio ambiente di sviluppo pronta per l'utilizzo del plugin.
-Per poter creare l'ambiente basta digitare nella directory del repository:
+Per agevolare lo sviluppo del plugin è stato creato un ambiente di development basato su [Vagrant](https://www.vagrantup.com/).
+Per poter creare l'ambiente basta digitare nella directory del repository: `vagrant up`
 
-   `vagrant up`
-
-Finito il processo di provisioning potete procedere con l'installazione di wordpress tramite il link:
-
-   `http://localhost:8080/wordpress`
-
+Finito il processo di provisioning potete accedere a WP tramite l'indirizzo: [http://localhost:8080](http://localhost:8080)
 
 
 ## Licenza
