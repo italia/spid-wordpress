@@ -14,7 +14,7 @@ La struttura del repository contiene i seguenti file:
 
 ## Installazione
 
-Per installare il plugin è necessario copiare la directory `spid-wordpress` all'interno della cartella dei plugin:
+Per installare il plugin, è necessario copiare la directory `spid-wordpress` all'interno della cartella dei plugin:
 
    `cp -R /my/home/spid-wordpress/spid-wordpress /path/to/wordpress/wp-content/plugins`
 
