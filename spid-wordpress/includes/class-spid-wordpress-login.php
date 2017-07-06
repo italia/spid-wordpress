@@ -112,59 +112,62 @@ class Spid_Wordpress_Login {
 		//$this->loader->run();
 	}
 
-	/**
-	 * Check if this is a SPID request and then try a login.
-	 *
-	 * @since 1.0.0
-	 */
-	public function try_spid_login() {
-
-		// @since @umbros call
-		if( WP_SIMPLESAML_CHECK_HEADERS && ! self::is_shibbosomething_request() ) {
-			return;
-		}
-
-		// @TODO Should this be database-selectable?
-		require WP_SIMPLESAML_DIR . DIRECTORY_SEPARATOR . WP_SIMPLESAML_AUTOLOADER_FILE;
-
-		// @TODO da sostituire con il nome dl servizio configurato dall'utente
-		// @TODO Should this be database-selectable?
-		$saml_auth_as = new SimpleSAML_Auth_Simple( WP_SIMPLESAML_AUTHSOURCE );
-		if( $saml_auth_as->isAuthenticated() ) {
-
-			$saml_auth_attributes = $saml_auth_as->getAttributes();
-
-			$spid_user_authname = self::get_spid_authname( $saml_auth_attributes );
-
-			// Enrich the registered WordPress user with provided data.
-			$userdata = array(
-				'user_email' => 'email',
-				'first_name' => 'name',
-				'last_name'  => 'familyName'
-			);
-			foreach($userdata as $wp_field => $saml_field) {
-				// The value is NULL if not available
-				$userdata[ $wp_field ] = self::get_attribute($saml_auth_attributes, $saml_field);
-			}
-
-			// Enrich also with Consider also the username as "Name Surname"
-			if( isset( $userdata['first_name'], $userdata['last_name'] ) ) {
-				$userdata['user_nicename'] = sprintf("%s %s",
-					$userdata['first_name'],
-					$userdata['last_name']
-				);
-			}
-
-			// Try login
-			$this->bypass_login( $spid_user_authname, $userdata );
-
-		} else {
-			// @TODO What does it do?
-			$saml_auth_as->login();
-			// @TODO recuperare il codice utente dagli attributi utilizzati
-		}
-
-	}
+//	/**
+//	 * Check if this is a SPID request and then try a login.
+//	 *
+//	 * @since 1.0.0
+//	 */
+//	public function try_spid_login() {
+//
+//		// @since @umbros call
+//		if( WP_SIMPLESAML_CHECK_HEADERS && ! self::is_shibbosomething_request() ) {
+//			return;
+//		}
+//
+//		// @TODO Should this be database-selectable?
+//		require WP_SIMPLESAML_DIR . DIRECTORY_SEPARATOR . WP_SIMPLESAML_AUTOLOADER_FILE;
+//
+//		// @TODO da sostituire con il nome dl servizio configurato dall'utente
+//		// @TODO Should this be database-selectable?
+//		$saml_auth_as = new SimpleSAML_Auth_Simple( WP_SIMPLESAML_AUTHSOURCE );
+//		if( $saml_auth_as->isAuthenticated() ) {
+//
+//			$saml_auth_attributes = $saml_auth_as->getAttributes();
+//
+//			$spid_user_authname = self::get_spid_authname( $saml_auth_attributes );
+//
+//			// Enrich the registered WordPress user with provided data.
+//			$userdata = array(
+//				'user_email' => 'email',
+//				'first_name' => 'name',
+//				'last_name'  => 'familyName'
+//			);
+//			foreach($userdata as $wp_field => $saml_field) {
+//				// The value is NULL if not available
+//				$userdata[ $wp_field ] = self::get_attribute($saml_auth_attributes, $saml_field);
+//			}
+//
+//			// Enrich also with Consider also the username as "Name Surname"
+//			if( isset( $userdata['first_name'], $userdata['last_name'] ) ) {
+//				$userdata['user_nicename'] = sprintf("%s %s",
+//					$userdata['first_name'],
+//					$userdata['last_name']
+//				);
+//			}
+//
+//			// Try login
+//			$this->bypass_login( $spid_user_authname, $userdata );
+//
+//		} else {
+//			// @TODO What does it do?
+//            $params=[];
+//            $params['ReturnTo'] = '/url/to/check/auth';
+//            $params['ErrorURL'] = '/url/to/show/errors';
+//			$saml_auth_as->login($params);
+//			// @TODO recuperare il codice utente dagli attributi utilizzati
+//		}
+//
+//	}
 
 	/**
 	 * Try to get a certain element from a non-so-consistent array.
@@ -423,4 +426,98 @@ class Spid_Wordpress_Login {
 	public function get_version() {
 		return $this->version;
 	}
+    /**
+     * Init external authentication with SimpleSAMLPHP and ReturnToUrl.
+     *
+     * @since     1.0.0
+     */
+    public function spid_startsso()
+    {
+        if (!$this->include_libs())
+            return;
+
+        // @TODO da sostituire con il nome dl servizio configurato dall'utente
+        // @TODO Should this be database-selectable?
+        $saml_auth_as = new SimpleSAML_Auth_Simple( WP_SIMPLESAML_AUTHSOURCE );
+        if( !$saml_auth_as->isAuthenticated() ) {
+            $saml_auth_as = new SimpleSAML_Auth_Simple( WP_SIMPLESAML_AUTHSOURCE );
+            $params=[];
+            $params['ReturnTo'] = get_home_url(null,'/?return_from_sso=true');
+            $params['ErrorURL'] = get_home_url();
+            $saml_auth_as->login($params);
+
+        }
+    }
+
+    public function spid_login()
+    {
+        if (!$this->include_libs())
+            return;
+
+        // @TODO da sostituire con il nome dl servizio configurato dall'utente
+        // @TODO Should this be database-selectable?
+        $saml_auth_as = new SimpleSAML_Auth_Simple( WP_SIMPLESAML_AUTHSOURCE );
+        if( $saml_auth_as->isAuthenticated() ) {
+
+            $saml_auth_attributes = $saml_auth_as->getAttributes();
+
+            $spid_user_authname = self::get_spid_authname( $saml_auth_attributes );
+
+            // Enrich the registered WordPress user with provided data.
+            $userdata = array(
+                'user_email' => 'email',
+                'first_name' => 'name',
+                'last_name'  => 'familyName'
+            );
+            foreach($userdata as $wp_field => $saml_field) {
+                // The value is NULL if not available
+                $userdata[ $wp_field ] = self::get_attribute($saml_auth_attributes, $saml_field);
+            }
+
+            // Enrich also with Consider also the username as "Name Surname"
+            if( isset( $userdata['first_name'], $userdata['last_name'] ) ) {
+                $userdata['user_nicename'] = sprintf("%s %s",
+                    $userdata['first_name'],
+                    $userdata['last_name']
+                );
+            }
+
+            // Try login
+            $this->bypass_login( $spid_user_authname, $userdata );
+
+        } else {
+            throw new Exception('Errore durante autenticazione SPID.');
+        }
+    }
+
+    public function spid_logout() {
+
+        if (!$this->include_libs())
+            return;
+
+        $saml_auth_as = new SimpleSAML_Auth_Simple( WP_SIMPLESAML_AUTHSOURCE );
+        if( $saml_auth_as->isAuthenticated() ) {
+            $saml_auth_as->logout();
+        }
+
+    }
+    /**
+     * Return true if plugin is enabled
+     * @since     1.0.0
+     * @return    boolean    True if plugin is enabled, otherwise False
+     */
+    public function is_enabled() {
+        // @TODO Come verificare se il plugin è attivo ???
+        return true;
+    }
+
+    public function include_libs() {
+        if ($this->is_enabled()) {
+            // @TODO Should this be database-selectable?
+            require WP_SIMPLESAML_DIR . DIRECTORY_SEPARATOR . WP_SIMPLESAML_AUTOLOADER_FILE;
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

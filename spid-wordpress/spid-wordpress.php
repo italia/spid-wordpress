@@ -112,16 +112,18 @@ Spid_Wordpress::factory()->run();
 // TODO muovere questa cosa nel grande coso globale
 add_action('init', function() {
 
-	// Is this a sysadmin test?
-	if( WP_BACKDOOR_SPID && WP_DEBUG && isset( $_GET['backdoor_spid'] ) ) {
+    if (isset($_GET['init_spid_login'])) {
+        Spid_Wordpress_Login::factory()->spid_startsso();
+    } elseif (isset($_GET['return_from_sso'])) {
+        Spid_Wordpress_Login::factory()->spid_login();
+    }
 
-		// Yes, it is! Test the WordPress login API
-		Spid_Wordpress_Login::factory()->bypass_login( $_GET['backdoor_spid'] );
-
-	} else {
-
-		// No, it isn't. Work as expected.
-		Spid_Wordpress_Login::factory()->try_spid_login();
-
-	}
+//	// Is this a sysadmin test?
+//	if( WP_BACKDOOR_SPID && WP_DEBUG && isset( $_GET['backdoor_spid'] ) ) {
+//		// Yes, it is! Test the WordPress login API
+//		Spid_Wordpress_Login::factory()->bypass_login( $_GET['backdoor_spid'] );
+//	} else {
+//		// No, it isn't. Work as expected.
+//		Spid_Wordpress_Login::factory()->try_spid_login();
+//	}
 } );
