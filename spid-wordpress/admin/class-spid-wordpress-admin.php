@@ -106,7 +106,7 @@ class Spid_Wordpress_Admin {
 	}
 
 	public function display_settings_page() {
-		require_once 'partials/spid-wordpress-admin-display.php';
+		require_once 'partials' . DIRECTORY_SEPARATOR . 'spid-wordpress-admin-display.php';
 	}
 
 	public function register_settings() {

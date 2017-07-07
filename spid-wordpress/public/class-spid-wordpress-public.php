@@ -48,6 +48,7 @@ class Spid_Wordpress_Public {
 	 * @since 1.0.0
 	 */
 	public function __construct() {
+		// TODO: should be passed as parameters
 		$this->plugin_name = 'spid-login';
 		$this->version = '1.0.0';
 	}
@@ -103,11 +104,7 @@ class Spid_Wordpress_Public {
 	 * @since 1.0.0
 	 */
 	public function print_button() {
-
-		//echo apply_filters('spid/login_button', '<div><h1>Login</h1></div>');
-		//echo "<div><h1>Login</h1></div>";
 		include_once('partials' . DIRECTORY_SEPARATOR . 'spid-wordpress-button.php');
-
 	}
 
 	/**
