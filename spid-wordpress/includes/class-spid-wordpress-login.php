@@ -422,13 +422,13 @@ class Spid_Wordpress_Login {
         return true;
     }
 
-    public function include_libs() {
-        if ($this->is_enabled()) {
+    public static function include_libs() {
+        //if ($this->is_enabled()) {
             // @TODO Should this be database-selectable?
-            require WP_SIMPLESAML_DIR . DIRECTORY_SEPARATOR . WP_SIMPLESAML_AUTOLOADER_FILE;
+	        require_once WP_SIMPLESAML_DIR . DIRECTORY_SEPARATOR . WP_SIMPLESAML_AUTOLOADER_FILE;
             return true;
-        } else {
-            return false;
-        }
+        //} else {
+        //    return false;
+        //}
     }
 }

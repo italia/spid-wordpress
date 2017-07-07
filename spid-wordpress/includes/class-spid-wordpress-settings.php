@@ -80,10 +80,11 @@ class Spid_Wordpress_Settings {
 
 	/**
 	 * @return bool
-	 * @todo implement
+	 * @TODO: altre idee su cosa controllare?
 	 */
 	public function is_plugin_configured_correctly() {
-		return true;
+		// il modo migliore per vedere se la libreria è disponibile e funziona è caricarla...
+		return Spid_Wordpress_Login::include_libs();
 	}
 
 	/**
