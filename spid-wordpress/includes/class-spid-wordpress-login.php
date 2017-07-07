@@ -31,12 +31,6 @@ class Spid_Wordpress_Login {
 	private $settings;
 
 	/**
-	 * Public class where all hooks are added
-	 * @var Spid_Wordpress_Public   $spid
-	 */
-	public $spid;
-
-	/**
 	 * The current version of the plugin.
 	 *
 	 * @since 1.0.0
@@ -332,15 +326,6 @@ class Spid_Wordpress_Login {
 			}
 		}
 		return false;
-	}
-
-	private function define_public_hooks() {
-		$this->spid = new Spid_Wordpress_Public( $this->get_plugin_name(), $this->get_version() );
-
-		// TODO: Attivare le opzioni solo se il plugin e' configurato bene.
-
-		$this->loader->add_action( 'login_form',        $this->spid, 'print_button' );
-		$this->loader->add_action( 'spid_login_button', $this->spid, 'print_button' );
 	}
 
 	/**

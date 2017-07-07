@@ -231,12 +231,13 @@ class Spid_Wordpress {
 	 */
 	private function define_public_hooks() {
 
-		$plugin_public = new Spid_Wordpress_Public();
+		$plugin_public = new Spid_Wordpress_Public($this->get_plugin_name(), $this->get_version());
 
 		$this->loader->add_action( 'wp_enqueue_styles', $plugin_public, 'enqueue_styles' );
-		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
-		$this->loader->add_action('wp_footer',$plugin_public,'add_spid_scripts');
-
+		$this->loader->add_action( 'wp_enqueue_scripts',$plugin_public, 'enqueue_scripts' );
+		$this->loader->add_action( 'wp_footer',         $plugin_public, 'add_spid_scripts');
+		$this->loader->add_action( 'login_form',        $plugin_public, 'print_button' );
+		$this->loader->add_action( 'spid_login_button', $plugin_public, 'print_button' );
 	}
 
 	private function define_login_page_hooks() {
