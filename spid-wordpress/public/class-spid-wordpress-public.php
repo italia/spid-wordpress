@@ -35,7 +35,6 @@
  * @package    Spid_Wordpress
  * @subpackage Spid_Wordpress/public
  * @author     Ludovico Pavesi, Valerio Bozzolan, spid-wordpress contributors
- * @todo       Use this class for something. Or delete it.
  */
 class Spid_Wordpress_Public {
 	protected $plugin_name;
@@ -48,9 +47,8 @@ class Spid_Wordpress_Public {
 	 * @since 1.0.0
 	 */
 	public function __construct() {
-		// TODO: should be passed as parameters, or read from global constants, I don't even remeber
-		$this->plugin_name = 'spid-login';
-		$this->version     = '1.0.0';
+		$this->plugin_name = Spid_Wordpress::PLUGIN_NAME;
+		$this->version     = Spid_Wordpress::VERSION;
 	}
 
 	/**
@@ -59,7 +57,7 @@ class Spid_Wordpress_Public {
 	 * @since 1.0.0
 	 */
 	public function enqueue_styles() {
-		//wp_enqueue_style( Spid_Wordpress::PLUGIN_NAME, plugin_dir_url( __FILE__ ) . 'css/spid-wordpress-public.css', array(), $this->version, 'all' );
+		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/spid-sp-access-button.min.css', array(), $this->version, 'all' );
 	}
 
 	/**
@@ -70,8 +68,6 @@ class Spid_Wordpress_Public {
 	public function enqueue_scripts() {
 		// TODO: doesn't work anyway
 		//wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/spid-sp-access-button.min.js', array( 'jquery' ), $this->version, true );
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/spid-sp-access-button.min.css', array(), $this->version, 'all' );
-
 	}
 
 	/**
