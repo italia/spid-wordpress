@@ -34,7 +34,7 @@ class Spid_Wordpress_Login {
 	 * The current version of the plugin.
 	 *
 	 * @since 1.0.0
-	 * @var string    $version    The current version of the plugin.
+	 * @var string $version The current version of the plugin.
 	 */
 	protected $version;
 
@@ -55,7 +55,7 @@ class Spid_Wordpress_Login {
 	 *
 	 * @see https://gist.github.com/umbros/0c0293b9fa541cd34be33f099611e79e
 	 */
-	private static $SHIB_HEADERS = array('Shib-Session-ID', 'Shib_Session_ID', 'HTTP_SHIB_IDENTITY_PROVIDER');
+	private static $SHIB_HEADERS = array( 'Shib-Session-ID', 'Shib_Session_ID', 'HTTP_SHIB_IDENTITY_PROVIDER' );
 
 	/**
 	 * Contains the instance.
@@ -71,8 +71,9 @@ class Spid_Wordpress_Login {
 	 */
 	public static function factory() {
 		if ( ! isset( self::$_instance ) ) {
-		    self::$_instance = new self();
+			self::$_instance = new self();
 		}
+
 		return self::$_instance;
 	}
 
@@ -103,7 +104,7 @@ class Spid_Wordpress_Login {
 	 * if HTTP GET parameters are set and plugin is configured correctly.
 	 */
 	public function do_login_action() {
-		if( $this->settings->is_plugin_configured_correctly() ) {
+		if ( $this->settings->is_plugin_configured_correctly() ) {
 			if ( isset( $_GET['init_spid_login'] ) ) {
 				Spid_Wordpress_Login::factory()->spid_startsso();
 			} elseif ( isset( $_GET['return_from_sso'] ) ) {
@@ -117,16 +118,19 @@ class Spid_Wordpress_Login {
 	 *
 	 * @param $attributes array Haystack
 	 * @param $attribute string|int Needle (index of the array)
+	 *
 	 * @return mixed|null The element, if found
 	 */
-	private static function get_attribute($attributes, $attribute) {
-		if( isset( $attributes[ $attribute ] ) ) {
+	private static function get_attribute( $attributes, $attribute ) {
+		if ( isset( $attributes[ $attribute ] ) ) {
 			$v = $attributes[ $attribute ];
-			if( is_array( $v ) ) {
+			if ( is_array( $v ) ) {
 				return $v[0];
 			}
+
 			return $v;
 		}
+
 		return null;
 	}
 
@@ -138,7 +142,7 @@ class Spid_Wordpress_Login {
 	 * @return string Any SPID identifier
 	 * @throws Exception if no valid unique ID (codice fiscale et all) can be found in SPID response
 	 */
-	private static function get_spid_authname($simplesaml_attributes) {
+	private static function get_spid_authname( $simplesaml_attributes ) {
 
 		$identifiers = array(
 			'CF'   => 'fiscalNumber',
@@ -146,14 +150,14 @@ class Spid_Wordpress_Login {
 			'SPID' => 'spidCode'
 		);
 
-		foreach($identifiers as $prefix => $identifier) {
-			$authname = self::get_attribute($simplesaml_attributes, $identifier);
-			if($authname) {
+		foreach ( $identifiers as $prefix => $identifier ) {
+			$authname = self::get_attribute( $simplesaml_attributes, $identifier );
+			if ( $authname ) {
 				return sprintf( "%s_%s", $prefix, $authname );
 			}
 		}
 
-		throw new Exception( sprintf("Error in %s: no valid unique id attribute set", __FILE__ ) );
+		throw new Exception( sprintf( "Error in %s: no valid unique id attribute set", __FILE__ ) );
 	}
 
 	/**
@@ -222,19 +226,19 @@ class Spid_Wordpress_Login {
 		$user = get_user_by( 'login', $user_login );
 
 		// Check if the user exists
-		if( ! $user ) {
+		if ( ! $user ) {
 			// Try to create this new user if allowed or throw exception
-			$user = $this->create_new_user($user_login, $userdata);
+			$user = $this->create_new_user( $user_login, $userdata );
 		}
 
 		// Now the $user exists
 
 		// The user is allowed to choose?
-		if( ! $this->settings->get_option_value(Spid_Wordpress_Settings::NO_USER_SECURITY_CHOICE) ) {
+		if ( ! $this->settings->get_option_value( Spid_Wordpress_Settings::NO_USER_SECURITY_CHOICE ) ) {
 			// The user is allowed to choose!
-			if( Spid_Wordpress_User_Meta::get_user_has_disabled_spid( $user->ID ) ) {
+			if ( Spid_Wordpress_User_Meta::get_user_has_disabled_spid( $user->ID ) ) {
 				// The user don't want SPID integration
-				throw new Exception("SPID login disabled by user.");
+				throw new Exception( "SPID login disabled by user." );
 			}
 		}
 
@@ -275,28 +279,28 @@ class Spid_Wordpress_Login {
 	 * @return WP_User
 	 * @throws Exception
 	 */
-	function create_new_user($user_login, $userdata = array() ) {
+	function create_new_user( $user_login, $userdata = array() ) {
 		// The user does not exist
 
-		if( ! $this->settings->get_option_value( Spid_Wordpress_Settings::USER_REGISTRATION ) ) {
-			throw new Exception("Users are not allowed to register in using SPID in this website.");
+		if ( ! $this->settings->get_option_value( Spid_Wordpress_Settings::USER_REGISTRATION ) ) {
+			throw new Exception( "Users are not allowed to register in using SPID in this website." );
 		}
 
 		$default_userdata = array(
 			'user_login' => $user_login,
-			'user_pass'  => NULL // When creating an user, `user_pass` is expected.
+			'user_pass'  => null // When creating an user, `user_pass` is expected.
 		);
 
 		// https://codex.wordpress.org/Function_Reference/wp_insert_user
-		$user_ID = wp_insert_user( array_merge($default_userdata, $userdata) );
+		$user_ID = wp_insert_user( array_merge( $default_userdata, $userdata ) );
 
 		if ( is_wp_error( $user_ID ) ) {
 			// Probably the user already exists, or illegal characters in username
-			throw new Exception("Can't create user");
+			throw new Exception( "Can't create user" );
 		}
 
 		// Obtain the already created user
-		return get_user_by('ID', $user_ID);
+		return get_user_by( 'ID', $user_ID );
 	}
 
 	/**
@@ -323,112 +327,116 @@ class Spid_Wordpress_Login {
 	 * @see https://gist.github.com/umbros/0c0293b9fa541cd34be33f099611e79e
 	 */
 	static function is_shibbosomething_request() {
-		foreach(self::$SHIB_HEADERS as $header) {
+		foreach ( self::$SHIB_HEADERS as $header ) {
 			// Why isn't enough `! empty()` alone? Boh.
 			// ↑ Because "empty" expects an array, but the value may be null or other non-array thypes?
-			if( array_key_exists($header, $_SERVER) && ! empty( $_SERVER[$header] ) ) {
+			if ( array_key_exists( $header, $_SERVER ) && ! empty( $_SERVER[ $header ] ) ) {
 				return true;
 			}
 		}
+
 		return false;
 	}
 
-    /**
-     * Init external authentication with SimpleSAMLPHP and ReturnToUrl.
-     *
-     * @since     1.0.0
-     */
-    public function spid_startsso()
-    {
-        if (!$this->include_libs())
-            return;
+	/**
+	 * Init external authentication with SimpleSAMLPHP and ReturnToUrl.
+	 *
+	 * @since     1.0.0
+	 */
+	public function spid_startsso() {
+		if ( ! $this->include_libs() ) {
+			return;
+		}
 
-        // @TODO da sostituire con il nome dl servizio configurato dall'utente
-	    // TODO: quale servizio e quale utente? L'utente che seleziona quale IdP usare o il proprietario del sito (che cosa dovrebbe impostare!?)?
-        $saml_auth_as = new SimpleSAML_Auth_Simple( WP_SIMPLESAML_AUTHSOURCE );
-        if( !$saml_auth_as->isAuthenticated() ) {
-            $saml_auth_as = new SimpleSAML_Auth_Simple( WP_SIMPLESAML_AUTHSOURCE );
-            $params = array();
-            $params['ReturnTo'] = get_home_url(null,'/?return_from_sso=true');
-            $params['ErrorURL'] = get_home_url();
-            $saml_auth_as->login($params);
+		// @TODO da sostituire con il nome dl servizio configurato dall'utente
+		// TODO: quale servizio e quale utente? L'utente che seleziona quale IdP usare o il proprietario del sito (che cosa dovrebbe impostare!?)?
+		$saml_auth_as = new SimpleSAML_Auth_Simple( WP_SIMPLESAML_AUTHSOURCE );
+		if ( ! $saml_auth_as->isAuthenticated() ) {
+			$saml_auth_as       = new SimpleSAML_Auth_Simple( WP_SIMPLESAML_AUTHSOURCE );
+			$params             = array();
+			$params['ReturnTo'] = get_home_url( null, '/?return_from_sso=true' );
+			$params['ErrorURL'] = get_home_url();
+			$saml_auth_as->login( $params );
 
-        }
-    }
+		}
+	}
 
-    public function spid_login()
-    {
-        if (!$this->include_libs())
-            return;
+	public function spid_login() {
+		if ( ! $this->include_libs() ) {
+			return;
+		}
 
-        // @TODO da sostituire con il nome dl servizio configurato dall'utente
-	    // TODO: quale servizio e quale utente? L'utente che seleziona quale IdP usare o il proprietario del sito (che cosa dovrebbe impostare!?)?
-	    $saml_auth_as = new SimpleSAML_Auth_Simple( WP_SIMPLESAML_AUTHSOURCE );
-        if( $saml_auth_as->isAuthenticated() ) {
+		// @TODO da sostituire con il nome dl servizio configurato dall'utente
+		// TODO: quale servizio e quale utente? L'utente che seleziona quale IdP usare o il proprietario del sito (che cosa dovrebbe impostare!?)?
+		$saml_auth_as = new SimpleSAML_Auth_Simple( WP_SIMPLESAML_AUTHSOURCE );
+		if ( $saml_auth_as->isAuthenticated() ) {
 
-            $saml_auth_attributes = $saml_auth_as->getAttributes();
+			$saml_auth_attributes = $saml_auth_as->getAttributes();
 
-            $spid_user_authname = self::get_spid_authname( $saml_auth_attributes );
+			$spid_user_authname = self::get_spid_authname( $saml_auth_attributes );
 
-            // Enrich the registered WordPress user with provided data.
-            $userdata = array(
-                'user_email' => 'email',
-                'first_name' => 'name',
-                'last_name'  => 'familyName'
-            );
-            foreach($userdata as $wp_field => $saml_field) {
-                // The value is NULL if not available
-                $userdata[ $wp_field ] = self::get_attribute($saml_auth_attributes, $saml_field);
-            }
+			// Enrich the registered WordPress user with provided data.
+			$userdata = array(
+				'user_email' => 'email',
+				'first_name' => 'name',
+				'last_name'  => 'familyName'
+			);
+			foreach ( $userdata as $wp_field => $saml_field ) {
+				// The value is NULL if not available
+				$userdata[ $wp_field ] = self::get_attribute( $saml_auth_attributes, $saml_field );
+			}
 
-            // Enrich also with Consider also the username as "Name Surname"
-            if( isset( $userdata['first_name'], $userdata['last_name'] ) ) {
-                $userdata['user_nicename'] = sprintf("%s %s",
-                    $userdata['first_name'],
-                    $userdata['last_name']
-                );
-            }
+			// Enrich also with Consider also the username as "Name Surname"
+			if ( isset( $userdata['first_name'], $userdata['last_name'] ) ) {
+				$userdata['user_nicename'] = sprintf( "%s %s",
+					$userdata['first_name'],
+					$userdata['last_name']
+				);
+			}
 
-            // Try login
-            $this->bypass_login( $spid_user_authname, $userdata );
+			// Try login
+			$this->bypass_login( $spid_user_authname, $userdata );
 
-        } else {
-            throw new Exception('Errore durante autenticazione SPID.');
-        }
-    }
+		} else {
+			throw new Exception( 'Errore durante autenticazione SPID.' );
+		}
+	}
 
 	/**
 	 * Logout user, if logged in via SPID. Called in an hook.
 	 */
-    public function spid_logout() {
+	public function spid_logout() {
 
-        if (!$this->include_libs())
-            return;
+		if ( ! $this->include_libs() ) {
+			return;
+		}
 
-        $saml_auth_as = new SimpleSAML_Auth_Simple( WP_SIMPLESAML_AUTHSOURCE );
-        if( $saml_auth_as->isAuthenticated() ) {
-            $saml_auth_as->logout();
-        }
+		$saml_auth_as = new SimpleSAML_Auth_Simple( WP_SIMPLESAML_AUTHSOURCE );
+		if ( $saml_auth_as->isAuthenticated() ) {
+			$saml_auth_as->logout();
+		}
 
-    }
-    /**
-     * Return true if plugin is enabled
-     * @since     1.0.0
-     * @return    boolean    True if plugin is enabled, otherwise False
-     */
-    public function is_enabled() {
-        // @TODO Come verificare se il plugin è attivo ???
-	    // TODO: basarsi su cosa fanno le classi activator e deactivator, cioè nulla. Che utilità ha una differenza tra "installato" e "attivato"?
-        return true;
-    }
+	}
 
-    public static function include_libs() {
-        //if ($this->is_enabled()) {
-            // @TODO Should this be database-selectable?
-	        require_once WP_SIMPLESAML_DIR . DIRECTORY_SEPARATOR . WP_SIMPLESAML_AUTOLOADER_FILE;
-            return true;
-        //} else {
-        //    return false;
-        //}
-    }
+	/**
+	 * Return true if plugin is enabled
+	 * @since     1.0.0
+	 * @return    boolean    True if plugin is enabled, otherwise False
+	 */
+	public function is_enabled() {
+		// @TODO Come verificare se il plugin è attivo ???
+		// TODO: basarsi su cosa fanno le classi activator e deactivator, cioè nulla. Che utilità ha una differenza tra "installato" e "attivato"?
+		return true;
+	}
+
+	public static function include_libs() {
+		//if ($this->is_enabled()) {
+		// @TODO Should this be database-selectable?
+		require_once WP_SIMPLESAML_DIR . DIRECTORY_SEPARATOR . WP_SIMPLESAML_AUTOLOADER_FILE;
+
+		return true;
+		//} else {
+		//    return false;
+		//}
+	}
 }

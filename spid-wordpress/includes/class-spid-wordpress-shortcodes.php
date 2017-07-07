@@ -1,4 +1,5 @@
 <?php
+
 /**
  * The shortcodes class.
  *
@@ -21,7 +22,7 @@ class Spid_Login_Shortcodes {
 	 *
 	 * @since    1.0.0
 	 * @access   private
-	 * @var      string    $plugin_name    The ID of this plugin.
+	 * @var      string $plugin_name The ID of this plugin.
 	 */
 	private $plugin_name;
 
@@ -30,7 +31,7 @@ class Spid_Login_Shortcodes {
 	 *
 	 * @since    1.0.0
 	 * @access   private
-	 * @var      string    $version    The current version of this plugin.
+	 * @var      string $version The current version of this plugin.
 	 */
 	private $version;
 
@@ -38,12 +39,13 @@ class Spid_Login_Shortcodes {
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
-	 * @param      string    $plugin_name       The name of the plugin.
-	 * @param      string    $version    The version of this plugin.
+	 *
+	 * @param      string $plugin_name The name of the plugin.
+	 * @param      string $version The version of this plugin.
 	 */
 	public function __construct( $plugin_name, $version ) {
 		$this->plugin_name = $plugin_name;
-		$this->version = $version;
+		$this->version     = $version;
 		$this->register_shortcodes();
 	}
 
@@ -52,7 +54,7 @@ class Spid_Login_Shortcodes {
 	 * @deprecated seems unused
 	 * @todo remove entire class?
 	 */
-	public function register_shortcodes( ) {
+	public function register_shortcodes() {
 		add_shortcode( 'spid_login_button', array( $this, 'login_button' ) );
 	}
 
@@ -62,6 +64,7 @@ class Spid_Login_Shortcodes {
 	 *
 	 * @param $atts
 	 * @param $content
+	 *
 	 * @deprecated seems unused
 	 * @todo remove entire class?
 	 *
@@ -70,7 +73,7 @@ class Spid_Login_Shortcodes {
 	function login_button( $atts, $content ) {
 		ob_start();
 
-		do_action('spid_login_button');
+		do_action( 'spid_login_button' );
 		$html = ob_get_contents();
 		ob_end_clean();
 

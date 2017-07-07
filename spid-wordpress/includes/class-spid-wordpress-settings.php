@@ -1,4 +1,5 @@
 <?php
+
 /*
  * SPID-Wordpress - Plugin che connette Wordpress e SPID
  * Copyright (C) 2016, 2017 Ludovico Pavesi, Valerio Bozzolan, spid-wordpress contributors
@@ -51,21 +52,21 @@ class Spid_Wordpress_Settings {
 	const SIMPLESAMLPHP_UIDATTRIBUTE = 'simplesamlphp_uidattribute';
 
 	function __construct() {
-		$this->settings_prefix   = Spid_Wordpress::PLUGIN_NAME . '_settings';
-		$this->settings_general  = $this->settings_prefix . '_general';
+		$this->settings_prefix  = Spid_Wordpress::PLUGIN_NAME . '_settings';
+		$this->settings_general = $this->settings_prefix . '_general';
 
 		$this->settings_defaults = array(
 			// As default, users can choose to disable their SPID integration
-			self::NO_USER_SECURITY_CHOICE => 0,
+			self::NO_USER_SECURITY_CHOICE  => 0,
 
 			// As default, SPID can register new users
-			self::USER_REGISTRATION => 1,
+			self::USER_REGISTRATION        => 1,
 
 			// @TODO: Why this should be database-definable?
 			// TODO: if we leave this database-definable, place 'default-sp' here instead of reading another constant
 			self::SIMPLESAMLPHP_AUTHSOURCE => WP_SIMPLESAML_AUTHSOURCE,
 
-			self::SIMPLESAMLPHP_PATH => WP_SIMPLESAML_DIR . DIRECTORY_SEPARATOR . WP_SIMPLESAML_AUTOLOADER_FILE,
+			self::SIMPLESAMLPHP_PATH         => WP_SIMPLESAML_DIR . DIRECTORY_SEPARATOR . WP_SIMPLESAML_AUTOLOADER_FILE,
 
 			// @TODO: What is this?
 			self::SIMPLESAMLPHP_UIDATTRIBUTE => '-'
@@ -106,7 +107,7 @@ class Spid_Wordpress_Settings {
 		if ( isset( $this->settings[ $option ] ) ) {
 			// Option supported and set by the user
 			return $this->settings[ $option ];
-		} else if( isset ( $this->settings_defaults[ $option ] ) ) {
+		} else if ( isset ( $this->settings_defaults[ $option ] ) ) {
 			// Option supported but never set by the user
 			return $this->settings_defaults[ $option ];
 		} else {

@@ -97,7 +97,7 @@ class Spid_Wordpress_Admin {
 	 * @since    1.0.0
 	 */
 	public function add_settings_page() {
-		$this->options_page_hook_suffix = add_options_page('SPID',
+		$this->options_page_hook_suffix = add_options_page( 'SPID',
 			'SPID',
 			'manage_options',
 			Spid_Wordpress::PLUGIN_NAME,
@@ -111,31 +111,31 @@ class Spid_Wordpress_Admin {
 
 	public function register_settings() {
 		add_settings_section(
-			// String for use in the 'id' attribute of tags
+		// String for use in the 'id' attribute of tags
 			$this->settings->get_group_id(),
 
 			// Title of the section
-			__("General", 'spid-wordpress'), // TODO: conviene far saltare fuori il domain dalla classe i18n o hardcodarlo ovunque?
+			__( "General", 'spid-wordpress' ), // TODO: conviene far saltare fuori il domain dalla classe i18n o hardcodarlo ovunque?
 
 			// Callback
-			array($this, 'settings_general_callback'),
+			array( $this, 'settings_general_callback' ),
 
 			// The menu page on which to display this section. Should match $menu_slug from Function Reference/add theme page
 			Spid_Wordpress::PLUGIN_NAME
 		);
 
 		add_settings_field(
-			// String for use in the 'id' attribute of tags
-			$this->settings->get_label_id(Spid_Wordpress_Settings::USER_REGISTRATION),
+		// String for use in the 'id' attribute of tags
+			$this->settings->get_label_id( Spid_Wordpress_Settings::USER_REGISTRATION ),
 
 			// Title of the field
-			__("Registration", 'spid-wordpress'),
+			__( "Registration", 'spid-wordpress' ),
 
 			// Function that fills the field with the desired inputs as part of the larger form.
 			// assed a single argument, the $args array.
 			// Name and id of the input should match the $id given to this function.
 			// The function should echo its output.
-			array($this, 'settings_field_checkbox_callback'),
+			array( $this, 'settings_field_checkbox_callback' ),
 
 			// The menu page on which to display this field.
 			// Should match $menu_slug from add_theme_page() or from do_settings_sections().
@@ -149,24 +149,24 @@ class Spid_Wordpress_Admin {
 			// Additional arguments that are passed to the $callback function.
 			// The 'label_for' key/value pair can be used to format the field title like so: <label for="value">$title</label>.
 			array(
-				'label_for' => $this->settings->get_label_id(Spid_Wordpress_Settings::USER_REGISTRATION),
-				'option' => Spid_Wordpress_Settings::USER_REGISTRATION,
-				'description' => __("Register new users if they log in using SPID for the first time. Disable to allow only already registered users to log in with SPID.", 'spid-wordpress'),
+				'label_for'   => $this->settings->get_label_id( Spid_Wordpress_Settings::USER_REGISTRATION ),
+				'option'      => Spid_Wordpress_Settings::USER_REGISTRATION,
+				'description' => __( "Register new users if they log in using SPID for the first time. Disable to allow only already registered users to log in with SPID.", 'spid-wordpress' ),
 			)
 		);
 
 		add_settings_field(
-			// String for use in the 'id' attribute of tags
-			$this->settings->get_label_id(Spid_Wordpress_Settings::NO_USER_SECURITY_CHOICE),
+		// String for use in the 'id' attribute of tags
+			$this->settings->get_label_id( Spid_Wordpress_Settings::NO_USER_SECURITY_CHOICE ),
 
 			// Title of the field
-			__("Force SPID integration", 'spid-wordpress'),
+			__( "Force SPID integration", 'spid-wordpress' ),
 
 			// Function that fills the field with the desired inputs as part of the larger form.
 			// assed a single argument, the $args array.
 			// Name and id of the input should match the $id given to this function.
 			// The function should echo its output.
-			array($this, 'settings_field_checkbox_callback'),
+			array( $this, 'settings_field_checkbox_callback' ),
 
 			// The menu page on which to display this field.
 			// Should match $menu_slug from add_theme_page() or from do_settings_sections().
@@ -180,9 +180,9 @@ class Spid_Wordpress_Admin {
 			// Additional arguments that are passed to the $callback function.
 			// The 'label_for' key/value pair can be used to format the field title like so: <label for="value">$title</label>.
 			array(
-				'label_for' => $this->settings->get_label_id(Spid_Wordpress_Settings::NO_USER_SECURITY_CHOICE),
-				'option' => Spid_Wordpress_Settings::NO_USER_SECURITY_CHOICE,
-				'description' => __("Leave this option unchecked if you care about user choice. Not all users may appreciate SPID centralization.", 'spid-wordpress'),
+				'label_for'   => $this->settings->get_label_id( Spid_Wordpress_Settings::NO_USER_SECURITY_CHOICE ),
+				'option'      => Spid_Wordpress_Settings::NO_USER_SECURITY_CHOICE,
+				'description' => __( "Leave this option unchecked if you care about user choice. Not all users may appreciate SPID centralization.", 'spid-wordpress' ),
 			)
 		);
 
@@ -194,66 +194,66 @@ class Spid_Wordpress_Admin {
 	}
 
 	public function settings_general_callback() {
-		echo '<p>' . __('General settings for SPID integration.', 'spid-wordpress') . '</p>';
+		echo '<p>' . __( 'General settings for SPID integration.', 'spid-wordpress' ) . '</p>';
 	}
 
-	public function settings_general_sanitize($input) {
+	public function settings_general_sanitize( $input ) {
 		$checkboxes = array(
 			Spid_Wordpress_Settings::NO_USER_SECURITY_CHOICE,
 			Spid_Wordpress_Settings::USER_REGISTRATION
 		);
 
 		$values = array();
-		foreach ($checkboxes as $i) {
-			$values[$i] = isset($input[$i]) ? (int)$input[$i] : 0;
+		foreach ( $checkboxes as $i ) {
+			$values[ $i ] = isset( $input[ $i ] ) ? (int) $input[ $i ] : 0;
 		}
 
 		return $values;
 	}
 
-	function spid_general_callback($args) {
+	function spid_general_callback( $args ) {
 		printf(
-		    '<p id="%s-%s">%s</p>',
-		    $args['id'],
-		    $args['name']
+			'<p id="%s-%s">%s</p>',
+			$args['id'],
+			$args['name']
 		);
-   	 }
+	}
 
 	/**
-	* @param array $args ['option' => string, 'label_for' => string]
-	*/
-	function settings_field_checkbox_callback($args) {
+	 * @param array $args ['option' => string, 'label_for' => string]
+	 */
+	function settings_field_checkbox_callback( $args ) {
 		$opt = $args['option'];
-		if (!isset($args['default'])) {
+		if ( ! isset( $args['default'] ) ) {
 			$args['default'] = false;
 		}
 
-		$group = $this->settings->get_group_id();
-		$value = $this->settings->get_option_value($opt);
-		$checked = isset($value) ? $value : $args['default'];
+		$group   = $this->settings->get_group_id();
+		$value   = $this->settings->get_option_value( $opt );
+		$checked = isset( $value ) ? $value : $args['default'];
 		?>
 
-		<input type="checkbox" id="<?php echo $this->settings->get_label_id($opt) ?>" value="1"
-			name="<?php printf('%s[%s]', $group, $opt) ?>" <?php checked($checked) ?> />
-		<p class="description"><?php echo esc_html($args['description']) ?></p>
+		<input type="checkbox" id="<?php echo $this->settings->get_label_id( $opt ) ?>" value="1"
+		       name="<?php printf( '%s[%s]', $group, $opt ) ?>" <?php checked( $checked ) ?> />
+		<p class="description"><?php echo esc_html( $args['description'] ) ?></p>
 
 		<?php
 	}
 
-	function settings_field_textbox_callback($args) {
+	function settings_field_textbox_callback( $args ) {
 		$opt = $args['option'];
-		if ( ! isset($args['default']) ) {
+		if ( ! isset( $args['default'] ) ) {
 			$args['default'] = false;
 		}
 
-		$group = $this->settings->get_group_id();
-		$value = $this->settings->get_option_value($opt);
-		$sanitized = isset($value) ? $value : $args['default'];
+		$group     = $this->settings->get_group_id();
+		$value     = $this->settings->get_option_value( $opt );
+		$sanitized = isset( $value ) ? $value : $args['default'];
 		?>
 
-		<input type="text" id="<?php echo $this->settings->get_label_id($opt) ?>"
-				name="<?php printf('%s[%s]', $group, $opt) ?>" value="<?php echo esc_html($sanitized); ?>" />
-		<p class="description"><?php echo esc_html($args['description']) ?></p>
+		<input type="text" id="<?php echo $this->settings->get_label_id( $opt ) ?>"
+		       name="<?php printf( '%s[%s]', $group, $opt ) ?>" value="<?php echo esc_html( $sanitized ); ?>"/>
+		<p class="description"><?php echo esc_html( $args['description'] ) ?></p>
 
 		<?php
 

@@ -104,6 +104,7 @@ class Spid_Wordpress {
 		if ( is_null( self::$_instance ) ) {
 			self::$_instance = new self();
 		}
+
 		return self::$_instance;
 	}
 
@@ -217,13 +218,13 @@ class Spid_Wordpress {
 	 */
 	private function define_public_hooks() {
 
-		$plugin_public = new Spid_Wordpress_Public($this->get_plugin_name(), $this->get_version());
+		$plugin_public = new Spid_Wordpress_Public( $this->get_plugin_name(), $this->get_version() );
 
 		$this->loader->add_action( 'wp_enqueue_styles', $plugin_public, 'enqueue_styles' );
-		$this->loader->add_action( 'wp_enqueue_scripts',$plugin_public, 'enqueue_scripts' );
-		$this->loader->add_action( 'wp_footer',         $plugin_public, 'add_spid_scripts');
+		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+		$this->loader->add_action( 'wp_footer', $plugin_public, 'add_spid_scripts' );
 		$settings = new Spid_Wordpress_Settings();
-		if( $settings->is_plugin_configured_correctly() ) {
+		if ( $settings->is_plugin_configured_correctly() ) {
 			$this->loader->add_action( 'login_form', $plugin_public, 'print_button' );
 			$this->loader->add_action( 'spid_login_button', $plugin_public, 'print_button' );
 		}
@@ -232,12 +233,12 @@ class Spid_Wordpress {
 	private function define_login_page_hooks() {
 
 		$plugin_login = Spid_Wordpress_Login::factory();
-		$this->loader->add_action('init', $plugin_login, 'do_login_action');
+		$this->loader->add_action( 'init', $plugin_login, 'do_login_action' );
 		$this->loader->add_action( 'login_enqueue_styles', $plugin_login, 'enqueue_styles' );
 		$this->loader->add_action( 'login_enqueue_scripts', $plugin_login, 'enqueue_scripts' );
 		$this->loader->add_action( 'login_errors', $plugin_login, 'login_errors' );
 		$this->loader->add_action( 'login_message', $plugin_login, 'login_message' );
-        $this->loader->add_action('wp_logout', $plugin_login, 'spid_logout');
+		$this->loader->add_action( 'wp_logout', $plugin_login, 'spid_logout' );
 
 		// Apparently never called
 		// TODO: use for something useful
@@ -283,7 +284,6 @@ class Spid_Wordpress {
 	public function get_version() {
 		return Spid_Wordpress::VERSION;
 	}
-
 
 
 }

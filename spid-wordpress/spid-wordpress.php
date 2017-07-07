@@ -36,7 +36,7 @@
  */
 
 // If this file is called directly, abort.
-defined('WPINC') or die;
+defined( 'WPINC' ) or die;
 
 /*
  * Constants that can be tweaked in your `wp-config.php`
@@ -45,24 +45,24 @@ defined('WPINC') or die;
 // TODO: move some constants to Spid_Wordpress class? Or make them database-configurable?
 
 // PHPSimpleSaml directory
-defined(  'WP_SIMPLESAML_DIR')
-or define('WP_SIMPLESAML_DIR', plugin_dir_path( __FILE__ ) . 'vendor');
+defined( 'WP_SIMPLESAML_DIR' )
+or define( 'WP_SIMPLESAML_DIR', plugin_dir_path( __FILE__ ) . 'vendor' );
 
 // PHPSimpleSaml autoloader file
-defined(  'WP_SIMPLESAML_AUTOLOADER_FILE')
-or define('WP_SIMPLESAML_AUTOLOADER_FILE', 'autoload.php');
+defined( 'WP_SIMPLESAML_AUTOLOADER_FILE' )
+or define( 'WP_SIMPLESAML_AUTOLOADER_FILE', 'autoload.php' );
 
 // PHPSimpleSaml auth source
-defined(  'WP_SIMPLESAML_AUTHSOURCE')
-or define('WP_SIMPLESAML_AUTHSOURCE', 'default-sp');
+defined( 'WP_SIMPLESAML_AUTHSOURCE' )
+or define( 'WP_SIMPLESAML_AUTHSOURCE', 'default-sp' );
 
 // PHPSimpleSaml attribute mapping
-defined(  'WP_SIMPLESAML_ATTR_MAPPING')
-or define('WP_SIMPLESAML_ATTR_MAPPING', '?');
+defined( 'WP_SIMPLESAML_ATTR_MAPPING' )
+or define( 'WP_SIMPLESAML_ATTR_MAPPING', '?' );
 
 // PHPSimpleSaml is called only if headers have sense. Disable only for static authentication tests.
-defined(  'WP_SIMPLESAML_CHECK_HEADERS')
-or define('WP_SIMPLESAML_CHECK_HEADERS', true);
+defined( 'WP_SIMPLESAML_CHECK_HEADERS' )
+or define( 'WP_SIMPLESAML_CHECK_HEADERS', true );
 
 /**
  * The code that runs during plugin activation.
@@ -82,7 +82,7 @@ function deactivate_spid_wordpress() {
 	Spid_Wordpress_Deactivator::deactivate();
 }
 
-register_activation_hook(   __FILE__, 'activate_spid_wordpress' );
+register_activation_hook( __FILE__, 'activate_spid_wordpress' );
 register_deactivation_hook( __FILE__, 'deactivate_spid_wordpress' );
 
 /**

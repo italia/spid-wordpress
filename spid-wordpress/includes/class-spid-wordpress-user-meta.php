@@ -59,8 +59,9 @@ class Spid_Wordpress_User_Meta {
 							<input type="checkbox" id="spid_disabled" checked="checked" disabled="disabled"/>
 							<?php echo __( "You can't disable SPID integration.", 'spid' ) ?>
 						<?php else: ?>
-							<?php $meta_value = self::get_user_has_disabled_spid($user->ID); ?>
-							<input type="checkbox" id="spid_disabled" name="spid_disabled" value="1" <?php checked( $meta_value ) ?> />
+							<?php $meta_value = self::get_user_has_disabled_spid( $user->ID ); ?>
+							<input type="checkbox" id="spid_disabled" name="spid_disabled"
+							       value="1" <?php checked( $meta_value ) ?> />
 							<?php echo __( "Disable SPID integration. Check this if you don't trust SPID authorities.", 'spid' ) ?>
 						<?php endif ?>
 					</label>
@@ -77,12 +78,12 @@ class Spid_Wordpress_User_Meta {
 	 * @since    1.0.0
 	 */
 	public function personal_options_update( $user_id ) {
-		if( ! current_user_can( 'edit_user', $user_id )	) {
+		if ( ! current_user_can( 'edit_user', $user_id ) ) {
 			// @TODO: Does this case really occur?
 			return;
 		}
 
-		if ( $this->settings->get_option_value(Spid_Wordpress_Settings::NO_USER_SECURITY_CHOICE) ) {
+		if ( $this->settings->get_option_value( Spid_Wordpress_Settings::NO_USER_SECURITY_CHOICE ) ) {
 			// Unuseful to save if the value is forced (the checkbox is checked disabled).
 			// This will keep the user value for future sysadmin mind changes.
 			return;

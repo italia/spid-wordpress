@@ -50,7 +50,7 @@ class Spid_Wordpress_Public {
 	public function __construct() {
 		// TODO: should be passed as parameters, or read from global constants, I don't even remeber
 		$this->plugin_name = 'spid-login';
-		$this->version = '1.0.0';
+		$this->version     = '1.0.0';
 	}
 
 	/**
@@ -70,7 +70,7 @@ class Spid_Wordpress_Public {
 	public function enqueue_scripts() {
 		// TODO: doesn't work anyway
 		//wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/spid-sp-access-button.min.js', array( 'jquery' ), $this->version, true );
-		wp_enqueue_style(  $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/spid-sp-access-button.min.css', array(), $this->version, 'all' );
+		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/spid-sp-access-button.min.css', array(), $this->version, 'all' );
 
 	}
 
@@ -79,7 +79,7 @@ class Spid_Wordpress_Public {
 	 * @since 1.0.0
 	 */
 	public function print_button() {
-		include_once('partials' . DIRECTORY_SEPARATOR . 'spid-wordpress-button.php');
+		include_once( 'partials' . DIRECTORY_SEPARATOR . 'spid-wordpress-button.php' );
 	}
 
 	/**
@@ -98,8 +98,8 @@ class Spid_Wordpress_Public {
 	 *
 	 * @param string $name file name (no path)
 	 */
-	private function get_img($name) {
-		return plugins_url('img/' . $name, __FILE__);
+	private function get_img( $name ) {
+		return plugins_url( 'img/' . $name, __FILE__ );
 	}
 
 	/**
@@ -113,14 +113,14 @@ class Spid_Wordpress_Public {
 	 * @return string HTML code for a single IdP
 	 * @see get_idp_html_all
 	 */
-	private static function get_idp_html($name, $data_idp, $image_name, $alt) {
-		$svg = self::get_img($image_name . '.svg');
-		$png = self::get_img('spid-idp-arubaid.png');
+	private static function get_idp_html( $name, $data_idp, $image_name, $alt ) {
+		$svg = self::get_img( $image_name . '.svg' );
+		$png = self::get_img( 'spid-idp-arubaid.png' );
 
 		$result =
-		"<li class=\"spid-idp-button-link\" data-idp=\"$data_idp\">" .
-            "<a href=\"#\"><span class=\"spid-sr-only\">$name</span><img src=\"$svg\" onerror=\"this.src='$png'; this.onerror=null;\" alt=\"$alt\" /></a>" .
-        '</li>';
+			"<li class=\"spid-idp-button-link\" data-idp=\"$data_idp\">" .
+			"<a href=\"#\"><span class=\"spid-sr-only\">$name</span><img src=\"$svg\" onerror=\"this.src='$png'; this.onerror=null;\" alt=\"$alt\" /></a>" .
+			'</li>';
 
 		return $result;
 	}
@@ -131,23 +131,24 @@ class Spid_Wordpress_Public {
 	 * @return array HTML code for each IdP
 	 */
 	public static function get_idp_html_all() {
-		$idp = array();
-		$idp[] = self::get_idp_html('Aruba ID', 'arubaid', 'spid-idp-arubaid', 'Aruba ID');
-		$idp[] = self::get_idp_html('Infocert ID', 'infocertid', 'spid-idp-infocertid', 'Infocert ID');
-		$idp[] = self::get_idp_html('Namirial ID', 'namirialid', 'spid-idp-namirialid', 'Namirial ID');
-		$idp[] = self::get_idp_html('Poste ID', 'posteid', 'spid-idp-posteid', 'Poste ID');
-		$idp[] = self::get_idp_html('Sielte ID', 'sielteid', 'spid-idp-sielteid', 'Sielte ID');
-		$idp[] = self::get_idp_html('SPIDItalia Register.it', 'spiditalia', 'spid-idp-spiditalia', 'SpidItalia');
-		$idp[] = self::get_idp_html('Tim ID', '', 'spid-idp-timid', 'Tim ID');
+		$idp   = array();
+		$idp[] = self::get_idp_html( 'Aruba ID', 'arubaid', 'spid-idp-arubaid', 'Aruba ID' );
+		$idp[] = self::get_idp_html( 'Infocert ID', 'infocertid', 'spid-idp-infocertid', 'Infocert ID' );
+		$idp[] = self::get_idp_html( 'Namirial ID', 'namirialid', 'spid-idp-namirialid', 'Namirial ID' );
+		$idp[] = self::get_idp_html( 'Poste ID', 'posteid', 'spid-idp-posteid', 'Poste ID' );
+		$idp[] = self::get_idp_html( 'Sielte ID', 'sielteid', 'spid-idp-sielteid', 'Sielte ID' );
+		$idp[] = self::get_idp_html( 'SPIDItalia Register.it', 'spiditalia', 'spid-idp-spiditalia', 'SpidItalia' );
+		$idp[] = self::get_idp_html( 'Tim ID', '', 'spid-idp-timid', 'Tim ID' );
 		//$idp[] = self::get_idp_html('', '', '', '');
-		shuffle($idp);
+		shuffle( $idp );
+
 		return $idp;
 	}
 
 	/**
 	 * @deprecated throws random warnings due to mismatched parameters. Also, IdP order randomization is now done server-side.
 	 */
-	public function add_spid_scripts(){
+	public function add_spid_scripts() {
 //		<script>
 //		jQuery(document).ready( function () {
 //			var rootList = jQuery('#spid-idp-list-small-root-get');
