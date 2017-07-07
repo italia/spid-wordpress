@@ -65,8 +65,7 @@ class Spid_Login_Shortcodes {
 
 		do_action('spid_login_button');
 		$html = ob_get_contents();
-		//$html = "ABC";
-		ob_clean();
+		ob_end_clean();
 
 		return $html;
 	}

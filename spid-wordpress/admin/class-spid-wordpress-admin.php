@@ -43,8 +43,6 @@ class Spid_Wordpress_Admin {
 		$this->settings = new Spid_Wordpress_Settings();
 	}
 
-	// TODO: uncomment if we need these
-
 	/**
 	 * Register the stylesheets for the admin area.
 	 *
@@ -65,6 +63,7 @@ class Spid_Wordpress_Admin {
 		 * class.
 		 */
 
+		// TODO: uncomment if we need these
 		//wp_enqueue_style( Spid_Wordpress::PLUGIN_NAME, plugin_dir_url( __FILE__ ) . 'css/spid-wordpress-admin.css', array(), Spid_Wordpress::VERSION, 'all' );
 	}
 
@@ -88,6 +87,7 @@ class Spid_Wordpress_Admin {
 		 * class.
 		 */
 
+		// TODO: uncomment if we need these
 		//wp_enqueue_script( Spid_Wordpress::PLUGIN_NAME, plugin_dir_url( __FILE__ ) . 'js/spid-wordpress-admin.js', array( 'jquery' ), Spid_Wordpress::VERSION, false );
 	}
 
@@ -151,7 +151,7 @@ class Spid_Wordpress_Admin {
 			array(
 				'label_for' => $this->settings->get_label_id(Spid_Wordpress_Settings::USER_REGISTRATION),
 				'option' => Spid_Wordpress_Settings::USER_REGISTRATION,
-				'description' => __("New users can be registered by SPID authorities.", 'spid-wordpress'),
+				'description' => __("Register new users if they log in using SPID for the first time. Disable to allow only already registered users to log in with SPID.", 'spid-wordpress'),
 			)
 		);
 
@@ -186,19 +186,6 @@ class Spid_Wordpress_Admin {
 			)
 		);
 
-		add_settings_field(
-			$this->settings->get_label_id(Spid_Wordpress_Settings::SIMPLESAMLPHP_PATH),
-			__("SimpleSAMLPHP Path", 'spid-wordpress'),
-			array($this, 'settings_field_textbox_callback'),
-			Spid_Wordpress::PLUGIN_NAME,
-			$this->settings->get_group_id(),
-			array(
-				'label_for' => $this->settings->get_label_id(Spid_Wordpress_Settings::SIMPLESAMLPHP_PATH),
-				'option' => Spid_Wordpress_Settings::SIMPLESAMLPHP_PATH,
-				'description' => __('SimpleSAMLPHP (or SimpleSPIDPHP?) path, if globally installed', 'spid-wordpress')
-			)
-		);
-
 		register_setting(
 			Spid_Wordpress::PLUGIN_NAME,
 			$this->settings->get_group_id(),
@@ -220,7 +207,6 @@ class Spid_Wordpress_Admin {
 		foreach ($checkboxes as $i) {
 			$values[$i] = isset($input[$i]) ? (int)$input[$i] : 0;
 		}
-		$values[Spid_Wordpress_Settings::SIMPLESAMLPHP_PATH] = $input[Spid_Wordpress_Settings::SIMPLESAMLPHP_PATH];
 
 		return $values;
 	}
