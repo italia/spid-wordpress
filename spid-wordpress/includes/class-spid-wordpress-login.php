@@ -26,9 +26,9 @@
  */
 class Spid_Wordpress_Login {
 	/**
-	 * Another spawned settings from hell
+	 * Plugin name, as always. Or maybe should be removed?
 	 */
-	private $settings;
+	protected $plugin_name;
 
 	/**
 	 * The current version of the plugin.
@@ -39,13 +39,9 @@ class Spid_Wordpress_Login {
 	protected $version;
 
 	/**
-	 * The loader that's responsible for maintaining and registering all hooks that power
-	 * the plugin.
-	 *
-	 * @since 1.0.0
-	 * @var Spid_Wordpress_Loader    $loader    Maintains and registers all hooks for the plugin.
+	 * Another spawned settings from hell
 	 */
-	protected $loader;
+	private $settings;
 
 	/**
 	 * More hellish nightmare fuel
@@ -60,8 +56,6 @@ class Spid_Wordpress_Login {
 	 * @see https://gist.github.com/umbros/0c0293b9fa541cd34be33f099611e79e
 	 */
 	private static $SHIB_HEADERS = array('Shib-Session-ID', 'Shib_Session_ID', 'HTTP_SHIB_IDENTITY_PROVIDER');
-
-	protected $plugin_name;
 
 	/**
 	 * Contains the instance.
@@ -96,14 +90,26 @@ class Spid_Wordpress_Login {
 	 * @since 1.0.0
 	 */
 	private function __construct() {
-		$this->version     = SPID_VERSION;
-		$this->plugin_name = 'spid-login';
-		$this->loader      = new Spid_Wordpress_Loader();
+		$this->version     = Spid_Wordpress::VERSION;
+		$this->plugin_name = Spid_Wordpress::PLUGIN_NAME;
 		$this->settings    = new Spid_Wordpress_Settings();
 		$this->user_meta   = new Spid_Wordpress_User_Meta();
-		$this->shortcodes  = new Spid_Login_Shortcodes( $this->get_plugin_name(), $this->get_version() );
 		$this->define_public_hooks();
 		//$this->loader->run();
+	}
+
+	/**
+	 * Do login actions (send SPID request, get SPID response and login user)
+	 * if HTTP GET parameters are set and plugin is configured correctly.
+	 */
+	public function do_login_action() {
+		if( $this->settings->is_plugin_configured_correctly() ) {
+			if ( isset( $_GET['init_spid_login'] ) ) {
+				Spid_Wordpress_Login::factory()->spid_startsso();
+			} elseif ( isset( $_GET['return_from_sso'] ) ) {
+				Spid_Wordpress_Login::factory()->spid_login();
+			}
+		}
 	}
 
 	/**
@@ -165,9 +171,7 @@ class Spid_Wordpress_Login {
 	 * @since    1.0.0
 	 */
 	public function enqueue_scripts() {
-		//wp_enqueue_script( Spid_Wordpress::PLUGIN_NAME, plugin_dir_url( __FILE__ ) . 'js/spid-wordpress-login.js', array( 'jquery' ), Spid_Wordpress::VERSION, false );
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . '../public/js/spid-sp-access-button.min.js', array( 'jquery' ), $this->version, true );
-		wp_enqueue_style(  $this->plugin_name, plugin_dir_url( __FILE__ ) . '../public/css/spid-sp-access-button.min.css', array(), $this->version, 'all' );
+		// Button scripts/style already managed by Spid_Wordpress_Public class
 	}
 
 	/**
@@ -196,6 +200,7 @@ class Spid_Wordpress_Login {
 
 	/**
 	 * Never called.
+	 * @deprecated
 	 */
 	public function login_successful() {
 		echo "SPID login eseguito asd tutto bene presa bn pija bns";
@@ -328,35 +333,6 @@ class Spid_Wordpress_Login {
 		return false;
 	}
 
-	/**
-	* Run the loader to execute all of the hooks with WordPress.
-	*
-	* @since    1.0.0
-	*/
-	public function run() {
-		$this->loader->run();
-	}
-
-	/**
-	 * The name of the plugin used to uniquely identify it within the context of
-	 * WordPress and to define internationalization functionality.
-	 *
-	 * @since     1.0.0
-	 * @return    string    The name of the plugin.
-	 */
-	public function get_plugin_name() {
-		return $this->plugin_name;
-	}
-
-	/**
-	 * Retrieve the version number of the plugin.
-	 *
-	 * @since     1.0.0
-	 * @return    string    The version number of the plugin.
-	 */
-	public function get_version() {
-		return $this->version;
-	}
     /**
      * Init external authentication with SimpleSAMLPHP and ReturnToUrl.
      *
@@ -421,6 +397,9 @@ class Spid_Wordpress_Login {
         }
     }
 
+	/**
+	 * Logout user, if logged in via SPID. Called in an hook.
+	 */
     public function spid_logout() {
 
         if (!$this->include_libs())
@@ -439,6 +418,7 @@ class Spid_Wordpress_Login {
      */
     public function is_enabled() {
         // @TODO Come verificare se il plugin è attivo ???
+	    // TODO: basarsi su cosa fanno le classi activator e deactivator, cioè nulla. Che utilità ha una differenza tra "installato" e "attivato"?
         return true;
     }
 

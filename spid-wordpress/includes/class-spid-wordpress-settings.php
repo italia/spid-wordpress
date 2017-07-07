@@ -79,6 +79,14 @@ class Spid_Wordpress_Settings {
 	}
 
 	/**
+	 * @return bool
+	 * @todo implement
+	 */
+	public function is_plugin_configured_correctly() {
+		return true;
+	}
+
+	/**
 	 * Restituisce il nome della label da usare nella pagina opzioni.
 	 * Non ha senso che stia qui, ma usa il prefix invece del group_id e fare una funzione pubblica che restituisce
 	 * il prefix aggiungeva solo caos e confusione. Almeno la distinzione tra group_id e label_id è autoevidente

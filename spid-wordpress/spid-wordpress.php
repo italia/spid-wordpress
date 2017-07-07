@@ -39,8 +39,10 @@
 defined('WPINC') or die;
 
 /*
- * Constants that can be twicked in your `wp-config.php`
+ * Constants that can be tweaked in your `wp-config.php`
  */
+
+// TODO: move some constants to Spid_Wordpress class? Or make them database-configurable?
 
 // PHPSimpleSaml directory
 defined(  'WP_SIMPLESAML_DIR')
@@ -61,14 +63,6 @@ or define('WP_SIMPLESAML_ATTR_MAPPING', '?');
 // PHPSimpleSaml is called only if headers have sense. Disable only for static authentication tests.
 defined(  'WP_SIMPLESAML_CHECK_HEADERS')
 or define('WP_SIMPLESAML_CHECK_HEADERS', true);
-
-// To try the consistence of the WordPress login API across WordPress versions
-// If you try this in production, you are an idiot.
-defined(  'WP_BACKDOOR_SPID')
-or define('WP_BACKDOOR_SPID', false);
-
-
-define( 'SPID_VERSION', '1.0');
 
 /**
  * The code that runs during plugin activation.
@@ -109,21 +103,5 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-spid-wordpress.php';
 Spid_Wordpress::factory()->run();
 
 
-// TODO muovere questa cosa nel grande coso globale
-add_action('init', function() {
+// see Spid_Wordpress_Login#do_login_action
 
-    if (isset($_GET['init_spid_login'])) {
-        Spid_Wordpress_Login::factory()->spid_startsso();
-    } elseif (isset($_GET['return_from_sso'])) {
-        Spid_Wordpress_Login::factory()->spid_login();
-    }
-
-//	// Is this a sysadmin test?
-//	if( WP_BACKDOOR_SPID && WP_DEBUG && isset( $_GET['backdoor_spid'] ) ) {
-//		// Yes, it is! Test the WordPress login API
-//		Spid_Wordpress_Login::factory()->bypass_login( $_GET['backdoor_spid'] );
-//	} else {
-//		// No, it isn't. Work as expected.
-//		Spid_Wordpress_Login::factory()->try_spid_login();
-//	}
-} );

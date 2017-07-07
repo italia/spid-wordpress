@@ -109,16 +109,7 @@ class Spid_Wordpress {
 
 	/**
 	 * Load the required dependencies for this plugin.
-	 *r
-	 * Include the following files that make up the plugin:
-	 *
-	 * - Spid_Wordpress_Loader. Orchestrates the hooks of the plugin.
-	 * - Spid_Wordpress_i18n. Defines internationalization functionality.
-	 * - Spid_Wordpress_Admin. Defines all hooks for the admin area.
-	 * - Spid_Wordpress_Public. Defines all hooks for the public side of the site.
-	 *
-	 * Create an instance of the loader which will be used to register the hooks
-	 * with WordPress.
+	 * (Calls "require_once" on a bunch of classes)
 	 *
 	 * @since    1.0.0
 	 * @access   private
@@ -160,14 +151,9 @@ class Spid_Wordpress {
 		require_once $this->path . 'includes/class-spid-wordpress-login.php';
 
 		/**
-		 * The login class managing user settings (meta). Anche detta "user meta'" perche' previene il login quindi resta solo mezzo utente.
+		 * The login class managing user settings (meta). Anche detta "user metà" perché previene il login quindi resta solo mezzo utente.
 		 */
 		require_once $this->path . 'includes/class-spid-wordpress-user-meta.php';
-
-		/*
-		 * The shortcodes
-		 */
-		require_once $this->path . 'includes/class-spid-wordpress-shortcodes.php';
 
 		$this->loader = new Spid_Wordpress_Loader();
 
@@ -236,16 +222,19 @@ class Spid_Wordpress {
 		$this->loader->add_action( 'wp_enqueue_styles', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts',$plugin_public, 'enqueue_scripts' );
 		$this->loader->add_action( 'wp_footer',         $plugin_public, 'add_spid_scripts');
-		$this->loader->add_action( 'login_form',        $plugin_public, 'print_button' );
-		$this->loader->add_action( 'spid_login_button', $plugin_public, 'print_button' );
+		$settings = new Spid_Wordpress_Settings();
+		if( $settings->is_plugin_configured_correctly() ) {
+			$this->loader->add_action( 'login_form', $plugin_public, 'print_button' );
+			$this->loader->add_action( 'spid_login_button', $plugin_public, 'print_button' );
+		}
 	}
 
 	private function define_login_page_hooks() {
 
 		$plugin_login = Spid_Wordpress_Login::factory();
+		$this->loader->add_action('init', $plugin_login, 'do_login_action');
 		$this->loader->add_action( 'login_enqueue_styles', $plugin_login, 'enqueue_styles' );
 		$this->loader->add_action( 'login_enqueue_scripts', $plugin_login, 'enqueue_scripts' );
-		//$this->loader->add_action( 'login_form', $plugin_login, 'login_form' );
 		$this->loader->add_action( 'login_errors', $plugin_login, 'login_errors' );
 		$this->loader->add_action( 'login_message', $plugin_login, 'login_message' );
         $this->loader->add_action('wp_logout', $plugin_login, 'spid_logout');
@@ -262,7 +251,6 @@ class Spid_Wordpress {
 	 */
 	public function run() {
 		$this->loader->run();
-		Spid_Wordpress_Login::factory()->run();
 	}
 
 	/**
