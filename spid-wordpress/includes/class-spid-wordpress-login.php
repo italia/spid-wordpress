@@ -166,6 +166,7 @@ class Spid_Wordpress_Login {
 	 * @since    1.0.0
 	 */
 	public function enqueue_styles() {
+		die("THIS GETS CALLED.");
 		// wp_enqueue_style( Spid_Wordpress::PLUGIN_NAME, plugin_dir_url( __FILE__ ) . 'css/spid-wordpress-login.css', array(), Spid_Wordpress::VERSION, 'all' );
 	}
 

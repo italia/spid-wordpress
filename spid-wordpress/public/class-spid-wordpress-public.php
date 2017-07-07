@@ -57,6 +57,7 @@ class Spid_Wordpress_Public {
 	 * @since 1.0.0
 	 */
 	public function enqueue_styles() {
+		die(plugin_dir_url( __FILE__ ) . 'css/spid-sp-access-button.min.css');
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/spid-sp-access-button.min.css', array(), $this->version, 'all' );
 	}
 
