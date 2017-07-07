@@ -95,7 +95,7 @@ class Spid_Wordpress_Login {
 		$this->plugin_name = Spid_Wordpress::PLUGIN_NAME;
 		$this->settings    = new Spid_Wordpress_Settings();
 		$this->user_meta   = new Spid_Wordpress_User_Meta();
-		$this->define_public_hooks();
+		//$this->define_public_hooks(); unexisting
 		//$this->loader->run();
 	}
 
