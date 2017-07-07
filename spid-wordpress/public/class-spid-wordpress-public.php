@@ -98,7 +98,7 @@ class Spid_Wordpress_Public {
 	 *
 	 * @param string $name file name (no path)
 	 */
-	private function get_img( $name ) {
+	private static function get_img( $name ) {
 		return plugins_url( 'img/' . $name, __FILE__ );
 	}
 
