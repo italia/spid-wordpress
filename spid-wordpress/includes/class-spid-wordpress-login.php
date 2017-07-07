@@ -26,7 +26,7 @@
  */
 class Spid_Wordpress_Login {
 	/**
-	 * Another spawned settings from hell (TODO, to it well).
+	 * Another spawned settings from hell
 	 */
 	private $settings;
 
@@ -49,7 +49,7 @@ class Spid_Wordpress_Login {
 	 * the plugin.
 	 *
 	 * @since 1.0.0
-	 * @var Facebook_Login_Loader    $loader    Maintains and registers all hooks for the plugin.
+	 * @var Spid_Wordpress_Loader    $loader    Maintains and registers all hooks for the plugin.
 	 */
 	protected $loader;
 
@@ -61,7 +61,7 @@ class Spid_Wordpress_Login {
 	/**
 	 * Headers of a shibboleth request (don't know why we are inserting this if it is a SPID integration?)
 	 *
-	 * Are they the same inconsistence thing of they co-exist? I think the first.
+	 * @todo Are they the same inconsistence thing of they co-exist? I think the first.
 	 *
 	 * @see https://gist.github.com/umbros/0c0293b9fa541cd34be33f099611e79e
 	 */
@@ -112,71 +112,14 @@ class Spid_Wordpress_Login {
 		//$this->loader->run();
 	}
 
-//	/**
-//	 * Check if this is a SPID request and then try a login.
-//	 *
-//	 * @since 1.0.0
-//	 */
-//	public function try_spid_login() {
-//
-//		// @since @umbros call
-//		if( WP_SIMPLESAML_CHECK_HEADERS && ! self::is_shibbosomething_request() ) {
-//			return;
-//		}
-//
-//		// @TODO Should this be database-selectable?
-//		require WP_SIMPLESAML_DIR . DIRECTORY_SEPARATOR . WP_SIMPLESAML_AUTOLOADER_FILE;
-//
-//		// @TODO da sostituire con il nome dl servizio configurato dall'utente
-//		// @TODO Should this be database-selectable?
-//		$saml_auth_as = new SimpleSAML_Auth_Simple( WP_SIMPLESAML_AUTHSOURCE );
-//		if( $saml_auth_as->isAuthenticated() ) {
-//
-//			$saml_auth_attributes = $saml_auth_as->getAttributes();
-//
-//			$spid_user_authname = self::get_spid_authname( $saml_auth_attributes );
-//
-//			// Enrich the registered WordPress user with provided data.
-//			$userdata = array(
-//				'user_email' => 'email',
-//				'first_name' => 'name',
-//				'last_name'  => 'familyName'
-//			);
-//			foreach($userdata as $wp_field => $saml_field) {
-//				// The value is NULL if not available
-//				$userdata[ $wp_field ] = self::get_attribute($saml_auth_attributes, $saml_field);
-//			}
-//
-//			// Enrich also with Consider also the username as "Name Surname"
-//			if( isset( $userdata['first_name'], $userdata['last_name'] ) ) {
-//				$userdata['user_nicename'] = sprintf("%s %s",
-//					$userdata['first_name'],
-//					$userdata['last_name']
-//				);
-//			}
-//
-//			// Try login
-//			$this->bypass_login( $spid_user_authname, $userdata );
-//
-//		} else {
-//			// @TODO What does it do?
-//            $params=[];
-//            $params['ReturnTo'] = '/url/to/check/auth';
-//            $params['ErrorURL'] = '/url/to/show/errors';
-//			$saml_auth_as->login($params);
-//			// @TODO recuperare il codice utente dagli attributi utilizzati
-//		}
-//
-//	}
-
 	/**
 	 * Try to get a certain element from a non-so-consistent array.
 	 *
-	 * @param $attributes Heystack
-	 * @param $attribute Needle (index of the array)
+	 * @param $attributes array Haystack
+	 * @param $attribute string|int Needle (index of the array)
 	 * @return mixed|null The element, if found
 	 */
-	static function get_attribute($attributes, $attribute) {
+	private static function get_attribute($attributes, $attribute) {
 		if( isset( $attributes[ $attribute ] ) ) {
 			$v = $attributes[ $attribute ];
 			if( is_array( $v ) ) {
@@ -190,7 +133,7 @@ class Spid_Wordpress_Login {
 	/**
 	 * Get an identifier from SPID. This will be the username.
 	 *
-	 * @param $simplesaml_attributes SimpleSAML_Auth_Simple#getAttributes().
+	 * @param $simplesaml_attributes array SimpleSAML_Auth_Simple#getAttributes().
 	 *
 	 * @return string Any SPID identifier
 	 * @throws Exception if no valid unique ID (codice fiscale et all) can be found in SPID response
@@ -329,7 +272,9 @@ class Spid_Wordpress_Login {
 	 *
 	 * @param string $user_login WP_User#user_login
 	 * @param array $userdata WP_User fields
+	 *
 	 * @return WP_User
+	 * @throws Exception
 	 */
 	function create_new_user($user_login, $userdata = array() ) {
 		// The user does not exist
@@ -381,6 +326,7 @@ class Spid_Wordpress_Login {
 	static function is_shibbosomething_request() {
 		foreach(self::$SHIB_HEADERS as $header) {
 			// Why isn't enough `! empty()` alone? Boh.
+			// ↑ Because "empty" expects an array, but the value may be null or other non-array thypes?
 			if( array_key_exists($header, $_SERVER) && ! empty( $_SERVER[$header] ) ) {
 				return true;
 			}
@@ -437,11 +383,11 @@ class Spid_Wordpress_Login {
             return;
 
         // @TODO da sostituire con il nome dl servizio configurato dall'utente
-        // @TODO Should this be database-selectable?
+	    // TODO: quale servizio e quale utente? L'utente che seleziona quale IdP usare o il proprietario del sito (che cosa dovrebbe impostare!?)?
         $saml_auth_as = new SimpleSAML_Auth_Simple( WP_SIMPLESAML_AUTHSOURCE );
         if( !$saml_auth_as->isAuthenticated() ) {
             $saml_auth_as = new SimpleSAML_Auth_Simple( WP_SIMPLESAML_AUTHSOURCE );
-            $params=[];
+            $params = array();
             $params['ReturnTo'] = get_home_url(null,'/?return_from_sso=true');
             $params['ErrorURL'] = get_home_url();
             $saml_auth_as->login($params);
@@ -455,8 +401,8 @@ class Spid_Wordpress_Login {
             return;
 
         // @TODO da sostituire con il nome dl servizio configurato dall'utente
-        // @TODO Should this be database-selectable?
-        $saml_auth_as = new SimpleSAML_Auth_Simple( WP_SIMPLESAML_AUTHSOURCE );
+	    // TODO: quale servizio e quale utente? L'utente che seleziona quale IdP usare o il proprietario del sito (che cosa dovrebbe impostare!?)?
+	    $saml_auth_as = new SimpleSAML_Auth_Simple( WP_SIMPLESAML_AUTHSOURCE );
         if( $saml_auth_as->isAuthenticated() ) {
 
             $saml_auth_attributes = $saml_auth_as->getAttributes();

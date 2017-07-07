@@ -23,20 +23,31 @@ class Spid_Wordpress_Settings {
 
 	private $settings;
 
-	const USER_REGISTRATION = 'registration';
-
 	/**
 	 * true when enforcing SPID logins and no choice exists but to become part of the Borg Collective.
 	 */
 	const NO_USER_SECURITY_CHOICE = 'user_security_choice';
 
-	// Path where simplesamlphp is installed
+	/**
+	 * Allow new registrations via SPID login
+	 */
+	const USER_REGISTRATION = 'registration';
+
+	/**
+	 * Path where simplesamlphp is installed
+	 * @deprecated
+	 */
 	const SIMPLESAMLPHP_PATH = 'simplesamlphp_path';
 
-	// Authentication source name
+	/**
+	 * Auth source
+	 * TODO: is this really needed? Shouldn't there be a deafult value and that's it?
+	 */
 	const SIMPLESAMLPHP_AUTHSOURCE = 'simplesamlphp_authsource';
 
-	// UserID Attribute.
+	/**
+	 * UserID Attribute.
+	 */
 	const SIMPLESAMLPHP_UIDATTRIBUTE = 'simplesamlphp_uidattribute';
 
 	function __construct() {
@@ -51,9 +62,9 @@ class Spid_Wordpress_Settings {
 			self::USER_REGISTRATION => 1,
 
 			// @TODO: Why this should be database-definable?
+			// TODO: if we leave this database-definable, place 'default-sp' here instead of reading another constant
 			self::SIMPLESAMLPHP_AUTHSOURCE => WP_SIMPLESAML_AUTHSOURCE,
 
-			// @TODO: Why this should be database-definable?
 			self::SIMPLESAMLPHP_PATH => WP_SIMPLESAML_DIR . DIRECTORY_SEPARATOR . WP_SIMPLESAML_AUTOLOADER_FILE,
 
 			// @TODO: What is this?
