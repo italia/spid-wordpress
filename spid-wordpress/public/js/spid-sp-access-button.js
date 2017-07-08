@@ -1,4 +1,4 @@
-jQuery && function(t) {
+jQuery && function (t) {
 	function i(i, n) {
 		var d = i ? t(this) : n, o = t(d.attr('spid-idp-button')), r = d.hasClass('spid-idp-button-open');
 		if(i) {
@@ -25,7 +25,7 @@ jQuery && function(t) {
 				return;
 			}
 		}
-		t(document).find('.spid-idp-button:visible').each(function() {
+		t(document).find('.spid-idp-button:visible').each(function () {
 			var i = t(this);
 			i.hide().removeData('spid-idp-button-trigger').trigger('hide', {spidIDPButton: i});
 		}), t(document).find('.spid-idp-button-open').removeClass('spid-idp-button-open');
@@ -51,7 +51,7 @@ jQuery && function(t) {
 	}
 
 	t.extend(t.fn, {
-		spidIDPButton: function(e, n) {
+		spidIDPButton: function (e, n) {
 			switch(e) {
 				case'show':
 					return i(null, t(this)), t(this);
