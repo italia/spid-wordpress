@@ -9,8 +9,8 @@
 	<!-- TODO: attribute "spid-idp-button" is not valid. Should be "data-spid-idp-button"? -->
 	<a href="#" class="italia-it-button italia-it-button-size-s button-spid"
 	   spid-idp-button="#spid-idp-button-small-get" aria-haspopup="true" aria-expanded="false">
-		<span class="italia-it-button-icon"><img src="<?= $this->get_img( 'spid-ico-circle-bb.svg' ); ?>"
-		                                         onerror="this.src='<?= $this->get_img( 'spid-ico-circle-bb.png' ); ?>'; this.onerror=null;"
+		<span class="italia-it-button-icon"><img src="<?php echo $this->get_img( 'spid-ico-circle-bb.svg' ); ?>"
+		                                         onerror="this.src='<?php echo $this->get_img( 'spid-ico-circle-bb.png' ); ?>'; this.onerror=null;"
 		                                         alt="Login"/></span>
 		<span class="italia-it-button-text">Entra con SPID</span>
 	</a>
