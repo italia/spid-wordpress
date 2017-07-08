@@ -1,3 +1,10 @@
+/**
+ * Beautified version of the minified SPID Sp Access Button from Developers Italia.
+ * (Why it was minified? Boh. See: https://github.com/italia/spid-sp-access-button/issues/2 )
+ *
+ * @see https://github.com/italia/spid-sp-access-button
+ * @license MIT ( https://github.com/italia/spid-sp-access-button/blob/master/LICENSE.md )
+ */
 jQuery && function (t) {
 	function i(i, n) {
 		var d = i ? t(this) : n, o = t(d.attr('spid-idp-button')), r = d.hasClass('spid-idp-button-open');
