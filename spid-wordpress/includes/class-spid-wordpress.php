@@ -91,7 +91,6 @@ class Spid_Wordpress {
 		$this->load_dependencies();
 		$this->set_locale();
 		$this->define_admin_hooks();
-		$this->define_public_hooks();
 		$this->define_user_settings_hooks();
 		$this->define_login_page_hooks();
 		$this->thisFile = __FILE__;
@@ -134,12 +133,6 @@ class Spid_Wordpress {
 		 * The class responsible for defining all actions that occur in the admin area.
 		 */
 		require_once $this->path . 'admin/class-spid-wordpress-admin.php';
-
-		/**
-		 * The class responsible for defining all actions that occur in the public-facing
-		 * side of the site.
-		 */
-		require_once $this->path . 'public/class-spid-wordpress-public.php';
 
 		/**
 		 * La classe che astrae le opzioni stoccate nel database. Ciò è necessario BECAUSE WORDPRESS.
@@ -209,27 +202,6 @@ class Spid_Wordpress {
 		$this->loader->add_action( 'personal_options_update', $plugin_user_meta, 'personal_options_update' );
 	}
 
-	/**
-	 * Register all of the hooks related to the public-facing functionality
-	 * of the plugin.
-	 *
-	 * @since    1.0.0
-	 * @access   private
-	 */
-	private function define_public_hooks() {
-
-		$plugin_public = new Spid_Wordpress_Public();
-
-		$this->loader->add_action( 'login_enqueue_scripts', $plugin_public, 'enqueue_styles' );
-		$this->loader->add_action( 'login_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
-		$this->loader->add_action( 'wp_footer', $plugin_public, 'add_spid_scripts' );
-		$settings = new Spid_Wordpress_Settings();
-		if ( $settings->is_plugin_configured_correctly() ) {
-			$this->loader->add_action( 'login_form', $plugin_public, 'print_button' );
-			$this->loader->add_action( 'spid_login_button', $plugin_public, 'print_button' );
-		}
-	}
-
 	private function define_login_page_hooks() {
 
 		$plugin_login = Spid_Wordpress_Login::factory();
@@ -239,6 +211,12 @@ class Spid_Wordpress {
 		$this->loader->add_action( 'login_errors', $plugin_login, 'login_errors' );
 		$this->loader->add_action( 'login_message', $plugin_login, 'login_message' );
 		$this->loader->add_action( 'wp_logout', $plugin_login, 'spid_logout' );
+		$this->loader->add_action( 'wp_footer', $plugin_login, 'add_spid_scripts' );
+		$settings = new Spid_Wordpress_Settings();
+		if ( $settings->is_plugin_configured_correctly() ) {
+			$this->loader->add_action( 'login_form', $plugin_login, 'print_button' );
+			$this->loader->add_action( 'spid_login_button', $plugin_login, 'print_button' );
+		}
 
 		// Apparently never called
 		// TODO: use for something useful
