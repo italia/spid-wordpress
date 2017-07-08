@@ -208,6 +208,7 @@ class Spid_Wordpress {
 		$this->loader->add_action( 'init', $plugin_login, 'do_login_action' );
 		$this->loader->add_action( 'login_enqueue_scripts', $plugin_login, 'enqueue_styles' );
 		$this->loader->add_action( 'login_enqueue_scripts', $plugin_login, 'enqueue_scripts' );
+		$this->loader->add_action( 'wp_footer', $plugin_login, 'add_button_scripts' );
 		$this->loader->add_action( 'login_errors', $plugin_login, 'login_errors' );
 		$this->loader->add_action( 'login_message', $plugin_login, 'login_message' );
 		$this->loader->add_action( 'wp_logout', $plugin_login, 'spid_logout' );

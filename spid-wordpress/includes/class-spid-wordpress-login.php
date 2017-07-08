@@ -254,7 +254,7 @@ class Spid_Wordpress_Login {
 	}
 
 	/**
-	 * Get "li" elements representing IdPs, in random order
+	 * Get "li" elements representing IdPs
 	 *
 	 * @return array HTML code for each IdP
 	 */
@@ -268,26 +268,30 @@ class Spid_Wordpress_Login {
 		$idp[] = self::get_idp_html( 'SPIDItalia Register.it', 'spiditalia', 'spid-idp-spiditalia', 'SpidItalia' );
 		$idp[] = self::get_idp_html( 'Tim ID', '', 'spid-idp-timid', 'Tim ID' );
 		//$idp[] = self::get_idp_html('', '', '', '');
-		shuffle( $idp );
+
+		// to randomize order server-side:
+		//shuffle( $idp );
 
 		return $idp;
 	}
 
 	/**
-	 * @deprecated throws random warnings due to mismatched parameters. Also, IdP order randomization is now done server-side.
+	 * Print javascript to open menu button
 	 */
-	public function add_spid_scripts() {
-//		<script>
-//		jQuery(document).ready( function () {
-//			var rootList = jQuery('#spid-idp-list-small-root-get');
-//			var idpList = rootList.children('.spid-idp-button-link');
-//			var lnkList = rootList.children('.spid-idp-support-link');
-//			while (idpList.length) {
-//				rootList.append( idpList.splice(Math.floor(Math.random() * idpList.length), 1)[0] );
-//			}
-//			rootList.append(lnkList);
-//		} );
-//		</script>
+	public function add_button_scripts() {
+		?>
+		<script>
+			jQuery( document ).ready( function() {
+				var rootList = jQuery( '#spid-idp-list-small-root-get' );
+				var idpList = rootList.children( '.spid-idp-button-link' );
+				var lnkList = rootList.children( '.spid-idp-support-link' );
+				while( idpList.length ) {
+					rootList.append( idpList.splice( Math.floor( Math.random() * idpList.length ), 1 )[0] );
+				}
+				rootList.append( lnkList );
+			} );
+		</script>
+		<?php
 	}
 
 	/**
