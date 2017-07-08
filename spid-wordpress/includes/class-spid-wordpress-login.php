@@ -244,7 +244,7 @@ class Spid_Wordpress_Login {
 	 */
 	private static function get_idp_html( $name, $data_idp, $image_name, $alt ) {
 		$svg = self::get_img( $image_name . '.svg' );
-		$png = self::get_img( 'spid-idp-arubaid.png' );
+		$png = self::get_img( $image_name . '.png' );
 
 		$result =
 			"<li class=\"spid-idp-button-link\" data-idp=\"$data_idp\">" .
