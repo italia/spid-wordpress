@@ -46,7 +46,7 @@ defined( 'WPINC' ) or die;
 	}
 	/** @var $this ->settings Spid_Wordpress_Settings */
 	if ( ! $this->settings->is_plugin_configured_correctly() ) {
-		echo '<p>';
+		echo '<div class="error notice"><p>';
 		if ( ! file_exists( WP_SIMPLESAML_DIR ) ) {
 			echo __( sprintf( 'Warning: supplied path (%s) for SimpleSpidPhp library is incorrect, edit WP_SIMPLESAML_DIR', WP_SIMPLESAML_DIR ), 'spid-wordpress' );
 		} else if ( file_exists( WP_SIMPLESAML_DIR . DIRECTORY_SEPARATOR . WP_SIMPLESAML_AUTOLOADER_FILE ) ) {
@@ -54,7 +54,7 @@ defined( 'WPINC' ) or die;
 		} else {
 			echo __( sprintf( 'Warning: found SimpleSpidPhp autoloader in %s, but loading failed', WP_SIMPLESAML_DIR . DIRECTORY_SEPARATOR . WP_SIMPLESAML_AUTOLOADER_FILE ), 'spid-wordpress' );
 		}
-		echo '</p>';
+		echo '</p></div>';
 	} ?>
 	<form action="options.php" method="post">
 		<?php
