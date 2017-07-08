@@ -34,6 +34,28 @@ defined( 'WPINC' ) or die;
 ?>
 <div class="wrap">
 	<h2><?php echo esc_html( get_admin_page_title() ); ?></h2>
+	<?php
+	if (
+		! isset( $this ) ||
+		! is_object( $this ) ||
+		! isset( $this->settings ) ||
+		! is_object( $this->settings ) ||
+		! method_exists( $this->settings, 'is_plugin_configured_correctly' )
+	) {
+		throw new LogicException( 'Can\'t check if configuration is correct' );
+	}
+	/** @var $this ->settings Spid_Wordpress_Settings */
+	if ( ! $this->settings->is_plugin_configured_correctly() ) {
+		echo '<p>';
+		if ( ! file_exists( WP_SIMPLESAML_DIR ) ) {
+			echo __( sprintf( 'Warning: supplied path (%s) for SimpleSpidPhp library is incorrect, edit WP_SIMPLESAML_DIR', WP_SIMPLESAML_DIR ), 'spid-wordpress' );
+		} else if ( file_exists( WP_SIMPLESAML_DIR . DIRECTORY_SEPARATOR . WP_SIMPLESAML_AUTOLOADER_FILE ) ) {
+			echo __( sprintf( 'Warning: supplied path (%s) for SimpleSpidPhp autoloader is incorrect, edit WP_SIMPLESAML_DIR and WP_SIMPLESAML_AUTOLOADER_FILE', WP_SIMPLESAML_DIR . DIRECTORY_SEPARATOR . WP_SIMPLESAML_AUTOLOADER_FILE ), 'spid-wordpress' );
+		} else {
+			echo __( sprintf( 'Warning: found SimpleSpidPhp autoloader in %s, but loading failed', WP_SIMPLESAML_DIR . DIRECTORY_SEPARATOR . WP_SIMPLESAML_AUTOLOADER_FILE ), 'spid-wordpress' );
+		}
+		echo '</p>';
+	} ?>
 	<form action="options.php" method="post">
 		<?php
 		// Output security fields for the registered option group

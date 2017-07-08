@@ -517,8 +517,11 @@ class Spid_Wordpress_Login {
 	public static function include_libs() {
 		//if ($this->is_enabled()) {
 		// @TODO Should this be database-selectable?
-		require_once WP_SIMPLESAML_DIR . DIRECTORY_SEPARATOR . WP_SIMPLESAML_AUTOLOADER_FILE;
+		if(!file_exists(WP_SIMPLESAML_DIR . DIRECTORY_SEPARATOR . WP_SIMPLESAML_AUTOLOADER_FILE)) {
+			return false;
+		}
 
+		require_once WP_SIMPLESAML_DIR . DIRECTORY_SEPARATOR . WP_SIMPLESAML_AUTOLOADER_FILE;
 		return true;
 		//} else {
 		//    return false;
