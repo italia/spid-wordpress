@@ -175,8 +175,7 @@ class Spid_Wordpress_Login {
 	public function enqueue_scripts() {
 		// Required for the footer inline code.
 		wp_enqueue_script('jquery');
-
-		//wp_enqueue_script( $this->plugin_name, plugin_dir_url( dirname( __FILE__ ) ) . 'public/js/spid-sp-access-button.min.js', array( 'jquery' ), $this->version, true );
+		wp_enqueue_script( $this->plugin_name, plugin_dir_url( dirname( __FILE__ ) ) . 'public/js/spid-sp-access-button.js', array( 'jquery' ), $this->version, true );
 	}
 
 	/**
