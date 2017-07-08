@@ -216,7 +216,7 @@ class Spid_Wordpress_Login {
 	 */
 	public function print_button() {
 		/** @noinspection PhpIncludeInspection */
-		include_once plugins_url( 'public' . DIRECTORY_SEPARATOR . 'partials' . DIRECTORY_SEPARATOR . 'spid-wordpress-button.php', dirname( __FILE__ ) );
+		include_once plugin_dir_path( dirname( __FILE__ ) ) . 'public' . DIRECTORY_SEPARATOR . 'partials' . DIRECTORY_SEPARATOR . 'spid-wordpress-button.php';
 	}
 
 	/**
