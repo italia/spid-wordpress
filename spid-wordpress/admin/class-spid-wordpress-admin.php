@@ -98,7 +98,7 @@ class Spid_Wordpress_Admin {
 	 */
 	public function add_settings_page() {
 		$this->options_page_hook_suffix = add_options_page( 'SPID',
-			'SPID',
+			'SPID Login',
 			'manage_options',
 			Spid_Wordpress::PLUGIN_NAME,
 			array( $this, 'display_settings_page' )
