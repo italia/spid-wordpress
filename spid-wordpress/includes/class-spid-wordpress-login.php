@@ -95,6 +95,7 @@ class Spid_Wordpress_Login {
 		$this->plugin_name = Spid_Wordpress::PLUGIN_NAME;
 		$this->settings    = new Spid_Wordpress_Settings();
 		$this->user_meta   = new Spid_Wordpress_User_Meta();
+		$this->shortcodes  = new Spid_Login_Shortcodes( $this->plugin_name, $this->version );
 	}
 
 	/**

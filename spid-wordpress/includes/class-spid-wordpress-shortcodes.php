@@ -12,8 +12,7 @@
  * @see        https://github.com/timersys/facebook-login/blob/master/trunk/includes/class-facebook-login-shortcodes.php
  * @license    GNU GPL v3
  *
- * @deprecated seems unused
- * @todo remove entire class?
+ * @todo clean up this class
  */
 class Spid_Login_Shortcodes {
 
@@ -42,6 +41,8 @@ class Spid_Login_Shortcodes {
 	 *
 	 * @param      string $plugin_name The name of the plugin.
 	 * @param      string $version The version of this plugin.
+	 *
+	 * @todo move side effects somewhere else, so thery aren't side effects of a costructor
 	 */
 	public function __construct( $plugin_name, $version ) {
 		$this->plugin_name = $plugin_name;
@@ -51,8 +52,6 @@ class Spid_Login_Shortcodes {
 
 	/**
 	 * Register all plugin shortcodes
-	 * @deprecated seems unused
-	 * @todo remove entire class?
 	 */
 	public function register_shortcodes() {
 		add_shortcode( 'spid_login_button', array( $this, 'login_button' ) );
@@ -65,14 +64,13 @@ class Spid_Login_Shortcodes {
 	 * @param $atts
 	 * @param $content
 	 *
-	 * @deprecated seems unused
-	 * @todo remove entire class?
-	 *
 	 * @return string
 	 */
 	function login_button( $atts, $content ) {
 		ob_start();
 
+		// TODO: this hook exists only if plugin is configured correctly (see Spid_Wordpress#define_login_page_hooks)!
+		// We should probably define an alternative handler there, that does... Nothing? Print an error message?
 		do_action( 'spid_login_button' );
 		$html = ob_get_contents();
 		ob_end_clean();
