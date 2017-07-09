@@ -34,4 +34,7 @@
 		</li>
 	</ul>
 </div>
+<?php
+$this->add_button_scripts();
+?>
 <!-- AGID - SPID IDP BUTTON SMALL "ENTRA CON SPID" * end * -->

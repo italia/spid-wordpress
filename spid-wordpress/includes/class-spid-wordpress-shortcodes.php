@@ -51,8 +51,6 @@ class Spid_Login_Shortcodes {
 
 	/**
 	 * Register all plugin shortcodes
-	 * @deprecated seems unused
-	 * @todo remove entire class?
 	 */
 	public function register_shortcodes() {
 		add_shortcode( 'spid_login_button', array( $this, 'login_button' ) );
