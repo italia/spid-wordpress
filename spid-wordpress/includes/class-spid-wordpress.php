@@ -89,7 +89,6 @@ class Spid_Wordpress {
 		$this->define_admin_hooks();
 		$this->define_user_settings_hooks();
 		$this->define_login_page_hooks();
-		$this->define_public_hooks();
 	}
 
 	/**
@@ -145,10 +144,10 @@ class Spid_Wordpress {
 		 */
 		require_once $this->path . 'includes/class-spid-wordpress-user-meta.php';
 
-        /*
-         * The shortcodes
-         */
-        require_once $this->path . 'includes/class-spid-wordpress-shortcodes.php';
+		/**
+		 * The shortcodes
+		 */
+		require_once $this->path . 'includes/class-spid-wordpress-shortcodes.php';
 
 		$this->loader = new Spid_Wordpress_Loader();
 
@@ -203,31 +202,18 @@ class Spid_Wordpress {
 		$this->loader->add_action( 'personal_options_update', $plugin_user_meta, 'personal_options_update' );
 	}
 
-    /**
-     * Register all of the hooks related to the public-facing functionality
-     * of the plugin.
-     *
-     * @since    1.0.0
-     * @access   private
-     */
-    private function define_public_hooks() {
-        $plugin_login = Spid_Wordpress_Login::factory();
-        $this->loader->add_action( 'wp_enqueue_styles', $plugin_login, 'enqueue_styles' );
-        $this->loader->add_action( 'wp_enqueue_scripts', $plugin_login, 'enqueue_scripts' );
-        //$this->loader->add_action('wp_footer',$plugin_login,'add_spid_scripts');
-    }
-
-    /**
-     * Register all of the hooks related to the login page functionality
-     * of the plugin.
-     *
-     * @since    1.0.0
-     * @access   private
-     */
-    private function define_login_page_hooks() {
+	/**
+	 * Register all of the hooks related to the login page functionality
+	 * of the plugin.
+	 *
+	 * @since    1.0.0
+	 * @access   private
+	 */
+	private function define_login_page_hooks() {
 
 		$plugin_login = Spid_Wordpress_Login::factory();
 		$this->loader->add_action( 'init', $plugin_login, 'do_login_action' );
+		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_login, 'enqueue_scripts_and_styles' );
 		$this->loader->add_action( 'login_enqueue_scripts', $plugin_login, 'enqueue_scripts_and_styles' );
 		$this->loader->add_action( 'login_errors', $plugin_login, 'login_errors' );
 		$this->loader->add_action( 'login_message', $plugin_login, 'login_message' );

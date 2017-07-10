@@ -166,10 +166,10 @@ class Spid_Wordpress_Login {
 	 */
 	public function enqueue_scripts_and_styles() {
 		// Required for the footer inline code.
-		wp_enqueue_script('jquery');
+		wp_enqueue_script( 'jquery' );
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( dirname( __FILE__ ) ) . 'public/js/spid-sp-access-button.js', array( 'jquery' ), $this->version, true );
-        wp_enqueue_style( $this->plugin_name, plugin_dir_url( dirname( __FILE__ ) ) . 'public/css/spid-sp-access-button.min.css', array(), $this->version, 'all' );
-        //wp_enqueue_style(  $this->plugin_name, plugin_dir_url( __FILE__ ) . '../public/css/spid-sp-access-button.min.css', array(), $this->version, 'all' );
+		wp_enqueue_style( $this->plugin_name, plugin_dir_url( dirname( __FILE__ ) ) . 'public/css/spid-sp-access-button.min.css', array(), $this->version, 'all' );
+		//wp_enqueue_style(  $this->plugin_name, plugin_dir_url( __FILE__ ) . '../public/css/spid-sp-access-button.min.css', array(), $this->version, 'all' );
 	}
 
 	/**
@@ -276,16 +276,16 @@ class Spid_Wordpress_Login {
 	public function add_button_scripts() {
 		?>
 		<script>
-			jQuery( document ).ready( function() {
-				var rootList = jQuery( '#spid-idp-list-small-root-get' );
-				var idpList = rootList.children( '.spid-idp-button-link' );
-				var lnkList = rootList.children( '.spid-idp-support-link' );
+			jQuery(document).ready(function () {
+				var rootList = jQuery('#spid-idp-list-small-root-get');
+				var idpList = rootList.children('.spid-idp-button-link');
+				var lnkList = rootList.children('.spid-idp-support-link');
 
-				while( idpList.length ) {
-					rootList.append( idpList.splice( Math.floor( Math.random() * idpList.length ), 1 )[0] );
+				while(idpList.length) {
+					rootList.append(idpList.splice(Math.floor(Math.random() * idpList.length), 1)[0]);
 				}
-				rootList.append( lnkList );
-			} );
+				rootList.append(lnkList);
+			});
 		</script>
 		<?php
 	}
@@ -513,10 +513,11 @@ class Spid_Wordpress_Login {
 
 		//if ($this->is_enabled()) {
 		// @TODO Should this be database-selectable?
-		if(!file_exists(WP_SIMPLESAML_DIR . DIRECTORY_SEPARATOR . WP_SIMPLESAML_AUTOLOADER_FILE)) {
+		if ( ! file_exists( WP_SIMPLESAML_DIR . DIRECTORY_SEPARATOR . WP_SIMPLESAML_AUTOLOADER_FILE ) ) {
 			return false;
 		}
 		require_once WP_SIMPLESAML_DIR . DIRECTORY_SEPARATOR . WP_SIMPLESAML_AUTOLOADER_FILE;
+
 		return true;
 		//} else {
 		//    return false;
