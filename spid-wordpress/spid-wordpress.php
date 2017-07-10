@@ -26,7 +26,7 @@
  * Plugin URI:        https://github.com/italia/spid-wordpress
  * Description:       Permette l'autenticazione degli utenti tramite SPID.
  * Version:           1.0.0
- * Author:            Ludovico Pavesi, Valerio Bozzolan, spid-wordpress contributors
+ * Author:            Ludovico Pavesi, Valerio Bozzolan, Salvo Rapisarda, spid-wordpress contributors
  * Author URI:
  * License:           GPLv3+
  * License URI:       https://www.gnu.org/licenses/gpl-3.0.txt

@@ -22,7 +22,7 @@
  * @since      1.0.0
  * @package    Spid_Wordpress
  * @subpackage Spid_Wordpress/login
- * @author     Ludovico Pavesi, Valerio Bozzolan, spid-wordpress contributors
+ * @author     Ludovico Pavesi, Valerio Bozzolan, Salvo Rapisarda, spid-wordpress contributors
  */
 class Spid_Wordpress_Login {
 	/**
@@ -165,7 +165,7 @@ class Spid_Wordpress_Login {
 	 * @since    1.0.0
 	 */
 	public function enqueue_styles() {
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( dirname( __FILE__ ) ) . 'public/css/spid-sp-access-button.min.css', array(), $this->version, 'all' );
+
 	}
 
 	/**
@@ -177,6 +177,8 @@ class Spid_Wordpress_Login {
 		// Required for the footer inline code.
 		wp_enqueue_script('jquery');
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( dirname( __FILE__ ) ) . 'public/js/spid-sp-access-button.js', array( 'jquery' ), $this->version, true );
+        wp_enqueue_style( $this->plugin_name, plugin_dir_url( dirname( __FILE__ ) ) . 'public/css/spid-sp-access-button.min.css', array(), $this->version, 'all' );
+        //wp_enqueue_style(  $this->plugin_name, plugin_dir_url( __FILE__ ) . '../public/css/spid-sp-access-button.min.css', array(), $this->version, 'all' );
 	}
 
 	/**
@@ -441,6 +443,7 @@ class Spid_Wordpress_Login {
 			$saml_auth_as       = new SimpleSAML_Auth_Simple( WP_SIMPLESAML_AUTHSOURCE );
 			$params             = array();
 			$params['ReturnTo'] = get_home_url( null, '/?return_from_sso=true' );
+			// TODO: Da sostiture con pagina di errore
 			$params['ErrorURL'] = get_home_url();
 			$saml_auth_as->login( $params );
 
@@ -516,12 +519,12 @@ class Spid_Wordpress_Login {
 	}
 
 	public static function include_libs() {
+
 		//if ($this->is_enabled()) {
 		// @TODO Should this be database-selectable?
 		if(!file_exists(WP_SIMPLESAML_DIR . DIRECTORY_SEPARATOR . WP_SIMPLESAML_AUTOLOADER_FILE)) {
 			return false;
 		}
-
 		require_once WP_SIMPLESAML_DIR . DIRECTORY_SEPARATOR . WP_SIMPLESAML_AUTOLOADER_FILE;
 		return true;
 		//} else {
