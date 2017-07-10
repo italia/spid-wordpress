@@ -160,20 +160,11 @@ class Spid_Wordpress_Login {
 	}
 
 	/**
-	 * Register the stylesheets for the login area.
+	 * Register the JavaScript and stylesheets for the login area.
 	 *
 	 * @since    1.0.0
 	 */
-	public function enqueue_styles() {
-
-	}
-
-	/**
-	 * Register the JavaScript for the login area.
-	 *
-	 * @since    1.0.0
-	 */
-	public function enqueue_scripts() {
+	public function enqueue_scripts_and_styles() {
 		// Required for the footer inline code.
 		wp_enqueue_script('jquery');
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( dirname( __FILE__ ) ) . 'public/js/spid-sp-access-button.js', array( 'jquery' ), $this->version, true );
