@@ -52,10 +52,6 @@ or define( 'WP_SIMPLESAML_DIR', plugin_dir_path( __FILE__ ) . 'vendor' );
 defined( 'WP_SIMPLESAML_AUTOLOADER_FILE' )
 or define( 'WP_SIMPLESAML_AUTOLOADER_FILE', 'autoload.php' );
 
-// PHPSimpleSaml auth source
-defined( 'WP_SIMPLESAML_AUTHSOURCE' )
-or define( 'WP_SIMPLESAML_AUTHSOURCE', 'default-sp' );
-
 // PHPSimpleSaml attribute mapping
 defined( 'WP_SIMPLESAML_ATTR_MAPPING' )
 or define( 'WP_SIMPLESAML_ATTR_MAPPING', '?' );

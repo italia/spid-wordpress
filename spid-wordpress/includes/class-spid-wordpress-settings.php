@@ -64,7 +64,7 @@ class Spid_Wordpress_Settings {
 
 			// @TODO: Why this should be database-definable?
 			// TODO: if we leave this database-definable, place 'default-sp' here instead of reading another constant
-			self::SIMPLESAMLPHP_AUTHSOURCE => WP_SIMPLESAML_AUTHSOURCE,
+			self::SIMPLESAMLPHP_AUTHSOURCE => 'default-sp',
 
 			self::SIMPLESAMLPHP_PATH       => WP_SIMPLESAML_DIR . DIRECTORY_SEPARATOR . WP_SIMPLESAML_AUTOLOADER_FILE,
 
