@@ -66,7 +66,7 @@ class Spid_Wordpress_Settings {
 			// TODO: if we leave this database-definable, place 'default-sp' here instead of reading another constant
 			self::SIMPLESAMLPHP_AUTHSOURCE => WP_SIMPLESAML_AUTHSOURCE,
 
-			self::SIMPLESAMLPHP_PATH         => WP_SIMPLESAML_DIR . DIRECTORY_SEPARATOR . WP_SIMPLESAML_AUTOLOADER_FILE,
+			self::SIMPLESAMLPHP_PATH       => WP_SIMPLESAML_DIR . DIRECTORY_SEPARATOR . WP_SIMPLESAML_AUTOLOADER_FILE,
 
 			// @TODO: What is this?
 			self::SIMPLESAMLPHP_UIDATTRIBUTE => '-'
@@ -113,5 +113,12 @@ class Spid_Wordpress_Settings {
 		} else {
 			throw new LogicException( 'Option ' . $option . ' unsupported!' );
 		}
+	}
+
+	/**
+	 * Setting entry point to retrieve the SimpleSamlPHP authsource entry point.
+	 */
+	function getSimpleSamlPHPAuthsource() {
+		return $this->settings->get_option_value( Spid_Wordpress_Settings::SIMPLESAMLPHP_AUTHSOURCE );
 	}
 }

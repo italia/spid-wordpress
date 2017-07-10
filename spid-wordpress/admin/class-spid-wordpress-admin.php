@@ -186,6 +186,37 @@ class Spid_Wordpress_Admin {
 			)
 		);
 
+		add_settings_field(
+		// String for use in the 'id' attribute of tags
+			$this->settings->get_label_id( Spid_Wordpress_Settings::SIMPLESAMLPHP_AUTHSOURCE ),
+
+			// Title of the field
+			__( "SimpleSamlPHP Authsource", 'spid-wordpress' ),
+
+			// Function that fills the field with the desired inputs as part of the larger form.
+			// assed a single argument, the $args array.
+			// Name and id of the input should match the $id given to this function.
+			// The function should echo its output.
+			array( $this, 'settings_field_inputtext_callback' ),
+
+			// The menu page on which to display this field.
+			// Should match $menu_slug from add_theme_page() or from do_settings_sections().
+			Spid_Wordpress::PLUGIN_NAME,
+
+			// The section of the settings page in which to show the box
+			// (default or a section you added with add_settings_section(),
+			// look at the page in the source to see what the existing ones are.)
+			$this->settings->get_group_id(),
+
+			// Additional arguments that are passed to the $callback function.
+			// The 'label_for' key/value pair can be used to format the field title like so: <label for="value">$title</label>.
+			array(
+				'label_for'   => $this->settings->get_label_id( Spid_Wordpress_Settings::SIMPLESAMLPHP_AUTHSOURCE ),
+				'option'      => Spid_Wordpress_Settings::SIMPLESAMLPHP_AUTHSOURCE,
+				'description' => __( "This entry must exists in your SimpleSamlPHP authsources configuration.", 'spid-wordpress' )
+			)
+		);
+
 		register_setting(
 			Spid_Wordpress::PLUGIN_NAME,
 			$this->settings->get_group_id(),
@@ -208,6 +239,11 @@ class Spid_Wordpress_Admin {
 			$values[ $i ] = isset( $input[ $i ] ) ? (int) $input[ $i ] : 0;
 		}
 
+		if( isset( $input[ Spid_Wordpress_Settings::SIMPLESAMLPHP_AUTHSOURCE ] ) ) {
+			// TODO: DO something more than this
+			$values[ Spid_Wordpress_Settings::SIMPLESAMLPHP_AUTHSOURCE ] = $input[ Spid_Wordpress_Settings::SIMPLESAMLPHP_AUTHSOURCE ];
+		}
+
 		return $values;
 	}
 
@@ -220,6 +256,8 @@ class Spid_Wordpress_Admin {
 	}
 
 	/**
+	 * To generate a checkable option option.
+	 *
 	 * @param array $args ['option' => string, 'label_for' => string]
 	 */
 	function settings_field_checkbox_callback( $args ) {
@@ -240,7 +278,12 @@ class Spid_Wordpress_Admin {
 		<?php
 	}
 
-	function settings_field_textbox_callback( $args ) {
+	/**
+	 * To generate an input text option.
+	 *
+	 * @param array $args ['option' => string, 'label_for' => string ]
+	 */
+	function settings_field_inputtext_callback( $args ) {
 		$opt = $args['option'];
 		if ( ! isset( $args['default'] ) ) {
 			$args['default'] = false;
@@ -252,10 +295,10 @@ class Spid_Wordpress_Admin {
 		?>
 
 		<input type="text" id="<?php echo $this->settings->get_label_id( $opt ) ?>"
-		       name="<?php printf( '%s[%s]', $group, $opt ) ?>" value="<?php echo esc_html( $sanitized ); ?>"/>
+			 name="<?php printf( '%s[%s]', $group, $opt ) ?>"
+			value="<?php echo esc_attr( $sanitized ); ?>" />
 		<p class="description"><?php echo esc_html( $args['description'] ) ?></p>
 
 		<?php
-
 	}
 }

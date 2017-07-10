@@ -427,11 +427,14 @@ class Spid_Wordpress_Login {
 			return;
 		}
 
+		// SimpleSamlPHP authsource entry point
+		$authsource = $this->settings->getSimpleSamlPHPAuthsource();
+
 		// @TODO da sostituire con il nome dl servizio configurato dall'utente
 		// TODO: quale servizio e quale utente? L'utente che seleziona quale IdP usare o il proprietario del sito (che cosa dovrebbe impostare!?)?
-		$saml_auth_as = new SimpleSAML_Auth_Simple( WP_SIMPLESAML_AUTHSOURCE );
+		$saml_auth_as = new SimpleSAML_Auth_Simple( $authsource );
 		if ( ! $saml_auth_as->isAuthenticated() ) {
-			$saml_auth_as       = new SimpleSAML_Auth_Simple( WP_SIMPLESAML_AUTHSOURCE );
+			$saml_auth_as       = new SimpleSAML_Auth_Simple( $authsource );
 			$params             = array();
 			$params['ReturnTo'] = get_home_url( null, '/?return_from_sso=true' );
 			// TODO: Da sostiture con pagina di errore
@@ -446,9 +449,12 @@ class Spid_Wordpress_Login {
 			return;
 		}
 
+		// SimpleSamlPHP authsource entry point
+		$authsource = $this->settings->getSimpleSamlPHPAuthsource();
+
 		// @TODO da sostituire con il nome dl servizio configurato dall'utente
 		// TODO: quale servizio e quale utente? L'utente che seleziona quale IdP usare o il proprietario del sito (che cosa dovrebbe impostare!?)?
-		$saml_auth_as = new SimpleSAML_Auth_Simple( WP_SIMPLESAML_AUTHSOURCE );
+		$saml_auth_as = new SimpleSAML_Auth_Simple( $authsource );
 		if ( $saml_auth_as->isAuthenticated() ) {
 
 			$saml_auth_attributes = $saml_auth_as->getAttributes();
@@ -491,7 +497,10 @@ class Spid_Wordpress_Login {
 			return;
 		}
 
-		$saml_auth_as = new SimpleSAML_Auth_Simple( WP_SIMPLESAML_AUTHSOURCE );
+		// SimpleSamlPHP authsource entry point
+		$authsource = $this->settings->getSimpleSamlPHPAuthsource();
+
+		$saml_auth_as = new SimpleSAML_Auth_Simple( $authsource );
 		if ( $saml_auth_as->isAuthenticated() ) {
 			$saml_auth_as->logout();
 		}
