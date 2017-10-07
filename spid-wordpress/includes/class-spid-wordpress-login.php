@@ -436,11 +436,10 @@ class Spid_Wordpress_Login {
 		if ( ! $saml_auth_as->isAuthenticated() ) {
 			$saml_auth_as       = new SimpleSAML_Auth_Simple( $authsource );
 			$params             = array();
-			$params['ReturnTo'] = get_home_url( null, '/?return_from_sso=true' );
+			$params['ReturnTo'] = get_home_url( null, '/?return_from_sso=1' );
 			// TODO: Da sostiture con pagina di errore
 			$params['ErrorURL'] = get_home_url();
-			$saml_auth_as->login( $params );
-
+			$saml_auth_as->requireAuth( $params );
 		}
 	}
 
