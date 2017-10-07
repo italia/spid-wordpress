@@ -242,7 +242,7 @@ class Spid_Wordpress_Login {
 
 		$result =
 			"<li class=\"spid-idp-button-link\" data-idp=\"$data_idp\">" .
-			"<a href=\"#\"><span class=\"spid-sr-only\">$name</span><img src=\"$svg\" onerror=\"this.src='$png'; this.onerror=null;\" alt=\"$alt\" /></a>" .
+			"<a href=\"?init_spid_login=1&idp={$data_idp}\"><span class=\"spid-sr-only\">$name</span><img src=\"$svg\" onerror=\"this.src='$png'; this.onerror=null;\" alt=\"$alt\" /></a>" .
 			'</li>';
 
 		return $result;
@@ -261,7 +261,7 @@ class Spid_Wordpress_Login {
 		$idp[] = self::get_idp_html( 'Poste ID', 'posteid', 'spid-idp-posteid', 'Poste ID' );
 		$idp[] = self::get_idp_html( 'Sielte ID', 'sielteid', 'spid-idp-sielteid', 'Sielte ID' );
 		$idp[] = self::get_idp_html( 'SPIDItalia Register.it', 'spiditalia', 'spid-idp-spiditalia', 'SpidItalia' );
-		$idp[] = self::get_idp_html( 'Tim ID', '', 'spid-idp-timid', 'Tim ID' );
+		$idp[] = self::get_idp_html( 'Tim ID', 'timid', 'spid-idp-timid', 'Tim ID' );
 		//$idp[] = self::get_idp_html('', '', '', '');
 
 		// to randomize order server-side:
