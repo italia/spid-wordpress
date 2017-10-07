@@ -119,6 +119,6 @@ class Spid_Wordpress_Settings {
 	 * Setting entry point to retrieve the SimpleSamlPHP authsource entry point.
 	 */
 	function getSimpleSamlPHPAuthsource() {
-		return $this->settings->get_option_value( Spid_Wordpress_Settings::SIMPLESAMLPHP_AUTHSOURCE );
+		return $this->get_option_value( Spid_Wordpress_Settings::SIMPLESAMLPHP_AUTHSOURCE );
 	}
 }
