@@ -104,8 +104,8 @@ class Spid_Wordpress_Login {
 	 */
 	public function do_login_action() {
 		if ( $this->settings->is_plugin_configured_correctly() ) {
-			if ( isset( $_GET['init_spid_login'] ) ) {
-				Spid_Wordpress_Login::factory()->spid_startsso();
+			if ( isset( $_GET['init_spid_login'], $_GET['idp'] ) ) {
+				Spid_Wordpress_Login::factory()->spid_startsso( $_GET['idp'] );
 			} elseif ( isset( $_GET['return_from_sso'] ) ) {
 				Spid_Wordpress_Login::factory()->spid_login();
 			}
@@ -420,9 +420,10 @@ class Spid_Wordpress_Login {
 	/**
 	 * Init external authentication with SimpleSAMLPHP and ReturnToUrl.
 	 *
+	 * @param string $idp IDP code as in the authsource
 	 * @since     1.0.0
 	 */
-	public function spid_startsso() {
+	public function spid_startsso( $idp ) {
 		if ( ! $this->include_libs() ) {
 			return;
 		}
@@ -439,6 +440,10 @@ class Spid_Wordpress_Login {
 			$params['ReturnTo'] = get_home_url( null, '/?return_from_sso=1' );
 			// TODO: Da sostiture con pagina di errore
 			$params['ErrorURL'] = get_home_url();
+
+			// TODO: No formal validation?
+			$params['saml:idp'] = $idp;
+
 			$saml_auth_as->requireAuth( $params );
 		}
 	}
