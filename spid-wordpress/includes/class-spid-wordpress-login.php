@@ -104,8 +104,8 @@ class Spid_Wordpress_Login {
 	 */
 	public function do_login_action() {
 		if ( $this->settings->is_plugin_configured_correctly() ) {
-			if ( isset( $_GET['init_spid_login'] ) ) {
-				Spid_Wordpress_Login::factory()->spid_startsso();
+			if ( isset( $_GET['init_spid_login'], $_GET['idp'] ) ) {
+				Spid_Wordpress_Login::factory()->spid_startsso( $_GET['idp'] );
 			} elseif ( isset( $_GET['return_from_sso'] ) ) {
 				Spid_Wordpress_Login::factory()->spid_login();
 			}
@@ -242,7 +242,7 @@ class Spid_Wordpress_Login {
 
 		$result =
 			"<li class=\"spid-idp-button-link\" data-idp=\"$data_idp\">" .
-			"<a href=\"#\"><span class=\"spid-sr-only\">$name</span><img src=\"$svg\" onerror=\"this.src='$png'; this.onerror=null;\" alt=\"$alt\" /></a>" .
+			"<a href=\"?init_spid_login=1&idp={$data_idp}\"><span class=\"spid-sr-only\">$name</span><img src=\"$svg\" onerror=\"this.src='$png'; this.onerror=null;\" alt=\"$alt\" /></a>" .
 			'</li>';
 
 		return $result;
@@ -261,7 +261,8 @@ class Spid_Wordpress_Login {
 		$idp[] = self::get_idp_html( 'Poste ID', 'posteid', 'spid-idp-posteid', 'Poste ID' );
 		$idp[] = self::get_idp_html( 'Sielte ID', 'sielteid', 'spid-idp-sielteid', 'Sielte ID' );
 		$idp[] = self::get_idp_html( 'SPIDItalia Register.it', 'spiditalia', 'spid-idp-spiditalia', 'SpidItalia' );
-		$idp[] = self::get_idp_html( 'Tim ID', '', 'spid-idp-timid', 'Tim ID' );
+		$idp[] = self::get_idp_html( 'Tim ID', 'timid', 'spid-idp-timid', 'Tim ID' );
+		$idp[] = self::get_idp_html( 'Unimol', 'unimolid', 'spid-idp-unimol', 'Unimol' );
 		//$idp[] = self::get_idp_html('', '', '', '');
 
 		// to randomize order server-side:
@@ -420,9 +421,10 @@ class Spid_Wordpress_Login {
 	/**
 	 * Init external authentication with SimpleSAMLPHP and ReturnToUrl.
 	 *
+	 * @param string $idp IDP code as in the authsource
 	 * @since     1.0.0
 	 */
-	public function spid_startsso() {
+	public function spid_startsso( $idp ) {
 		if ( ! $this->include_libs() ) {
 			return;
 		}
@@ -436,11 +438,14 @@ class Spid_Wordpress_Login {
 		if ( ! $saml_auth_as->isAuthenticated() ) {
 			$saml_auth_as       = new SimpleSAML_Auth_Simple( $authsource );
 			$params             = array();
-			$params['ReturnTo'] = get_home_url( null, '/?return_from_sso=true' );
+			$params['ReturnTo'] = get_home_url( null, '/?return_from_sso=1' );
 			// TODO: Da sostiture con pagina di errore
 			$params['ErrorURL'] = get_home_url();
-			$saml_auth_as->login( $params );
 
+			// TODO: No formal validation?
+			$params['saml:idp'] = $idp;
+
+			$saml_auth_as->requireAuth( $params );
 		}
 	}
 
