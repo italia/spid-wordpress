@@ -1,40 +1,49 @@
-# WordPress plugin per SPID
+# SPID-WordPress
 
 Plugin per integrare il sistema di autenticazione SPID all'interno di WordPress.
+
+Sotto il cofano il plugin utilizza la libreria [spid-sp-simplesamlphp](https://github.com/italia/spid-sp-simplesamlphp).
+
+## TODO
+
+* Domare [spid-sp-simplesamlphp](https://github.com/italia/spid-sp-simplesamlphp/issues/12).
 
 ## Contenuto
 
 La struttura del repository contiene i seguenti file:
-* `README.md` - Guida alla struttura del repository
-* `CHANGELOG.md` - Contiene la traccia delle modifiche fatte al plugin.
-* `doc` - Documentazione del plugin
-* `spid-wordpress` - Il codice del plugin
-* `scripts` - Contiene i file di configurazione per la vagrant box
+* `spid-wordpress` - Il codice del plugin vero e proprio
 * `Vagrantfile` - Descrive il contenuto della vagrant box
+* `scripts` - Contiene i file di configurazione per la vagrant box
+* `doc` - Documentazione del plugin
 
 ## Installazione
 
-Per installare il plugin, è necessario copiare la directory `spid-wordpress` all'interno della cartella dei plugin:
+**ATTENZIONE**: Questo plugin è formalmente pronto ma **NON È STATO MAI TESTATO**.
 
-   `cp -R /my/home/spid-wordpress/spid-wordpress /path/to/wordpress/wp-content/plugins`
+Da un'installazione funzionante di WordPress, installare il plugin copiando la directory `spid-wordpress` fra i plugin di WordPress e lanciare `composer install`:
+
+    cp -R /my/home/spid-wordpress/spid-wordpress /path/to/wordpress/wp-content/plugins
+    cd /path/to/wordpress/wp-content/plugins/spid-wordpress
+    composer install
+
+In seguito, da WordPress, abilitare il plugin.
 
 ## Configurazione
 
-*TODO*
+Alcuni comportamenti inerenti WordPress sono configurabili direttamente nel menù `Impostazioni` > `SPID login`.
 
-## Installazione
+Il comportamento dell'autenticazione SPID è gestito dalla libreria [SPID SP SimpleSamlPHP](https://github.com/italia/spid-sp-simplesamlphp). Rifarsi alla sua documentazione.
 
-**WORK IN PROGRESS: NON INSTALLATE QUESTO PLUGIN**
+## Hacking
 
+Riteniamo che sia più semplice installare una LAMP + WordPress, che installare [Vagrant](https://www.vagrantup.com/) :) In ogni caso potete lanciare `vagrant up` dalla directory principale del repositoy per ottenere una LAMP con WordPress con plugin installato, accessibile all'indirizzo [http://localhost:8080](http://localhost:8080).
 
-## Sviluppo
-
-Per agevolare lo sviluppo del plugin è stato creato un ambiente di development basato su [Vagrant](https://www.vagrantup.com/).
-Per poter creare l'ambiente basta digitare nella directory del repository: `vagrant up`
-
-Finito il processo di provisioning potete accedere a WP tramite l'indirizzo: [http://localhost:8080](http://localhost:8080)
-
+Lo sviluppo di questo repository è attualmente mantenuto dall'Italian Linux Society ed è pubblicato dall'Agenzia per l'Italia. Ogni contributo esterno è assolutamente bene accetto sotto forma di pull request nel rispetto dei termini della licenza. Sono particolarmente apprezzate pull request con piccoli commit atomici (scoraggiando mega commit monolitici).
 
 ## Licenza
 
-GNU GPL v3+.
+Copyright (C) 2016-2017 Italian Linux Society, Valerio Bozzolan, Ludovico Pavesi.
+
+Questo programma è software libero: puoi redistribuirlo e/o modificarlo rispettando le condizioni della [GNU General Public license](LICENSE.md) pubblicata dalla Free Software Foundation. Si considera sia la versione 3 della Licenza, o (a tua discrezione) qualsiasi versione successiva. Questo programma è distribuito nella speranza che sia utile ma SENZA ALCUNA GARANZIA; senza neppure qualsiasi implicità garanzia di COMMERCIABILITÀ o di IDONEITÀ AD UN PARTICOLARE SCOPO. Vedi la GNU General Public License per ulteriori dettagli.
+
+Dovresti aver ricevuto una [copia](LICENSE.md) della GNU General Public License insieme a questo programma. In caso contrario, visita <http://www.gnu.org/licenses/>.
