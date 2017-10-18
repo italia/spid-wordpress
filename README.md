@@ -11,10 +11,10 @@ Sotto il cofano il plugin utilizza la libreria [spid-sp-simplesamlphp](https://g
 ## Contenuto
 
 La struttura del repository contiene i seguenti file:
-* `spid-wordpress` - Il codice del plugin vero e proprio
-* `Vagrantfile` - Descrive il contenuto della vagrant box
-* `scripts` - Contiene i file di configurazione per la vagrant box
-* `doc` - Documentazione del plugin
+* [/spid-wordpress](spid-wordpress) - Il codice del plugin vero e proprio
+* [Vagrantfile](Vagrantfile) - Descrive il contenuto della vagrant box
+* [/scripts](scripts) - Contiene i file di configurazione per la vagrant box
+* [/doc](doc) - Documentazione del plugin
 
 ## Installazione
 
@@ -38,7 +38,7 @@ Il comportamento dell'autenticazione SPID è gestito dalla libreria [SPID SP Sim
 
 Riteniamo che sia più semplice installare una LAMP + WordPress, che installare [Vagrant](https://www.vagrantup.com/) :) In ogni caso potete lanciare `vagrant up` dalla directory principale del repositoy per ottenere una LAMP con WordPress con plugin installato, accessibile all'indirizzo [http://localhost:8080](http://localhost:8080).
 
-Lo sviluppo di questo repository è attualmente mantenuto dall'Italian Linux Society ed è pubblicato dall'Agenzia per l'Italia. Ogni contributo esterno è assolutamente bene accetto sotto forma di pull request nel rispetto dei termini della licenza. Sono particolarmente apprezzate pull request con piccoli commit atomici (scoraggiando mega commit monolitici).
+Lo sviluppo di questo repository è attualmente mantenuto dall'Italian Linux Society ed è pubblicato dall'Agenzia per l'Italia digitale. Ogni contributo esterno è assolutamente bene accetto sotto forma di issue e/o pull request. Ogni contributo deve avvenire nel rispetto dei termini della licenza. Sono particolarmente apprezzate le pull request composte da piccoli commit atomici (scoraggiando mega commit monolitici).
 
 ## Licenza
 
