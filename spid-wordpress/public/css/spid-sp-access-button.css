@@ -208,6 +208,7 @@ svg {
 	height: 25px;
 	padding: 10px 0 10px 10px;
 	border: 0;
+	box-sizing: content-box;
 }
 
 .idp-button-idp-logo {
