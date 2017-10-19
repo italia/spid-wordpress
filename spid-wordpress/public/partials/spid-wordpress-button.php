@@ -4,6 +4,7 @@ defined( 'WPINC' ) or die;
 //$cls = new Spid_Wordpress_Public();
 /** @var $this Spid_Wordpress_Login */
 ?>
+<p class="spid-button-container">
 	<!-- AGID - SPID IDP BUTTON SMALL "ENTRA CON SPID" * begin * -->
 	<!-- TODO: attribute "spid-idp-button" is not valid. Should be "data-spid-idp-button"? -->
 	<a href="#" class="italia-it-button italia-it-button-size-s button-spid"
@@ -37,3 +38,4 @@ defined( 'WPINC' ) or die;
 $this->add_button_scripts();
 ?>
 <!-- AGID - SPID IDP BUTTON SMALL "ENTRA CON SPID" * end * -->
+</p>
