@@ -1,10 +1,9 @@
-<p>
-	<?php
-	defined( 'WPINC' ) or die;
-	// this runs inside that class, there and only there: no need to import it again.
-	//$cls = new Spid_Wordpress_Public();
-	/** @var $this Spid_Wordpress_Login */
-	?>
+<?php
+defined( 'WPINC' ) or die;
+// this runs inside that class, there and only there: no need to import it again.
+//$cls = new Spid_Wordpress_Public();
+/** @var $this Spid_Wordpress_Login */
+?>
 	<!-- AGID - SPID IDP BUTTON SMALL "ENTRA CON SPID" * begin * -->
 	<!-- TODO: attribute "spid-idp-button" is not valid. Should be "data-spid-idp-button"? -->
 	<a href="#" class="italia-it-button italia-it-button-size-s button-spid"
