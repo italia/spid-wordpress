@@ -26,12 +26,13 @@ Da un'installazione funzionante di WordPress, installare il plugin copiando la d
     cd /path/to/wordpress/wp-content/plugins/spid-wordpress
     composer install
 
-Poiché [simplespidphp-pasw](https://github.com/retepasw/simplespidphp-pasw) (anche detto dev4pa/simplespidphp, che è diverso da 
-[italia/spid-sp-simplesamlphp](https://github.com/italia/spid-sp-simplesamlphp/), che si chiama anche italia/spid-simplesamlphp)
+Poiché [italia/spid-sp-simplesamlphp](https://github.com/italia/spid-sp-simplesamlphp/) (che si chiama anche italia/spid-simplesamlphp)
 non è presente su Packagist, è necessario installarne le dipendenze a mano:
 
-    cd cd /path/to/wordpress/wp-content/plugins/spid-wordpress/vendor/dev4pa/simplespidphp
+    cd /path/to/wordpress/wp-content/plugins/spid-wordpress/vendor/italia/spid-simplespidphp
     composer install
+    cd /path/to/wordpress/wp-content/plugins/spid-wordpress
+    composer dump-autoload
 
 In seguito, da WordPress, abilitare il plugin.
 
