@@ -1,16 +1,8 @@
 {
   "repositories": [
     {
-      "type": "package",
-      "package": {
-        "name": "italia/spid-simplesamlphp",
-        "version": "v1.14.11",
-        "source": {
-          "url": "https://github.com/italia/spid-simplesamlphp.git",
-          "type": "git",
-              "reference": "v1.14.11"
-          }
-      }
+      "type": "git",
+      "url": "https://github.com/italia/spid-simplesamlphp.git"
     }
   ],
   "name": "italia/spid-wordpress-plugin",

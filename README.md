@@ -7,6 +7,8 @@ Sotto il cofano il plugin utilizza la libreria [spid-sp-simplesamlphp](https://g
 ## TODO
 
 * Domare [spid-sp-simplesamlphp](https://github.com/italia/spid-sp-simplesamlphp/issues/12).
+* Trovare un metodo migliore per installare [italia/spid-sp-simplesamlphp](https://github.com/italia/spid-sp-simplesamlphp/) (che si chiama anche italia/spid-simplesamlphp)
+* Guardare come funziona l'[installer](https://github.com/retepasw/spidinst) dell'altro fork di SimpleSAMLPhp, chiamato anch'esso SimpleSPIDPhp
 
 ## Contenuto
 
@@ -25,14 +27,6 @@ Da un'installazione funzionante di WordPress, installare il plugin copiando la d
     cp -R /my/home/spid-wordpress/spid-wordpress /path/to/wordpress/wp-content/plugins
     cd /path/to/wordpress/wp-content/plugins/spid-wordpress
     composer install
-
-Poiché [italia/spid-sp-simplesamlphp](https://github.com/italia/spid-sp-simplesamlphp/) (che si chiama anche italia/spid-simplesamlphp)
-non è presente su Packagist, è necessario installarne le dipendenze a mano:
-
-    cd /path/to/wordpress/wp-content/plugins/spid-wordpress/vendor/italia/spid-simplespidphp
-    composer install
-    cd /path/to/wordpress/wp-content/plugins/spid-wordpress
-    composer dump-autoload
 
 In seguito, da WordPress, abilitare il plugin.
 
