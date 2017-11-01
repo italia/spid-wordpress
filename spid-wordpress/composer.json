@@ -1,15 +1,23 @@
 {
   "repositories": [
     {
-      "type": "git",
-      "url": "https://github.com/italia/spid-simplesamlphp.git"
+      "type": "package",
+      "package": {
+        "name": "dev4pa/simplespidphp",
+        "version": "0.1.0beta2",
+        "source": {
+          "url": "https://github.com/retepasw/simplespidphp-pasw",
+          "type": "git",
+              "reference": "0.1.0beta2"
+          }
+      }
     }
   ],
   "name": "italia/spid-wordpress-plugin",
   "description": "Wordpress Plugin for SPID",
-  "minimum-stability": "dev",
+
   "prefer-stable": true,
   "require": {
-    "italia/spid-simplesamlphp": "v1.14.11"
+    "dev4pa/simplespidphp": "0.1.0beta2"
   }
 }
