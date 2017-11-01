@@ -3,21 +3,21 @@
     {
       "type": "package",
       "package": {
-        "name": "dev4pa/simplespidphp",
-        "version": "0.1.0beta2",
+        "name": "italia/spid-simplesamlphp",
+        "version": "v1.14.11",
         "source": {
-          "url": "https://github.com/retepasw/simplespidphp-pasw",
+          "url": "https://github.com/italia/spid-simplesamlphp.git",
           "type": "git",
-              "reference": "0.1.0beta2"
+              "reference": "v1.14.11"
           }
       }
     }
   ],
   "name": "italia/spid-wordpress-plugin",
   "description": "Wordpress Plugin for SPID",
-
+  "minimum-stability": "dev",
   "prefer-stable": true,
   "require": {
-    "dev4pa/simplespidphp": "0.1.0beta2"
+    "italia/spid-simplesamlphp": "v1.14.11"
   }
 }

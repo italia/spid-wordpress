@@ -4,25 +4,23 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "e5600a9ab5a5b64288b5840eaa44390a",
+    "content-hash": "453cf555bcbbd25560d67c44dea8ccf4",
     "packages": [
         {
-            "name": "dev4pa/simplespidphp",
-            "version": "0.1.0beta2",
+            "name": "italia/spid-simplesamlphp",
+            "version": "v1.14.11",
             "source": {
                 "type": "git",
-                "url": "https://github.com/retepasw/simplespidphp-pasw",
-                "reference": "0.1.0beta2"
+                "url": "https://github.com/italia/spid-simplesamlphp.git",
+                "reference": "v1.14.11"
             },
             "type": "library"
         }
     ],
     "packages-dev": [],
     "aliases": [],
-    "minimum-stability": "stable",
-    "stability-flags": {
-        "dev4pa/simplespidphp": 10
-    },
+    "minimum-stability": "dev",
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": [],
