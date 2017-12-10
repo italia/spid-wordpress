@@ -49,3 +49,5 @@ Copyright (C) 2016-2017 Italian Linux Society, Valerio Bozzolan, Ludovico Pavesi
 Questo programma è software libero: puoi redistribuirlo e/o modificarlo rispettando le condizioni della [GNU General Public license](LICENSE.md) pubblicata dalla Free Software Foundation. Si considera sia la versione 3 della Licenza, o (a tua discrezione) qualsiasi versione successiva. Questo programma è distribuito nella speranza che sia utile ma SENZA ALCUNA GARANZIA; senza neppure qualsiasi implicità garanzia di COMMERCIABILITÀ o di IDONEITÀ AD UN PARTICOLARE SCOPO. Vedi la GNU General Public License per ulteriori dettagli.
 
 Dovresti aver ricevuto una [copia](LICENSE.md) della GNU General Public License insieme a questo programma. In caso contrario, visita <http://www.gnu.org/licenses/>.
+
+ATTENZIONE: Questa licenza di software libero NON copre i loghi dei vari IDP che sono da ritenersi sotto licenza "TUTTI I DIRITTI RISERVATI" ed appartenenti ai legittimi proprietari. Vedi [qui](https://github.com/italia/spid-wordpress/issues/14).
