@@ -4,6 +4,9 @@ Plugin per integrare il sistema di autenticazione SPID all'interno di WordPress.
 
 Sotto il cofano il plugin utilizza la libreria [spid-sp-simplesamlphp](https://github.com/italia/spid-sp-simplesamlphp).
 
+⚠️ Attenzione! Questo progetto non è più manutenuto dai suoi autori. Se vuoi contribuire al progetto e diventare maintainer contattaci sul [canale Slack](https://developersitalia.slack.com/archives/C7AAA10PN) dedicato.
+
+
 ## TODO
 
 * Domare [spid-sp-simplesamlphp](https://github.com/italia/spid-sp-simplesamlphp/issues/12).
